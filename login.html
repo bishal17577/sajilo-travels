@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#C8102E" />
+
+  <title>Sign In - Sajilo Travels</title>
+  <meta name="description" content="Sign in to Sajilo Travels with your Google account to book bus tickets and track buses across Nepal." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://sajilo-travels.web.app/login.html" />
+  <meta name="google-site-verification" content="REPLACE_WITH_YOUR_GOOGLE_VERIFICATION_CODE" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #F5F6F8;
+      color: #0F172A;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    :root {
+      --red: #C8102E;
+      --red-dark: #A00D25;
+      --red-soft: #FDF2F4;
+      --green: #10B981;
+      --white: #FFFFFF;
+      --bg: #F5F6F8;
+      --border: #E5E7EB;
+      --text: #0F172A;
+      --text-mid: #475569;
+      --text-soft: #94A3B8;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
+      --shadow: 0 8px 24px rgba(15,23,42,0.08);
+      --shadow-lg: 0 20px 60px rgba(15,23,42,0.12);
+    }
+
+    /* HEADER */
+    .auth-header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.3px;
+      min-width: 0;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-name span { color: var(--red); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .back-link i { font-size: 0.8rem; }
+
+    /* MAIN */
+    .auth-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 40px;
+    }
+    .auth-shell { width: 100%; max-width: 440px; }
+
+    .auth-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .card-top {
+      padding: 36px 32px 24px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--red-soft) 0%, #FFFFFF 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .auth-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 18px;
+      border-radius: 18px;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(200,16,46,0.28);
+    }
+    .auth-icon i { color: white; font-size: 1.6rem; }
+
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .auth-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      max-width: 320px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .card-body { padding: 28px 32px 32px; }
+
+    .google-btn {
+      width: 100%;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.18s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .google-btn:hover { border-color: #CBD5E1; background: #FAFBFC; }
+    .google-btn:active { transform: scale(0.99); }
+    .google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .google-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(15,23,42,0.15);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      color: var(--text-soft);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .feature-list { display: flex; flex-direction: column; gap: 12px; }
+    .feature-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.86rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+    .feature-row .check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--red-soft);
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .feature-row strong { color: var(--text); font-weight: 600; }
+
+    .terms {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+    .terms a { color: var(--red); font-weight: 500; }
+
+    /* ERROR BOX */
+    .error-box {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+      display: none;
+      line-height: 1.5;
+    }
+    .error-box.show { display: block; }
+    .error-box strong { display: block; margin-bottom: 4px; font-weight: 700; }
+
+    /* FOOTER */
+    .auth-footer {
+      text-align: center;
+      padding: 24px 20px 32px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+    .auth-footer a { color: var(--text-mid); }
+    .auth-footer .sep { margin: 0 8px; color: #CBD5E1; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #0F172A;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-lg);
+      max-width: calc(100% - 40px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { background: var(--red); }
+    .toast.success { background: var(--green); }
+
+    @media (max-width: 480px) {
+      .card-top { padding: 28px 22px 20px; }
+      .card-body { padding: 22px 22px 26px; }
+      .auth-title { font-size: 1.35rem; }
+      .auth-icon { width: 58px; height: 58px; }
+      .auth-icon i { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="auth-header">
+    <a href="index.html" class="brand">
+      <div class="brand-logo">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" alt="Sajilo Travels" />
+      </div>
+      <span class="brand-name">Sajilo <span>Travels</span></span>
+    </a>
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-shell">
+      <div class="auth-card">
+        <section class="card-top">
+          <div class="auth-icon"><i class="fas fa-bus"></i></div>
+          <h1 class="auth-title">Welcome to Sajilo</h1>
+          <p class="auth-subtitle">Sign in with Google to book bus tickets and track buses across Nepal.</p>
+        </section>
+
+        <section class="card-body">
+          <div class="error-box" id="errorBox"></div>
+
+          <button class="google-btn" id="googleBtn" type="button">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <span id="googleBtnText">Continue with Google</span>
+          </button>
+
+          <div class="divider">Why sign in</div>
+
+          <div class="feature-list">
+            <div class="feature-row">
+              <span class="check"><i class="fas fa-check"></i></span>
+              <span><strong>Faster booking</strong> — reserve your seat in seconds.</span>
+            </div>
+            <div class="feature-row">
+              <span class="check"><i class="fas fa-check"></i></span>
+              <span><strong>Booking history</strong> — view all your trips.</span>
+            </div>
+            <div class="feature-row">
+              <span class="check"><i class="fas fa-check"></i></span>
+              <span><strong>Live tracking</strong> — follow your bus in real time.</span>
+            </div>
+          </div>
+
+          <p class="terms">
+            By signing in, you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="auth-footer">
+    &copy; <span id="year"></span> Sajilo Travels
+    <span class="sep">·</span>
+    <a href="index.html">Home</a>
+    <span class="sep">·</span>
+    <a href="contact.html">Contact</a>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+    import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdE4cOxES29yHODnpR1nqavR05mQPI9qM",
+      authDomain: "sajilo-travels.firebaseapp.com",
+      projectId: "sajilo-travels",
+      storageBucket: "sajilo-travels.firebasestorage.app",
+      messagingSenderId: "573828080473",
+      appId: "1:573828080473:web:fdc5b8d5a1716fedcaa248",
+      measurementId: "G-Q79XEFR5HD"
+    };
+
+    const MAIN_ADMIN_EMAIL = 'bishalxtha17@gmail.com';
+
+    const app = initializeApp(firebaseConfig);
+    getAnalytics(app);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    const googleBtn = document.getElementById('googleBtn');
+    const googleBtnText = document.getElementById('googleBtnText');
+    const errorBox = document.getElementById('errorBox');
+    const toastEl = document.getElementById('toast');
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    let toastTimer;
+    function showToast(message, type = '') {
+      toastEl.className = 'toast ' + type;
+      const icon = type === 'error'
+        ? '<i class="fas fa-exclamation-circle"></i>'
+        : type === 'success'
+        ? '<i class="fas fa-check-circle"></i>'
+        : '<i class="fas fa-info-circle"></i>';
+      toastEl.innerHTML = icon + ' ' + message;
+      requestAnimationFrame(() => toastEl.classList.add('show'));
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
+    }
+
+    function showError(title, message) {
+      errorBox.innerHTML = `<strong>${title}</strong>${message}`;
+      errorBox.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideError() {
+      errorBox.classList.remove('show');
+    }
+
+    function setLoading(loading) {
+      googleBtn.disabled = loading;
+      if (loading) {
+        googleBtnText.textContent = 'Signing in...';
+        googleBtn.querySelector('svg').style.display = 'none';
+        if (!googleBtn.querySelector('.spinner')) {
+          const sp = document.createElement('div');
+          sp.className = 'spinner';
+          googleBtn.insertBefore(sp, googleBtn.firstChild);
+        }
+      } else {
+        googleBtnText.textContent = 'Continue with Google';
+        const sp = googleBtn.querySelector('.spinner');
+        if (sp) sp.remove();
+        googleBtn.querySelector('svg').style.display = 'block';
+      }
+    }
+
+    // Get redirect target if any (from index.html when user was sent to login)
+    const params = new URLSearchParams(window.location.search);
+    const redirectTo = params.get('redirect') || 'index.html';
+
+    googleBtn.addEventListener('click', async () => {
+      hideError();
+      setLoading(true);
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        // Save or update profile in Firestore
+        const userRef = doc(db, 'users', user.uid);
+        let snap;
+        try {
+          snap = await getDoc(userRef);
+        } catch (fsErr) {
+          console.error('Firestore read error:', fsErr);
+          // Continue anyway — auth succeeded
+        }
+
+        if (snap && snap.exists()) {
+          const existing = snap.data();
+          await setDoc(userRef, {
+            name: user.displayName || existing.name || 'User',
+            email: user.email || existing.email || '',
+            photoURL: user.photoURL || existing.photoURL || '',
+            lastLogin: serverTimestamp()
+          }, { merge: true });
+        } else {
+          const role = user.email === MAIN_ADMIN_EMAIL ? 'mainAdmin' : 'passenger';
+          await setDoc(userRef, {
+            uid: user.uid,
+            name: user.displayName || 'User',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            role,
+            createdAt: serverTimestamp(),
+            lastLogin: serverTimestamp()
+          });
+        }
+
+        showToast('Signed in successfully', 'success');
+        setTimeout(() => {
+          window.location.href = redirectTo;
+        }, 500);
+
+      } catch (err) {
+        console.error('Sign-in error:', err);
+        setLoading(false);
+
+        const code = err?.code || '';
+        const msg = err?.message || 'Unknown error';
+
+        if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+          showToast('Sign-in cancelled');
+        } else if (code === 'auth/popup-blocked') {
+          showError(
+            'Popup blocked',
+            'Your browser blocked the Google sign-in popup. Please allow popups for this site and try again. Look for the blocked-popup icon in the address bar.'
+          );
+        } else if (code === 'auth/unauthorized-domain') {
+          showError(
+            'Domain not authorized',
+            'This website domain is not allowed in Firebase. Go to Firebase Console → Authentication → Settings → Authorized domains and add this domain.'
+          );
+        } else if (code === 'auth/operation-not-allowed') {
+          showError(
+            'Google sign-in is disabled',
+            'Google provider is not enabled in Firebase. Go to Firebase Console → Authentication → Sign-in method → Enable Google, then try again.'
+          );
+        } else if (code === 'auth/network-request-failed') {
+          showError('Network error', 'Check your internet connection and try again.');
+        } else if (code === 'auth/internal-error') {
+          showError('Sign-in error', 'Please try again. If the problem persists, check that Google sign-in is enabled in Firebase Console.');
+        } else {
+          showError('Sign-in failed', `${msg}<br><br>Code: <code>${code || 'unknown'}</code>`);
+        }
+      }
+    });
+
+    // If already signed in, redirect automatically
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = redirectTo;
+      }
+    });
+  </script>
+</body>
+</html>

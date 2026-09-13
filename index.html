@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#C8102E" />
+
+  <title>Sajilo Travels - Book Bus Tickets & Send Goods in Nepal</title>
+  <meta name="description" content="Sajilo Travels lets you search buses, book seats, send goods, and track live locations across Nepal." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sajilo-travels.web.app/" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{-webkit-text-size-adjust:100%}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F5F6F8;color:#0F172A;line-height:1.5;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    button{font-family:inherit;cursor:pointer;border:none}
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    :root{--red:#C8102E;--red-dark:#A00D25;--red-soft:#FDF2F4;--green:#10B981;--green-soft:#DCFCE7;--yellow:#F59E0B;--blue:#0EA5E9;--blue-soft:#EFF6FF;--purple:#8B5CF6;--purple-soft:#EDE9FE;--white:#FFF;--bg:#F5F6F8;--border:#E5E7EB;--text:#0F172A;--text-mid:#475569;--text-soft:#94A3B8;--shadow-sm:0 1px 3px rgba(15,23,42,.06);--shadow:0 4px 16px rgba(15,23,42,.08);--shadow-lg:0 12px 32px rgba(15,23,42,.12)}
+    .navbar{background:var(--red);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+    .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;letter-spacing:-.3px;min-width:0}
+    .brand-logo{width:38px;height:38px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+    .brand-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .nav-right{display:flex;align-items:center;gap:8px}
+    .btn-login{background:#fff;color:var(--red);padding:9px 16px;border-radius:30px;font-weight:700;font-size:.85rem;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+    .btn-login svg{width:16px;height:16px}
+    .btn-profile{display:none;align-items:center;gap:8px;background:rgba(255,255,255,.15);padding:4px 12px 4px 4px;border-radius:30px;font-size:.82rem;font-weight:600;color:#fff;max-width:200px}
+    .btn-profile .avatar{width:30px;height:30px;border-radius:50%;background:#fff;color:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;overflow:hidden}
+    .btn-profile .avatar img{width:100%;height:100%;object-fit:cover}
+    .btn-profile .pname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .role-switch{display:none;background:rgba(255,255,255,.15);padding:4px;border-radius:30px;gap:4px}
+    .role-switch.visible{display:inline-flex}
+    .role-btn{padding:6px 14px;border-radius:26px;background:transparent;color:#fff;font-size:.78rem;font-weight:700;transition:all .15s;white-space:nowrap}
+    .role-btn.active{background:#fff;color:var(--red)}
+    .vehicle-chooser-wrap{max-width:1280px;margin:0 auto;padding:16px 16px 0}
+    .vehicle-chooser-label{font-size:.75rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .vehicle-chooser{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .vehicle-chooser::-webkit-scrollbar{display:none}
+    .vehicle-chip{padding:12px 18px;border-radius:30px;background:#fff;color:var(--text-mid);font-weight:700;font-size:.85rem;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex-shrink:0;transition:all .18s}
+    .vehicle-chip i{font-size:.9rem}
+    .vehicle-chip.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 4px 12px rgba(200,16,46,.22)}
+    .vehicle-chip .chip-count{background:rgba(255,255,255,.25);padding:1px 8px;border-radius:20px;font-size:.7rem;font-weight:700}
+    .vehicle-chip:not(.active) .chip-count{background:var(--red-soft);color:var(--red)}
+    .search-wrap{max-width:1280px;margin:0 auto;padding:14px 16px 16px;position:relative;z-index:95}
+    .search-bar{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:6px;display:flex;align-items:center;gap:6px;border:1px solid var(--border)}
+    .search-bar>i{color:var(--text-soft);font-size:1rem;padding-left:12px;flex-shrink:0}
+    .search-bar input{border:none;outline:none;flex:1;padding:12px 8px;font-size:.95rem;background:transparent;color:var(--text);font-family:inherit;min-width:0}
+    .search-bar input::placeholder{color:var(--text-soft)}
+    .search-clear{color:var(--text-soft);background:transparent;padding:8px 12px;font-size:.9rem;display:none}
+    .search-clear.show{display:block}
+    .suggestions{position:absolute;top:100%;left:16px;right:16px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);border:1px solid var(--border);margin-top:6px;max-height:320px;overflow-y:auto;display:none;z-index:96}
+    .suggestions.show{display:block}
+    .suggestion-item{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid #F3F4F6}
+    .suggestion-item:last-child{border-bottom:none}
+    .suggestion-item:hover,.suggestion-item:active{background:#F9FAFB}
+    .suggestion-item i{color:var(--red);font-size:.9rem;width:20px;text-align:center;flex-shrink:0}
+    .suggestion-item .s-main{flex:1;min-width:0}
+    .suggestion-item .s-title{font-weight:600;font-size:.9rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .suggestion-item .s-sub{font-size:.75rem;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .suggestions-empty{padding:20px;text-align:center;color:var(--text-soft);font-size:.85rem}
+    .main-tabs{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;gap:8px;margin-bottom:12px}
+    .main-tab{flex:1;padding:12px 16px;border-radius:12px;background:#fff;color:var(--text-mid);font-weight:700;font-size:.88rem;border:1.5px solid var(--border);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+    .main-tab.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 4px 12px rgba(200,16,46,.2)}
+    .container{max-width:1280px;margin:0 auto;padding:0 16px 100px}
+    .section-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 16px;gap:12px;flex-wrap:wrap}
+    .section-head h2{font-size:1.1rem;font-weight:700;letter-spacing:-.3px}
+    .section-head .count{font-size:.82rem;color:var(--text-soft);font-weight:500}
+    .bus-grid{display:grid;grid-template-columns:1fr;gap:14px}
+    .bus-card{background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column}
+    .bus-img{width:100%;height:160px;background:linear-gradient(135deg,#FDF2F4 0%,#F5F6F8 100%);position:relative;overflow:hidden}
+    .bus-img img{width:100%;height:100%;object-fit:cover}
+    .bus-img .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#D1D5DB;font-size:3rem}
+    .bus-status{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:30px;font-size:.78rem;font-weight:600;color:#fff}
+    .bus-status.driving{background:rgba(16,185,129,.95)}
+    .bus-status.stopped{background:rgba(200,16,46,.95)}
+    .bus-status.offline{background:rgba(100,116,139,.9)}
+    .bus-status .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.6s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .vehicle-tag{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:30px;font-size:.72rem;font-weight:700;background:rgba(255,255,255,.95);color:#3730A3;text-transform:uppercase;letter-spacing:.4px;backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    .bus-body{padding:16px;display:flex;flex-direction:column;gap:12px}
+    .bus-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .bus-name{font-weight:700;font-size:1.05rem;letter-spacing:-.2px}
+    .bus-no{font-size:.72rem;font-weight:700;color:var(--red);background:var(--red-soft);padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+    .bus-route{display:flex;align-items:center;gap:8px;font-size:.92rem;font-weight:600;padding:11px 14px;background:#F9FAFB;border-radius:10px;border:1px solid var(--border)}
+    .bus-route .place{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .bus-route .place:last-child{text-align:right}
+    .bus-route i{color:var(--red);font-size:.85rem;flex-shrink:0}
+    .bus-info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .info-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--text-mid);padding:8px 10px;background:#F9FAFB;border-radius:8px;overflow:hidden}
+    .info-item i{color:var(--red);font-size:.8rem;flex-shrink:0}
+    .info-item .val{font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .info-item a{color:var(--text)}
+    .live-bar{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:10px 12px;font-size:.8rem;color:#166534;display:flex;align-items:center;gap:8px}
+    .live-bar i{color:var(--green);flex-shrink:0}
+    .live-bar .btn-map{margin-left:auto;background:var(--green);color:#fff;padding:6px 12px;border-radius:8px;font-size:.75rem;font-weight:600;white-space:nowrap;flex-shrink:0}
+    .live-bar.offline{background:#F8FAFC;border-color:var(--border);color:var(--text-soft)}
+    .live-bar.offline i{color:var(--text-soft)}
+    .seat-dropdown-btn{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;color:var(--text);transition:border-color .15s,background .15s;text-align:left}
+    .seat-dropdown-btn:active{background:#F9FAFB}
+    .seat-dropdown-btn.open{border-color:var(--red);background:var(--red-soft);border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
+    .seat-dropdown-btn .sdb-icon{width:32px;height:32px;border-radius:9px;background:var(--red-soft);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .seat-dropdown-btn.open .sdb-icon{background:var(--red);color:#fff}
+    .seat-dropdown-btn .sdb-text{flex:1;min-width:0}
+    .seat-dropdown-btn .sdb-text .sdb-title{font-weight:700;font-size:.9rem;color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .seat-dropdown-btn .sdb-text .sdb-sub{font-size:.75rem;color:var(--text-soft);font-weight:500;margin-top:1px;display:block}
+    .seat-dropdown-btn .sdb-chevron{color:var(--text-soft);font-size:.85rem;transition:transform .2s;flex-shrink:0}
+    .seat-dropdown-btn.open .sdb-chevron{transform:rotate(180deg);color:var(--red)}
+    .seat-dropdown-btn .sdb-badge{background:var(--red);color:#fff;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0}
+    .seat-panel{max-height:0;overflow:hidden;transition:max-height .32s ease;border:1.5px solid var(--red);border-top:none;border-radius:0 0 12px 12px;background:#fff}
+    .seat-panel.open{max-height:2000px}
+    .seat-panel-inner{padding:14px}
+    .legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
+    .legend span{display:flex;align-items:center;gap:5px;color:var(--text-soft);font-weight:500;font-size:.75rem}
+    .legend .dot{width:11px;height:11px;border-radius:3px}
+    .legend .dot.green{background:var(--green)}
+    .legend .dot.red{background:var(--red)}
+    .legend .dot.yellow{background:var(--yellow)}
+    .bus-layout{background:#F9FAFB;border:1px solid var(--border);border-radius:14px;padding:14px 12px 12px}
+    .bus-layout-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--border)}
+    .bus-layout-header .group-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft)}
+    .driver-wheel{width:44px;height:44px;border-radius:50%;background:#1F2937;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 3px 10px rgba(0,0,0,.18);flex-shrink:0}
+    .seat-rows{display:flex;flex-direction:column;gap:10px}
+    .seat-row{display:grid;gap:6px;align-items:center}
+    .aisle{width:24px}
+    .seat{aspect-ratio:1/1;border-radius:8px;font-weight:700;font-size:.82rem;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;transition:transform .1s;min-width:0}
+    .seat.available{background:var(--green)}
+    .seat.available:active{transform:scale(.93)}
+    .seat.booked{background:var(--red);cursor:not-allowed}
+    .seat.selected{background:var(--yellow);color:#1F2937}
+    .seat.empty{background:transparent;border:1.5px dashed #D1D5DB;cursor:default;aspect-ratio:1/1}
+    .back-row-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text-soft);margin:12px 0 8px;text-align:center;padding-top:10px;border-top:1px dashed var(--border)}
+    .back-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(38px,1fr));gap:6px;max-width:100%}
+    .back-row .seat{aspect-ratio:1}
+    .card-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .btn{padding:12px 10px;border-radius:10px;font-weight:600;font-size:.82rem;display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;white-space:nowrap}
+    .btn-primary{background:var(--red);color:#fff}
+    .btn-primary:disabled{background:#D1D5DB;color:#9CA3AF}
+    .btn-outline{background:#fff;color:var(--text);border:1.5px solid var(--border)}
+    .btn-call{background:var(--blue);color:#fff}
+    .btn-green{background:var(--green);color:#fff}
+    .btn-blue{background:var(--blue);color:#fff}
+    .btn-red{background:var(--red);color:#fff}
+    .btn-orange{background:#F59E0B;color:#fff}
+    .btn-purple{background:var(--purple);color:#fff}
+    .empty{background:#fff;border:1px dashed #D1D5DB;border-radius:16px;padding:44px 20px;text-align:center;color:var(--text-soft)}
+    .empty i{font-size:2rem;color:#D1D5DB;margin-bottom:12px}
+    .empty h4{font-size:.95rem;color:var(--text);margin-bottom:4px;font-weight:600}
+    .empty p{font-size:.82rem}
+    .skeleton{background:linear-gradient(90deg,#F3F4F6 25%,#E5E7EB 50%,#F3F4F6 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:16px;height:420px}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .mobile-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:90;box-shadow:0 -2px 12px rgba(0,0,0,.04)}
+    .mnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text-soft);font-size:.68rem;font-weight:600;padding:8px 12px;border-radius:10px;flex:1;max-width:110px;background:none}
+    .mnav-item i{font-size:1.1rem}
+    .mnav-item.active{color:var(--red);background:var(--red-soft)}
+    .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(30px);background:#0F172A;color:#fff;padding:12px 20px;border-radius:30px;font-size:.85rem;font-weight:500;z-index:500;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:var(--shadow-lg);max-width:calc(100% - 40px);text-align:center}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+    .modal-backdrop.show{display:flex}
+    .modal{background:#fff;border-radius:18px;padding:24px 22px;max-width:460px;width:100%;box-shadow:var(--shadow-lg);max-height:92vh;overflow-y:auto;margin:auto}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
+    .modal-head h3{font-size:1.05rem;font-weight:700;color:var(--text)}
+    .modal-close{background:#F3F4F6;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-mid);font-size:.85rem;flex-shrink:0}
+    .form-group{margin-bottom:14px}
+    .form-label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:6px}
+    .form-input,.form-textarea,.form-select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none}
+    .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--red)}
+    .form-textarea{resize:vertical;min-height:80px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .upload-area{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;color:var(--text-soft);font-size:.85rem;position:relative}
+    .upload-area:hover{border-color:var(--red);background:var(--red-soft)}
+    .upload-area.has-image{border-style:solid;border-color:var(--green);background:#F0FDF4;padding:8px}
+    .upload-area i{font-size:1.5rem;color:var(--red);display:block;margin-bottom:6px}
+    .upload-area img{max-height:180px;margin:0 auto;border-radius:6px}
+    .upload-progress{height:6px;background:#F3F4F6;border-radius:6px;overflow:hidden;margin-top:8px;display:none}
+    .upload-progress.show{display:block}
+    .upload-progress-bar{height:100%;background:var(--green);width:0%;transition:width .3s}
+    .modal-actions{display:flex;gap:10px;margin-top:8px}
+    .modal-actions .btn{flex:1;padding:12px 18px;font-size:.88rem}
+    .order-summary{background:#F9FAFB;border-radius:10px;padding:14px;margin-bottom:14px;font-size:.85rem;border:1px solid var(--border)}
+    .order-summary .row{display:flex;justify-content:space-between;gap:10px;padding:5px 0}
+    .order-summary .row .label{color:var(--text-mid)}
+    .order-summary .row .value{font-weight:600;color:var(--text);text-align:right}
+    .booking-item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px}
+    .booking-item .bi-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .booking-item .bi-title{font-weight:700;font-size:.95rem;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .booking-item .bi-status{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase;white-space:nowrap}
+    .bi-status.pending{background:#FEF3C7;color:#92400E}
+    .bi-status.priced{background:var(--blue-soft);color:#1E40AF}
+    .bi-status.confirmed{background:var(--green-soft);color:#166534}
+    .bi-status.cancelled{background:var(--red-soft);color:var(--red)}
+    .bi-status.rejected{background:var(--red-soft);color:var(--red)}
+    .bi-status.completed{background:var(--purple-soft);color:#5B21B6}
+    .booking-item .bi-row{display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-mid);padding:3px 0}
+    .booking-item .bi-row .val{font-weight:600;color:var(--text);text-align:right}
+    .status-banner{border-radius:12px;padding:12px 14px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;line-height:1.5}
+    .status-banner.pending{background:#FEF3C7;border:1px solid #FCD34D;color:#78350F}
+    .status-banner.priced{background:var(--blue-soft);border:1px solid #BFDBFE;color:#1E40AF}
+    .status-banner.confirmed{background:var(--green-soft);border:1px solid #BBF7D0;color:#166534}
+    .status-banner.cancelled,.status-banner.rejected{background:var(--red-soft);border:1px solid #FECACA;color:#B91C1C}
+    .status-banner i{font-size:1.1rem;flex-shrink:0}
+    .live-track{background:linear-gradient(135deg,#F0FDF4 0%,#ECFDF5 100%);border:1px solid #BBF7D0;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .live-track-head{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:.4px}
+    .live-track-head .pulse-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 1.6s infinite}
+    .live-track-head .km-badge{margin-left:auto;background:var(--green);color:#fff;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:800;letter-spacing:0;text-transform:none}
+    .live-track-head .km-badge.unknown{background:var(--text-soft)}
+    .km-display{display:flex;align-items:baseline;gap:8px;padding:4px 0}
+    .km-display .km-number{font-size:2rem;font-weight:800;letter-spacing:-1px;color:#166534;line-height:1}
+    .km-display .km-unit{font-size:.9rem;font-weight:700;color:#166534}
+    .km-display .km-label{font-size:.78rem;color:var(--text-mid);margin-left:auto;text-align:right}
+    .live-coords{font-size:.75rem;color:#166534;display:flex;align-items:center;gap:6px}
+    .live-coords i{font-size:.75rem}
+    .live-coords .live-time{margin-left:auto;color:var(--text-soft);font-weight:500}
+    .live-track .track-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .live-track .track-actions .btn{font-size:.8rem}
+    .booking-qr-block{background:var(--blue-soft);border:1px solid #BFDBFE;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .booking-qr-block .bq-title{font-size:.72rem;font-weight:700;color:#1E40AF;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+    .booking-qr-block .bq-content{display:flex;align-items:center;gap:12px}
+    .booking-qr-block .bq-img{width:90px;height:90px;background:#fff;border-radius:8px;padding:6px;border:1px solid var(--border);flex-shrink:0;object-fit:contain}
+    .booking-qr-block .bq-info{flex:1;min-width:0;font-size:.78rem;color:#1E40AF}
+    .booking-qr-block .bq-info .bq-line{font-weight:600;margin-bottom:4px}
+    .booking-qr-block .bq-download-btn{background:var(--blue);color:#fff;padding:8px 14px;border-radius:8px;font-weight:700;font-size:.78rem;display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+    .goods-thumb{width:100%;max-height:160px;border-radius:10px;object-fit:cover;border:1px solid var(--border);margin-bottom:4px}
+    .payment-qr-block{background:var(--blue-soft);border:1px solid #BFDBFE;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center}
+    .payment-qr-block .qr-title{font-size:.75rem;font-weight:700;color:#1E40AF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px}
+    .payment-qr-block .qr-img-wrap{background:#fff;border-radius:10px;padding:10px;display:inline-block;margin-bottom:10px;border:1px solid var(--border)}
+    .payment-qr-block .qr-img-wrap img{max-height:200px;display:block}
+    .payment-qr-block .qr-download-btn{background:var(--blue);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.82rem;display:inline-flex;align-items:center;gap:8px}
+    .payment-qr-block .qr-hint{font-size:.72rem;color:#1E40AF;margin-top:8px;font-weight:500}
+    .payment-upload-box{background:#FEF3C7;border:1px solid #FCD34D;border-radius:12px;padding:12px}
+    .payment-upload-box .pub-title{font-size:.78rem;font-weight:700;color:#78350F;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .payment-upload-box .pub-area{background:#fff;border:2px dashed #FCD34D;border-radius:10px;padding:16px;text-align:center;cursor:pointer;color:#92400E;font-size:.8rem;font-weight:600;transition:all .15s}
+    .payment-upload-box .pub-area:hover{border-color:#92400E;background:#FFFBF0}
+    .payment-upload-box .pub-area i{font-size:1.4rem;color:#92400E;display:block;margin-bottom:6px}
+    .payment-upload-box .pub-area img{max-height:160px;margin:0 auto;border-radius:6px}
+    #mapView{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;flex-direction:column}
+    #mapView.show{display:flex}
+    #mapView .map-topbar{background:var(--red);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.12);flex-shrink:0}
+    #mapView .map-topbar .mt-left{display:flex;align-items:center;gap:12px;min-width:0}
+    #mapView .map-topbar .back-btn{background:rgba(255,255,255,.15);color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    #mapView .map-topbar .mt-title{font-weight:700;font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    #mapView .map-topbar .mt-sub{font-size:.72rem;opacity:.9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    #mapView .map-body{flex:1;position:relative;min-height:0}
+    #mapView #leafletMap{width:100%;height:100%;background:#E5E7EB}
+    #mapView .map-info{position:absolute;left:16px;right:16px;bottom:90px;background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);padding:14px 16px;z-index:10;display:flex;align-items:center;gap:12px}
+    #mapView .map-info .mi-icon{width:40px;height:40px;border-radius:12px;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    #mapView .map-info .mi-body{flex:1;min-width:0}
+    #mapView .map-info .mi-title{font-weight:700;font-size:.92rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    #mapView .map-info .mi-coords{font-size:.78rem;color:var(--text-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    #mapView .map-info .mi-btn{background:var(--red);color:#fff;padding:9px 14px;border-radius:10px;font-size:.8rem;font-weight:600;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:6px}
+    .booking-tabs{display:flex;gap:6px;margin-bottom:16px;background:#F1F5F9;padding:4px;border-radius:30px}
+    .booking-tab{flex:1;padding:9px 12px;border-radius:26px;background:transparent;color:var(--text-mid);font-weight:700;font-size:.82rem;border:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .booking-tab.active{background:#fff;color:var(--red);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .income-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:20px}
+    .income-card{background:linear-gradient(135deg,#1E3A6B 0%,#2D4F8A 100%);color:#fff;border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .income-card::after{content:'';position:absolute;right:-30px;top:-30px;width:100px;height:100px;background:rgba(255,255,255,.08);border-radius:50%}
+    .income-card.green{background:linear-gradient(135deg,var(--green) 0%,#059669 100%)}
+    .income-card.red{background:linear-gradient(135deg,var(--red) 0%,#8B0000 100%)}
+    .income-card.purple{background:linear-gradient(135deg,var(--purple) 0%,#6D28D9 100%)}
+    .income-card .ic-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;opacity:.9;margin-bottom:6px}
+    .income-card .ic-value{font-size:1.8rem;font-weight:800;letter-spacing:-.8px;line-height:1}
+    .income-card .ic-sub{font-size:.75rem;opacity:.85;margin-top:6px;font-weight:500}
+    .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+    .stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow-sm)}
+    .stat-card .stat-label{font-size:.72rem;font-weight:600;color:var(--text-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+    .stat-card .stat-value{font-size:1.6rem;font-weight:800;letter-spacing:-.6px;color:var(--text);line-height:1}
+    .stat-card .stat-icon{float:right;width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:var(--red-soft);color:var(--red)}
+    .stat-card.blue .stat-icon{background:var(--blue-soft);color:var(--blue)}
+    .stat-card.green .stat-icon{background:var(--green-soft);color:var(--green)}
+    .stat-card.yellow .stat-icon{background:#FEF3C7;color:#92400E}
+    .stat-card.purple .stat-icon{background:var(--purple-soft);color:var(--purple)}
+    .tabs{display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{padding:10px 18px;border-radius:30px;background:#fff;color:var(--text-mid);font-weight:600;font-size:.85rem;white-space:nowrap;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:all .15s;flex-shrink:0}
+    .tab i{font-size:.85rem}
+    .tab.active{background:var(--red);color:#fff;border-color:var(--red)}
+    .tab .tab-count{background:rgba(255,255,255,.25);padding:1px 8px;border-radius:20px;font-size:.72rem;font-weight:700}
+    .tab:not(.active) .tab-count{background:var(--red-soft);color:var(--red)}
+    .tab .tab-count.new{background:var(--yellow);color:#fff}
+    .section-head-mini{display:flex;align-items:center;justify-content:space-between;margin:8px 0 12px;gap:10px}
+    .section-head-mini h3{font-size:.95rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+    .section-head-mini h3 .section-icon{width:26px;height:26px;border-radius:8px;background:var(--red-soft);color:var(--red);display:inline-flex;align-items:center;justify-content:center;font-size:.72rem}
+    .section-head-mini .section-count{font-size:.78rem;color:var(--text-soft);font-weight:600}
+    .item-list{display:flex;flex-direction:column;gap:12px}
+    .bus-card-full{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden}
+    .bus-card-full .bcf-head{padding:14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+    .bus-card-full .bcf-body{padding:14px}
+    .bus-card-full .bcf-footer{padding:12px 14px;background:#F9FAFB;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+    .bus-card-full .bcf-footer .btn{flex:1;min-width:0;padding:10px;border-radius:10px;font-weight:600;font-size:.8rem;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .bus-income-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--border)}
+    .bus-income-item{background:#F9FAFB;border-radius:10px;padding:10px}
+    .bus-income-item .bi-label{font-size:.68rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+    .bus-income-item .bi-val{font-size:1rem;font-weight:800;color:var(--text);letter-spacing:-.3px}
+    .bus-income-item.green .bi-val{color:var(--green)}
+    .bus-income-item.red .bi-val{color:var(--red)}
+    .booking-chips-title{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .booking-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .booking-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:20px;font-size:.75rem;font-weight:600;background:var(--green-soft);color:#166534;border:1px solid #BBF7D0}
+    .booking-chip.pending{background:#FEF3C7;color:#92400E;border-color:#FCD34D}
+    .booking-chip.goods{background:var(--blue-soft);color:#1E40AF;border-color:#BFDBFE}
+    .booking-chip .chip-seat{background:#fff;padding:1px 6px;border-radius:6px;font-weight:800;font-size:.7rem}
+    .completed-tag{display:inline-flex;align-items:center;gap:5px;background:var(--purple-soft);color:#3730A3;font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px}
+    .goods-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:12px}
+    .goods-card.new-request{border-left:4px solid var(--yellow);background:#FFFEF7}
+    .goods-card .gc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .goods-card .gc-title{font-weight:700;font-size:.95rem;color:var(--text);display:flex;align-items:center;gap:6px}
+    .goods-card .gc-sub{font-size:.78rem;color:var(--text-soft);margin-top:2px}
+    .goods-card .gc-photo{width:100%;max-height:180px;border-radius:10px;object-fit:cover;border:1px solid var(--border)}
+    .goods-card .gc-info{display:flex;flex-direction:column;gap:4px;font-size:.82rem;color:var(--text-mid)}
+    .goods-card .gc-info .row{display:flex;justify-content:space-between;gap:10px}
+    .goods-card .gc-info .row .val{font-weight:600;color:var(--text);text-align:right}
+    .goods-card .gc-info .row .val.price{color:var(--green);font-weight:800}
+    .goods-card .gc-info .row .val.red{color:var(--red);font-weight:700}
+    .goods-card .gc-info .row .val.green{color:#166534;font-weight:700}
+    .price-input-area{background:#FEF3C7;border:1px solid #FCD34D;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .price-input-area .pi-title{font-size:.78rem;font-weight:700;color:#78350F;display:flex;align-items:center;gap:6px}
+    .price-input-area .pi-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+    .price-input-area input{padding:11px 14px;border:1.5px solid #FCD34D;border-radius:10px;font-size:.95rem;font-weight:700;color:#78350F;background:#fff;outline:none;font-family:inherit;width:100%}
+    .price-input-area input:focus{border-color:#92400E}
+    .price-input-area .pi-btn{background:#92400E;color:#fff;padding:11px 18px;border-radius:10px;font-weight:700;font-size:.85rem;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+    .price-input-area .pi-btn:disabled{background:#D1D5DB;cursor:not-allowed}
+    .screenshot-preview{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px}
+    .screenshot-preview .sp-title{font-size:.78rem;font-weight:700;color:#166534;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .screenshot-preview img{max-height:220px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;width:100%;object-fit:contain}
+    .price-display{background:linear-gradient(135deg,#F0FDF4 0%,#ECFDF5 100%);border:1px solid #BBF7D0;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .price-display .pd-label{font-size:.78rem;font-weight:700;color:#166534;display:flex;align-items:center;gap:6px}
+    .price-display .pd-value{font-size:1.3rem;font-weight:800;color:#166534;letter-spacing:-.5px}
+    .waiting-box{background:#F9FAFB;border:1px dashed var(--border);border-radius:12px;padding:16px;text-align:center;font-size:.82rem;color:var(--text-soft);font-weight:500;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .waiting-box i{font-size:1.5rem;color:var(--text-soft)}
+    .pickup-status-inline{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .pickup-status-inline.picked{background:var(--green-soft);color:#166534}
+    .pickup-status-inline.notpicked{background:#FEE2E2;color:#B91C1C}
+    .goods-card .gc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;padding-top:10px;border-top:1px dashed var(--border)}
+    .goods-card .gc-actions .btn{flex:1;min-width:0;padding:11px 12px;border-radius:10px;font-weight:700;font-size:.82rem;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .btn-toggle-pickup{padding:9px 16px;border-radius:10px;font-weight:700;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;transition:all .15s;flex-shrink:0}
+    .btn-toggle-pickup.pick{background:var(--green);color:#fff}
+    .btn-toggle-pickup.unpick{background:#F3F4F6;color:var(--text-mid);border:1.5px solid var(--border)}
+    .role-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+    .role-badge.passenger{background:var(--red-soft);color:var(--red)}
+    .role-badge.busadmin{background:var(--green-soft);color:#166534}
+    .role-badge.mainadmin{background:#FEF3C7;color:#78350F}
+    .collapse-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:14px;cursor:pointer;box-shadow:var(--shadow-sm);margin-bottom:8px;transition:all .15s}
+    .collapse-head:hover{background:#F9FAFB}
+    .collapse-head.open{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
+    .collapse-head .ch-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .collapse-head .ch-icon.yellow{background:#FEF3C7;color:#92400E}
+    .collapse-head .ch-icon.green{background:var(--green-soft);color:#166534}
+    .collapse-head .ch-icon.blue{background:var(--blue-soft);color:#1E40AF}
+    .collapse-head .ch-icon.red{background:var(--red-soft);color:var(--red)}
+    .collapse-head .ch-body{flex:1;min-width:0}
+    .collapse-head .ch-title{font-weight:700;font-size:.92rem;color:var(--text)}
+    .collapse-head .ch-sub{font-size:.75rem;color:var(--text-soft);margin-top:1px}
+    .collapse-head .ch-count{background:var(--red-soft);color:var(--red);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0}
+    .collapse-head .ch-chevron{color:var(--text-soft);font-size:.85rem;transition:transform .2s;flex-shrink:0}
+    .collapse-head.open .ch-chevron{transform:rotate(180deg)}
+    .collapse-body{max-height:0;overflow:hidden;transition:max-height .32s ease;border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;background:#FAFBFC}
+    .collapse-body.open{max-height:20000px}
+    .collapse-body-inner{padding:12px;display:flex;flex-direction:column;gap:10px}
+    .compact-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .compact-item .ci-top{display:flex;align-items:center;gap:10px}
+    .compact-item .ci-avatar{width:40px;height:40px;border-radius:10px;background:var(--red-soft);color:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0;overflow:hidden}
+    .compact-item .ci-avatar img{width:100%;height:100%;object-fit:cover}
+    .compact-item .ci-avatar.green{background:var(--green-soft);color:#166534}
+    .compact-item .ci-info{flex:1;min-width:0}
+    .compact-item .ci-name{font-weight:700;font-size:.92rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .compact-item .ci-sub{font-size:.75rem;color:var(--text-soft);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .quick-actions{display:flex;gap:6px;flex-wrap:wrap}
+    .quick-btn{flex:1;min-width:0;padding:10px 12px;border-radius:10px;font-weight:700;font-size:.8rem;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;transition:all .15s}
+    .quick-btn.green{background:var(--green);color:#fff}
+    .quick-btn.green-light{background:var(--green-soft);color:#166534}
+    .quick-btn.blue{background:var(--blue);color:#fff}
+    .quick-btn.blue-light{background:var(--blue-soft);color:#1E40AF}
+    .quick-btn.red{background:var(--red);color:#fff}
+    .quick-btn.red-light{background:var(--red-soft);color:var(--red)}
+    .quick-btn.gray{background:#F3F4F6;color:var(--text-mid)}
+    .quick-btn.purple{background:var(--purple);color:#fff}
+    .quick-btn:active{transform:scale(.97)}
+    .quick-btn.icon-only{flex:0 0 auto;width:40px;padding:0}
+    .loc-chip{display:flex;align-items:center;gap:8px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:8px 10px;font-size:.75rem;color:#075985}
+    .loc-chip i.pin{color:#0EA5E9;flex-shrink:0}
+    .loc-chip .loc-text{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .loc-chip .loc-time{font-size:.7rem;color:#0284C7;font-weight:500}
+    .loc-chip .loc-btn{width:30px;height:30px;border-radius:8px;background:#fff;color:#0EA5E9;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;border:1px solid #BAE6FD;flex-shrink:0}
+    .loc-chip .loc-btn.wa{color:#25D366;border-color:#BBF7D0}
+    .loc-chip .loc-btn.call{color:var(--blue);border-color:#BFDBFE}
+    .status-pill-sm{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700}
+    .status-pill-sm.picked{background:var(--green-soft);color:#166534}
+    .status-pill-sm.notpicked{background:#FEF3C7;color:#92400E}
+    .goods-mini{width:100%;max-height:140px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+    .mini-rows{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--text-mid)}
+    .mini-rows .r{display:flex;justify-content:space-between;gap:8px}
+    .mini-rows .r .v{font-weight:600;color:var(--text);text-align:right}
+    .mini-rows .r .v.green{color:var(--green)}
+    .mini-rows .r .v.red{color:var(--red)}
+    .mini-tabs{display:flex;gap:6px;padding:4px;background:#F1F5F9;border-radius:24px;margin-bottom:8px}
+    .mini-tab{flex:1;padding:7px 10px;border-radius:20px;font-weight:700;font-size:.78rem;background:transparent;color:var(--text-mid);border:none;display:inline-flex;align-items:center;justify-content:center;gap:5px}
+    .mini-tab.active{background:#fff;color:var(--red);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    @media (min-width:560px){.bus-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (min-width:640px){.stats-grid{grid-template-columns:repeat(4,1fr)}.income-grid{grid-template-columns:repeat(3,1fr)}}
+    @media (min-width:900px){.mobile-nav{display:none}.container{padding-bottom:40px}.bus-grid{grid-template-columns:repeat(3,1fr)}}
+    .hidden{display:none !important}
+    .leaflet-control-attribution{font-size:10px}
+  </style>
+</head>
+<body>  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" alt="Sajilo Travels" />
+        </div>
+        <span class="brand-text" id="navBrand">Sajilo Travels</span>
+      </a>
+      <div class="nav-right">
+        <div class="role-switch" id="roleSwitch">
+          <button class="role-btn active" data-role="passenger">Passenger</button>
+          <button class="role-btn" data-role="busAdmin">Bus Admin</button>
+        </div>
+        <a href="login.html" class="btn-login" id="loginBtn">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Sign in
+        </a>
+        <button class="btn-profile" id="profileBtn" type="button">
+          <span class="avatar" id="navAvatar"></span>
+          <span class="pname" id="navName">User</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== PASSENGER VIEW ==================== -->
+  <div id="passengerView">
+    <div class="vehicle-chooser-wrap">
+      <div class="vehicle-chooser-label"><i class="fas fa-sliders-h"></i> Choose vehicle</div>
+      <div class="vehicle-chooser" id="vehicleChooser"></div>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search place, name or number" autocomplete="off" />
+        <button class="search-clear" id="searchClear" aria-label="Clear"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+
+    <div class="main-tabs">
+      <button class="main-tab active" data-main="seats"><i class="fas fa-chair"></i> Book Seats</button>
+      <button class="main-tab" data-main="goods"><i class="fas fa-box"></i> Send Goods</button>
+    </div>
+
+    <main class="container" id="homeView">
+      <div class="section-head">
+        <h2 id="listTitle">Available Vehicles</h2>
+        <span class="count" id="busCount">Loading...</span>
+      </div>
+      <div class="bus-grid" id="busGrid">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+      </div>
+    </main>
+
+    <main class="container hidden" id="bookingView">
+      <div class="section-head">
+        <h2>My Bookings</h2>
+        <span class="count" id="bookingCount"></span>
+      </div>
+      <div class="booking-tabs">
+        <button class="booking-tab active" data-btab="seats"><i class="fas fa-chair"></i> Seats</button>
+        <button class="booking-tab" data-btab="goods"><i class="fas fa-box"></i> Goods</button>
+      </div>
+      <div id="bookingList">
+        <div class="empty">
+          <i class="fas fa-ticket-alt"></i>
+          <h4>No bookings yet</h4>
+          <p>Your bookings will appear here.</p>
+        </div>
+      </div>
+    </main>
+
+    <main class="container hidden" id="contactView">
+      <div class="section-head">
+        <h2>Contact Us</h2>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);">
+          <i class="fab fa-whatsapp" style="color:#25D366;font-size:1.3rem;"></i>
+          <div>
+            <div style="font-weight:600;">WhatsApp</div>
+            <a href="https://wa.me/9779761614027" style="font-size:.85rem;color:var(--text-mid);">+977 9761614027</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);">
+          <i class="fas fa-phone" style="color:var(--red);font-size:1.2rem;"></i>
+          <div>
+            <div style="font-weight:600;">Phone</div>
+            <a href="tel:+9779761409400" style="font-size:.85rem;color:var(--text-mid);">+977 9761409400</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);">
+          <i class="fas fa-envelope" style="color:var(--red);font-size:1.2rem;"></i>
+          <div>
+            <div style="font-weight:600;">Email</div>
+            <a href="mailto:bishalxtha17@gmail.com" style="font-size:.85rem;color:var(--text-mid);">bishalxtha17@gmail.com</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;">
+          <i class="fas fa-envelope" style="color:var(--red);font-size:1.2rem;"></i>
+          <div>
+            <div style="font-weight:600;">Email</div>
+            <a href="mailto:samratxtha36@gmail.com" style="font-size:.85rem;color:var(--text-mid);">samratxtha36@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== BUS ADMIN VIEW ==================== -->
+  <div id="busAdminView" class="hidden">
+    <main class="container" style="padding-top:20px;">
+      <div style="margin-bottom:20px;">
+        <h1 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.4px;">Bus Admin Panel</h1>
+        <div style="font-size:.82rem;color:var(--text-soft);margin-top:2px;" id="busAdminWelcome"></div>
+      </div>
+
+      <div class="income-grid" id="busIncomeGrid"></div>
+      <div class="stats-grid" id="busStatsGrid"></div>
+
+      <div class="tabs">
+        <button class="tab active" data-btab2="buses"><i class="fas fa-bus"></i> My Vehicles <span class="tab-count" id="bTabBuses">0</span></button>
+        <button class="tab" data-btab2="bookings"><i class="fas fa-ticket-alt"></i> Seats <span class="tab-count" id="bTabBookings">0</span></button>
+        <button class="tab" data-btab2="goods"><i class="fas fa-box"></i> Goods <span class="tab-count" id="bTabGoods">0</span></button>
+        <button class="tab" data-btab2="completed"><i class="fas fa-check-double"></i> Completed <span class="tab-count" id="bTabCompleted">0</span></button>
+      </div>
+
+      <div id="busAdminTabContent"></div>
+    </main>
+  </div>
+
+  <!-- MOBILE NAV (passenger only) -->
+  <nav class="mobile-nav" id="mobileNav">
+    <button class="mnav-item active" data-nav="home"><i class="fas fa-home"></i> Home</button>
+    <button class="mnav-item" data-nav="booking"><i class="fas fa-ticket-alt"></i> Booking</button>
+    <button class="mnav-item" data-nav="contact"><i class="fas fa-headset"></i> Contact</button>
+  </nav>
+
+  <!-- MAP VIEW -->
+  <div id="mapView">
+    <div class="map-topbar">
+      <div class="mt-left">
+        <button class="back-btn" id="mapBack"><i class="fas fa-arrow-left"></i></button>
+        <div style="min-width:0;">
+          <div class="mt-title" id="mapTitle">Live Location</div>
+          <div class="mt-sub" id="mapSub">Tracking in real time</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body">
+      <div id="leafletMap"></div>
+      <div class="map-info">
+        <div class="mi-icon"><i class="fas fa-route"></i></div>
+        <div class="mi-body">
+          <div class="mi-title" id="mapInfoTitle">Vehicle</div>
+          <div class="mi-coords" id="mapInfoCoords">--</div>
+        </div>
+        <a class="mi-btn" id="mapExternalBtn" href="#" target="_blank" rel="noopener">
+          <i class="fas fa-diamond-turn-right"></i> Directions
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEAT BOOKING MODAL -->
+  <div class="modal-backdrop" id="bookModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Confirm Your Booking</h3>
+        <button class="modal-close" id="bookClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="order-summary" id="bookSummary"></div>
+      <div id="modalQrBlock"></div>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" id="passengerName" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="tel" class="form-input" id="passengerPhone" placeholder="98XXXXXXXX" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payment Screenshot</label>
+        <div class="upload-area" id="uploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <div>Tap to upload payment screenshot</div>
+        </div>
+        <input type="file" accept="image/*" id="paymentFile" style="display:none;" />
+        <div class="upload-progress" id="uploadProgress"><div class="upload-progress-bar" id="uploadProgressBar"></div></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="bookCancel">Cancel</button>
+        <button class="btn btn-primary" id="bookConfirm"><i class="fas fa-check"></i> Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOODS BOOKING MODAL -->
+  <div class="modal-backdrop" id="goodsModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Send Goods</h3>
+        <button class="modal-close" id="goodsClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="order-summary" id="goodsSummary"></div>
+      <div class="form-group">
+        <label class="form-label">Goods Photo</label>
+        <div class="upload-area" id="goodsPhotoArea">
+          <i class="fas fa-camera"></i>
+          <div>Tap to take or upload photo of goods</div>
+        </div>
+        <input type="file" accept="image/*" capture="environment" id="goodsPhotoFile" style="display:none;" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Weight (kg)</label>
+          <input type="number" class="form-input" id="goodsKg" placeholder="e.g. 5" min="0.1" step="0.1" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Vehicle Type</label>
+          <select class="form-select" id="goodsVehicle">
+            <option value="Bus">Bus</option>
+            <option value="Car">Car</option>
+            <option value="Truck">Truck</option>
+            <option value="Van">Van</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">From</label>
+          <input type="text" class="form-input" id="goodsFrom" placeholder="e.g. Kathmandu" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">To (drop off)</label>
+          <input type="text" class="form-input" id="goodsTo" placeholder="e.g. Pokhara" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Drop location pin</label>
+        <div class="upload-area" id="dropLocationArea" style="padding:14px;text-align:left;display:flex;align-items:center;gap:10px;font-weight:600;color:var(--text-mid);">
+          <i class="fas fa-map-marker-alt" style="color:var(--red);font-size:1.2rem;margin:0;"></i>
+          <span id="dropLocationText" style="flex:1;font-size:.82rem;">Tap to set drop location on map</span>
+          <i class="fas fa-chevron-right" style="font-size:.8rem;color:var(--text-soft);"></i>
+        </div>
+        <input type="hidden" id="dropLat" />
+        <input type="hidden" id="dropLng" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="goodsDesc" placeholder="e.g. 2 boxes of clothes"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" id="goodsName" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="tel" class="form-input" id="goodsPhone" placeholder="98XXXXXXXX" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="goodsCancel">Cancel</button>
+        <button class="btn btn-primary" id="goodsSubmit"><i class="fas fa-paper-plane"></i> Send Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DROP LOCATION PICKER MODAL -->
+  <div class="modal-backdrop" id="dropPickerModal">
+    <div class="modal" style="max-width:560px;">
+      <div class="modal-head">
+        <h3>Pick drop location</h3>
+        <button class="modal-close" id="dropPickerClose"><i class="fas fa-times"></i></button>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:12px;">Tap anywhere on the map to place the pin.</p>
+      <div id="dropPickerMap" style="width:100%;height:300px;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#E5E7EB;"></div>
+      <div style="margin-top:12px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-map-pin" style="color:#0EA5E9;"></i>
+        <div id="dropPickerCoords" style="flex:1;font-size:.82rem;color:#075985;font-weight:600;">No location selected yet</div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="dropPickerCancel">Cancel</button>
+        <button class="btn btn-primary" id="dropPickerConfirm" disabled><i class="fas fa-check"></i> Set Location</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUS MODAL (bus admin) -->
+  <div class="modal-backdrop" id="busModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="busModalTitle">Add Vehicle</h3>
+        <button class="modal-close" id="busModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <input type="hidden" id="busEditId" />
+
+      <div class="form-group">
+        <label class="form-label">Vehicle Image</label>
+        <div class="upload-area" id="busUploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <div>Tap to upload vehicle image</div>
+        </div>
+        <input type="file" accept="image/*" id="busImageFile" style="display:none;" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Payment QR Code</label>
+        <div class="upload-area" id="qrUploadArea" style="border-color:#BFDBFE;">
+          <i class="fas fa-qrcode" style="color:var(--blue);"></i>
+          <div>Tap to upload QR code image</div>
+        </div>
+        <input type="file" accept="image/*" id="qrImageFile" style="display:none;" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Vehicle Type</label>
+        <select class="form-select" id="busVehicleType">
+          <option value="Bus">Bus</option>
+          <option value="Car">Car</option>
+          <option value="Truck">Truck</option>
+          <option value="Van">Van</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Vehicle Name</label>
+        <input type="text" class="form-input" id="busNameInput" placeholder="e.g. Sajilo Express" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Vehicle Number</label>
+          <input type="text" class="form-input" id="busNoInput" placeholder="BA-1-KHA-1234" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Driver Phone</label>
+          <input type="tel" class="form-input" id="busPhoneInput" placeholder="98XXXXXXXX" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">From</label>
+          <input type="text" class="form-input" id="busFromInput" placeholder="Kathmandu" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">To</label>
+          <input type="text" class="form-input" id="busToInput" placeholder="Pokhara" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Departure</label>
+          <input type="text" class="form-input" id="busDepInput" placeholder="07:00 AM" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price per seat (Rs.)</label>
+          <input type="number" class="form-input" id="busPriceInput" placeholder="800" min="0" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Seat Layout</label>
+        <div style="background:#F9FAFB;border:1px solid var(--border);border-radius:12px;padding:14px;">
+          <div class="form-row" style="margin-bottom:10px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:.75rem;">Group A Rows</label>
+              <input type="number" class="form-input" id="groupARows" placeholder="8" min="0" max="30" value="8" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:.75rem;">Group A Seats/Row</label>
+              <input type="number" class="form-input" id="groupACols" placeholder="2" min="1" max="4" value="2" />
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:10px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:.75rem;">Group B Rows</label>
+              <input type="number" class="form-input" id="groupBRows" placeholder="8" min="0" max="30" value="8" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" style="font-size:.75rem;">Group B Seats/Row</label>
+              <input type="number" class="form-input" id="groupBCols" placeholder="2" min="1" max="4" value="2" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label class="form-label" style="font-size:.75rem;">Back Row Seats (0 = none)</label>
+            <input type="number" class="form-input" id="backRowSeats" placeholder="0" min="0" max="10" value="0" />
+          </div>
+          <div style="font-size:.8rem;color:var(--text-mid);text-align:center;padding-top:10px;border-top:1px dashed var(--border);">
+            Total seats: <b id="seatTotalPreview" style="color:var(--red);font-size:1rem;">32</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Live Status</label>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="status-btn" id="statusDriving" style="flex:1;padding:12px;border-radius:10px;font-weight:600;font-size:.85rem;background:#F3F4F6;color:var(--text-mid);display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid transparent;"><i class="fas fa-play"></i> Driving</button>
+          <button type="button" class="status-btn" id="statusStopped" style="flex:1;padding:12px;border-radius:10px;font-weight:600;font-size:.85rem;background:#F3F4F6;color:var(--text-mid);display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid transparent;"><i class="fas fa-stop"></i> Stopped</button>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="busModalCancel">Cancel</button>
+        <button class="btn btn-primary" id="busModalSave">Save Vehicle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLETE TRIP MODAL -->
+  <div class="modal-backdrop" id="completeModal">
+    <div class="modal">
+      <div style="text-align:center;padding:0 0 8px;">
+        <div style="width:56px;height:56px;border-radius:50%;background:#FEF3C7;color:#92400E;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 16px;">
+          <i class="fas fa-flag-checkered"></i>
+        </div>
+        <div style="font-size:1.05rem;font-weight:700;text-align:center;margin-bottom:8px;">Complete this trip?</div>
+        <div style="font-size:.88rem;color:var(--text-mid);text-align:center;margin-bottom:20px;line-height:1.5;">This will archive all current bookings and goods requests.</div>
+      </div>
+      <div style="background:#F9FAFB;border-radius:10px;padding:14px;margin-bottom:16px;font-size:.85rem;border:1px solid var(--border);" id="completeSummary"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="completeCancel">Cancel</button>
+        <button class="btn btn-orange" id="completeConfirm"><i class="fas fa-check-double"></i> Complete Trip</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING DETAILS MODAL -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Booking Details</h3>
+        <button class="modal-close" id="bookingModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="bookingModalBody"></div>
+    </div>
+  </div>
+
+  <!-- REJECT MODAL -->
+  <div class="modal-backdrop" id="rejectModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Reject Request</h3>
+        <button class="modal-close" id="rejectModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reason (optional)</label>
+        <input type="text" class="form-input" id="rejectReason" placeholder="e.g. Too far, no space" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="rejectCancel">Cancel</button>
+        <button class="btn btn-red" id="rejectConfirm"><i class="fas fa-times"></i> Reject</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div class="modal-backdrop" id="profileModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>My Profile</h3>
+        <button class="modal-close" id="profileClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="profileContent"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="profileSignOut">Sign Out</button>
+        <button class="btn btn-primary" id="profileAdmin" style="display:none;">Main Admin Panel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+    import {
+      getFirestore, collection, onSnapshot, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, serverTimestamp, where, writeBatch
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdE4cOxES29yHODnpR1nqavR05mQPI9qM",
+      authDomain: "sajilo-travels.firebaseapp.com",
+      projectId: "sajilo-travels",
+      storageBucket: "sajilo-travels.firebasestorage.app",
+      messagingSenderId: "573828080473",
+      appId: "1:573828080473:web:fdc5b8d5a1716fedcaa248",
+      measurementId: "G-Q79XEFR5HD"
+    };
+
+    const IMGBB_API_KEY = 'c077a7dd2031a6ac352c597f8de1d48c';
+    const MAIN_ADMIN_EMAIL = 'bishalxtha17@gmail.com';
+    const FEE_PER_PASSENGER = 5;
+    const FEE_PER_GOODS = 5;
+
+    const VEHICLE_TYPES = [
+      { id: 'All', label: 'All', icon: 'fa-layer-group' },
+      { id: 'Bus', label: 'Bus', icon: 'fa-bus' },
+      { id: 'Car', label: 'Car', icon: 'fa-car' },
+      { id: 'Truck', label: 'Truck', icon: 'fa-truck' },
+      { id: 'Van', label: 'Van', icon: 'fa-shuttle-van' },
+      { id: 'Other', label: 'Other', icon: 'fa-cube' }
+    ];
+
+    const app = initializeApp(firebaseConfig);
+    getAnalytics(app);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let userProfile = null;
+    let userRole = 'passenger';
+    let activeMode = 'passenger';
+
+    let buses = [];
+    let myBookings = [];
+    let myGoods = [];
+    let selectedSeats = {};
+    let openSeatPanels = {};
+    let mainTab = 'seats';
+    let bookingSubTab = 'seats';
+    let selectedVehicleType = 'All';
+    let myLastLocation = null;
+
+    let adminBuses = [];
+    let adminBookings = [];
+    let adminGoods = [];
+    let adminCompletedBookings = [];
+    let adminCompletedGoods = [];
+    let passengerLocations = {};
+    let busAdminTab = 'buses';
+    let editingImageUrl = null;
+    let editingQrUrl = null;
+    let busWatchId = null;
+    let editingBusStatus = 'stopped';
+    let activeCompleteBusId = null;
+    let activeRejectGoodsId = null;
+    let activeBookingId = null;
+
+    let unsubPassengerBuses = null;
+    let unsubMyBookings = null;
+    let unsubMyGoods = null;
+    let unsubPassengerLocations = null;
+    let busAdminSubs = [];
+    const bookingBusUnsubs = {};
+    const goodsBusUnsubs = {};
+
+    let leafletMap = null;
+    let busMarker = null;
+    let passengerMarker = null;
+    let mapUnsub = null;
+
+    // Drop location picker
+    let dropPickerMap = null;
+    let dropPickerMarker = null;
+    let dropPickerLat = null;
+    let dropPickerLng = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    let toastTimer;
+    function showToast(msg, duration = 2600) {
+      const el = $('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    function timeAgo(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (diff < 10) return 'just now';
+      if (diff < 60) return `${diff}s ago`;
+      if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+      return `${Math.floor(diff/86400)}d ago`;
+    }
+
+    function isSameDay(ts) {
+      if (!ts) return false;
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && d.getDate() === now.getDate();
+    }
+
+    function formatRs(n) { return 'Rs. ' + (parseInt(n) || 0).toLocaleString(); }
+
+    function getVehicleIcon(type) {
+      const map = { Bus: 'fa-bus', Car: 'fa-car', Truck: 'fa-truck', Van: 'fa-shuttle-van', Other: 'fa-cube' };
+      return map[type] || 'fa-cube';
+    }
+
+    function distanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    async function downloadQrImage(url, name) {
+      if (!url) { showToast('No QR'); return; }
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        const blob = await res.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = `${name || 'payment-qr'}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+        showToast('QR downloaded');
+      } catch (e) { window.open(url, '_blank', 'noopener'); }
+    }
+
+    /* ============ AUTH ============ */
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        let snap;
+        try { snap = await getDoc(userRef); } catch (e) { console.error(e); }
+        if (snap && snap.exists()) {
+          userProfile = snap.data();
+          try { await setDoc(userRef, { lastLogin: serverTimestamp() }, { merge: true }); } catch (e) {}
+        } else {
+          const role = user.email === MAIN_ADMIN_EMAIL ? 'mainAdmin' : 'passenger';
+          userProfile = { uid: user.uid, name: user.displayName || 'User', email: user.email || '', photoURL: user.photoURL || '', role, createdAt: serverTimestamp() };
+          try { await setDoc(userRef, userProfile); } catch (e) {}
+        }
+        if (user.email === MAIN_ADMIN_EMAIL && userProfile.role !== 'mainAdmin') {
+          userProfile.role = 'mainAdmin';
+          try { await setDoc(userRef, { role: 'mainAdmin' }, { merge: true }); } catch (e) {}
+        }
+        userRole = userProfile.role || 'passenger';
+        if (userRole === 'busAdmin' || userRole === 'mainAdmin') $('roleSwitch').classList.add('visible');
+        else $('roleSwitch').classList.remove('visible');
+        startLiveLocationSharing();
+      } else {
+        userProfile = null;
+        userRole = 'passenger';
+        $('roleSwitch').classList.remove('visible');
+        stopLiveLocationSharing();
+      }
+      updateAuthUI();
+      cleanupSubscriptions();
+      subscribePassengerData();
+      if (userRole === 'busAdmin' || userRole === 'mainAdmin') subscribeBusAdminData();
+      renderBuses();
+    });
+
+    function updateAuthUI() {
+      if (currentUser && userProfile) {
+        $('loginBtn').classList.add('hidden');
+        $('profileBtn').style.display = 'inline-flex';
+        const name = userProfile.name || 'User';
+        const initial = name.charAt(0).toUpperCase();
+        const avatarHtml = userProfile.photoURL ? `<img src="${userProfile.photoURL}" alt="" />` : initial;
+        $('navAvatar').innerHTML = avatarHtml;
+        $('navName').textContent = name.split(' ')[0];
+      } else {
+        $('loginBtn').classList.remove('hidden');
+        $('profileBtn').style.display = 'none';
+      }
+    }
+
+    document.querySelectorAll('.role-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeMode = btn.dataset.role;
+        applyRoleView();
+      });
+    });
+
+    function applyRoleView() {
+      if (activeMode === 'busAdmin') {
+        $('passengerView').classList.add('hidden');
+        $('busAdminView').classList.remove('hidden');
+        $('mobileNav').classList.add('hidden');
+        $('navBrand').textContent = 'Sajilo Travels Bus Admin';
+        renderBusAdmin();
+      } else {
+        $('passengerView').classList.remove('hidden');
+        $('busAdminView').classList.add('hidden');
+        $('mobileNav').classList.remove('hidden');
+        $('navBrand').textContent = 'Sajilo Travels';
+        renderBuses();
+      }
+    }
+
+    /* ============ LIVE LOCATION ============ */
+    async function startLiveLocationSharing() {
+      if (!currentUser || !navigator.geolocation) return;
+      if (window._passengerWatch) return;
+      const pushLocation = async (pos) => {
+        myLastLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        try {
+          await setDoc(doc(db, 'passengerLocations', currentUser.uid), {
+            uid: currentUser.uid, name: userProfile?.name || 'Passenger', email: userProfile?.email || '',
+            phone: userProfile?.phone || '', lat: pos.coords.latitude, lng: pos.coords.longitude,
+            accuracy: pos.coords.accuracy, updatedAt: serverTimestamp()
+          }, { merge: true });
+          try { localStorage.setItem('sajilo_last_location', JSON.stringify({ lat: pos.coords.latitude, lng: pos.coords.longitude, ts: Date.now() })); } catch (e) {}
+          renderBookings();
+        } catch (e) {}
+      };
+      const startWatch = () => {
+        window._passengerWatch = navigator.geolocation.watchPosition(pushLocation, () => {}, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+      };
+      try {
+        const cached = localStorage.getItem('sajilo_last_location');
+        if (cached) { const p = JSON.parse(cached); if (p.lat && p.lng) myLastLocation = { lat: p.lat, lng: p.lng }; }
+      } catch (e) {}
+      if (navigator.permissions?.query) {
+        try {
+          const status = await navigator.permissions.query({ name: 'geolocation' });
+          if (status.state === 'granted') startWatch();
+          else if (status.state === 'prompt') {
+            const asked = localStorage.getItem('sajilo_loc_asked');
+            if (asked === '1') navigator.geolocation.getCurrentPosition(startWatch, () => {}, { enableHighAccuracy: true });
+            else navigator.geolocation.getCurrentPosition(() => { localStorage.setItem('sajilo_loc_asked', '1'); startWatch(); }, () => { localStorage.setItem('sajilo_loc_asked', '1'); }, { enableHighAccuracy: true, timeout: 12000 });
+          }
+        } catch (e) { navigator.geolocation.getCurrentPosition(startWatch, () => {}, { enableHighAccuracy: true }); }
+      } else { navigator.geolocation.getCurrentPosition(startWatch, () => {}, { enableHighAccuracy: true }); }
+    }
+
+    function stopLiveLocationSharing() {
+      if (window._passengerWatch) { navigator.geolocation.clearWatch(window._passengerWatch); window._passengerWatch = null; }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!currentUser) return;
+      if (document.visibilityState === 'visible' && !window._passengerWatch) startLiveLocationSharing();
+    });
+
+    function cleanupSubscriptions() {
+      if (unsubPassengerBuses) { try { unsubPassengerBuses(); } catch (e) {} unsubPassengerBuses = null; }
+      if (unsubMyBookings) { try { unsubMyBookings(); } catch (e) {} unsubMyBookings = null; }
+      if (unsubMyGoods) { try { unsubMyGoods(); } catch (e) {} unsubMyGoods = null; }
+      if (unsubPassengerLocations) { try { unsubPassengerLocations(); } catch (e) {} unsubPassengerLocations = null; }
+      busAdminSubs.forEach(u => { try { u(); } catch (e) {} });
+      busAdminSubs = [];
+      Object.values(bookingBusUnsubs).forEach(u => { try { u(); } catch (e) {} });
+      Object.keys(bookingBusUnsubs).forEach(k => delete bookingBusUnsubs[k]);
+      Object.values(goodsBusUnsubs).forEach(u => { try { u(); } catch (e) {} });
+      Object.keys(goodsBusUnsubs).forEach(k => delete goodsBusUnsubs[k]);
+    }
+
+    /* ============ PASSENGER SUBSCRIPTIONS ============ */
+    function subscribePassengerData() {
+      unsubPassengerBuses = onSnapshot(query(collection(db, 'buses'), orderBy('createdAt', 'desc')), (snap) => {
+        buses = [];
+        snap.forEach(d => buses.push({ id: d.id, ...d.data() }));
+        renderVehicleChooser();
+        renderBuses();
+      }, (err) => { console.error('Buses error:', err); buses = []; renderBuses(); });
+
+      if (!currentUser) return;
+
+      unsubMyBookings = onSnapshot(query(collection(db, 'bookings'), where('passengerUid', '==', currentUser.uid)), (snap) => {
+        myBookings = [];
+        snap.forEach(d => myBookings.push({ id: d.id, ...d.data() }));
+        myBookings.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        myBookings.forEach(b => {
+          if (b.status !== 'confirmed' && b.status !== 'priced') return;
+          if (bookingBusUnsubs[b.id]) return;
+          const busId = b.busId;
+          if (!busId) return;
+          bookingBusUnsubs[b.id] = onSnapshot(doc(db, 'buses', busId), (busSnap) => {
+            if (busSnap.exists()) {
+              const idx = myBookings.findIndex(x => x.id === b.id);
+              if (idx !== -1) myBookings[idx]._busData = { id: busSnap.id, ...busSnap.data() };
+              renderBookings();
+            }
+          });
+        });
+        renderBookings();
+      }, (err) => { console.error('My bookings error:', err); myBookings = []; renderBookings(); });
+
+      unsubMyGoods = onSnapshot(query(collection(db, 'goods'), where('senderUid', '==', currentUser.uid)), (snap) => {
+        myGoods = [];
+        snap.forEach(d => myGoods.push({ id: d.id, ...d.data() }));
+        myGoods.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        myGoods.forEach(g => {
+          if (g.status === 'pending' || g.status === 'cancelled' || g.status === 'rejected') return;
+          if (goodsBusUnsubs[g.id]) return;
+          const busId = g.busId;
+          if (!busId) return;
+          goodsBusUnsubs[g.id] = onSnapshot(doc(db, 'buses', busId), (busSnap) => {
+            if (busSnap.exists()) {
+              const idx = myGoods.findIndex(x => x.id === g.id);
+              if (idx !== -1) myGoods[idx]._busData = { id: busSnap.id, ...busSnap.data() };
+              renderBookings();
+            }
+          });
+        });
+        renderBookings();
+      }, (err) => { console.error('My goods error:', err); myGoods = []; renderBookings(); });
+    }
+
+    /* ============ BUS ADMIN SUBSCRIPTIONS ============ */
+    function subscribeBusAdminData() {
+      if (!currentUser) return;
+      const busUnsub = onSnapshot(query(collection(db, 'buses'), where('ownerId', '==', currentUser.uid)), (snap) => {
+        adminBuses = [];
+        snap.forEach(d => adminBuses.push({ id: d.id, ...d.data() }));
+        adminBuses.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        subscribeAdminGoods();
+        subscribeAdminBookings();
+        if (activeMode === 'busAdmin') renderBusAdmin();
+      }, (err) => { console.error('Admin buses error:', err); });
+      busAdminSubs.push(busUnsub);
+
+      const locUnsub = onSnapshot(collection(db, 'passengerLocations'), (snap) => {
+        passengerLocations = {};
+        snap.forEach(d => { const data = d.data(); if (data?.uid) passengerLocations[data.uid] = data; });
+        if (activeMode === 'busAdmin') renderBusAdminTab();
+      });
+      busAdminSubs.push(locUnsub);
+    }
+
+    function subscribeAdminGoods() {
+      Object.values(goodsBusUnsubs).forEach(u => { try { u(); } catch (e) {} });
+      Object.keys(goodsBusUnsubs).forEach(k => delete goodsBusUnsubs[k]);
+      const busIds = adminBuses.map(b => b.id);
+      if (busIds.length === 0) { adminGoods = []; adminCompletedGoods = []; return; }
+      const chunks = [];
+      for (let i = 0; i < busIds.length; i += 30) chunks.push(busIds.slice(i, i + 30));
+      const bucket = {};
+      chunks.forEach((chunk, ci) => {
+        const q = query(collection(db, 'goods'), where('busId', 'in', chunk));
+        const u = onSnapshot(q, (snap) => {
+          const arr = [];
+          snap.forEach(d => arr.push({ id: d.id, ...d.data() }));
+          bucket['c' + ci] = arr;
+          const all = [];
+          Object.values(bucket).forEach(a => all.push(...a));
+          adminGoods = []; adminCompletedGoods = [];
+          all.forEach(g => { if (g.completed === true) adminCompletedGoods.push(g); else adminGoods.push(g); });
+          if (activeMode === 'busAdmin') renderBusAdmin();
+        }, (err) => { console.error('Admin goods error:', err); showToast('Could not load goods'); });
+        goodsBusUnsubs['admin_' + ci] = u;
+      });
+    }
+
+    function subscribeAdminBookings() {
+      Object.values(bookingBusUnsubs).forEach(u => { try { u(); } catch (e) {} });
+      Object.keys(bookingBusUnsubs).forEach(k => delete bookingBusUnsubs[k]);
+      const busIds = adminBuses.map(b => b.id);
+      if (busIds.length === 0) { adminBookings = []; adminCompletedBookings = []; return; }
+      const chunks = [];
+      for (let i = 0; i < busIds.length; i += 30) chunks.push(busIds.slice(i, i + 30));
+      const bucket = {};
+      chunks.forEach((chunk, ci) => {
+        const q = query(collection(db, 'bookings'), where('busId', 'in', chunk));
+        const u = onSnapshot(q, (snap) => {
+          const arr = [];
+          snap.forEach(d => arr.push({ id: d.id, ...d.data() }));
+          bucket['c' + ci] = arr;
+          const all = [];
+          Object.values(bucket).forEach(a => all.push(...a));
+          adminBookings = []; adminCompletedBookings = [];
+          all.forEach(b => { if (b.completed === true) adminCompletedBookings.push(b); else adminBookings.push(b); });
+          if (activeMode === 'busAdmin') renderBusAdmin();
+        }, (err) => { console.error('Admin bookings error:', err); showToast('Could not load bookings'); });
+        bookingBusUnsubs['admin_' + ci] = u;
+      });
+    }
+
+    /* ============ VEHICLE CHOOSER ============ */
+    function renderVehicleChooser() {
+      const counts = { All: buses.length };
+      VEHICLE_TYPES.forEach(v => { if (v.id === 'All') return; counts[v.id] = buses.filter(b => (b.vehicleType || 'Bus') === v.id).length; });
+      $('vehicleChooser').innerHTML = VEHICLE_TYPES.map(v => {
+        const count = counts[v.id] || 0;
+        const isActive = selectedVehicleType === v.id;
+        if (count === 0 && v.id !== 'All' && !isActive) return '';
+        return `<button class="vehicle-chip ${isActive ? 'active' : ''}" data-vehicle="${v.id}"><i class="fas ${v.icon}"></i>${escapeHtml(v.label)}<span class="chip-count">${count}</span></button>`;
+      }).join('');
+      $('vehicleChooser').querySelectorAll('.vehicle-chip').forEach(btn => {
+        btn.addEventListener('click', () => { selectedVehicleType = btn.dataset.vehicle; renderVehicleChooser(); renderBuses(); });
+      });
+    }
+
+    /* ============ PASSENGER UI EVENTS ============ */
+    document.querySelectorAll('.main-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.main-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        mainTab = t.dataset.main;
+        renderBuses();
+      });
+    });
+
+    document.querySelectorAll('.booking-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.booking-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        bookingSubTab = t.dataset.btab;
+        renderBookings();
+      });
+    });
+
+    document.querySelectorAll('.mobile-nav .mnav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.mobile-nav .mnav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        switchView(item.dataset.nav);
+      });
+    });
+
+    function switchView(view) {
+      $('homeView').classList.toggle('hidden', view !== 'home');
+      $('bookingView').classList.toggle('hidden', view !== 'booking');
+      $('contactView').classList.toggle('hidden', view !== 'contact');
+    }
+
+    let searchTimeout;
+    $('searchInput').addEventListener('input', () => {
+      const v = $('searchInput').value.trim();
+      $('searchClear').classList.toggle('show', v.length > 0);
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { showSuggestions(v); renderBuses(); }, 180);
+    });
+    $('searchInput').addEventListener('focus', () => { if ($('searchInput').value.trim()) showSuggestions($('searchInput').value.trim()); });
+    $('searchClear').addEventListener('click', () => { $('searchInput').value = ''; $('searchClear').classList.remove('show'); $('suggestions').classList.remove('show'); renderBuses(); });
+    document.addEventListener('click', (e) => { if (!$('suggestions').contains(e.target) && e.target !== $('searchInput')) $('suggestions').classList.remove('show'); });
+
+    function buildSuggestions(term) {
+      if (!term) return [];
+      const t = term.toLowerCase();
+      const places = new Set(), names = new Set(), nos = new Set();
+      buses.forEach(b => { if (b.from) places.add(b.from); if (b.to) places.add(b.to); if (b.busName) names.add(b.busName); if (b.busNo) nos.add(b.busNo); });
+      const r = [];
+      [...places].forEach(p => { if (p.toLowerCase().includes(t)) r.push({ type: 'place', title: p, sub: 'Location' }); });
+      [...names].forEach(n => { if (n.toLowerCase().includes(t)) r.push({ type: 'bus', title: n, sub: 'Name' }); });
+      [...nos].forEach(no => { if (no.toLowerCase().includes(t)) r.push({ type: 'busno', title: no, sub: 'Number' }); });
+      return r.slice(0, 8);
+    }
+
+    function showSuggestions(term) {
+      if (!term) { $('suggestions').classList.remove('show'); return; }
+      const list = buildSuggestions(term);
+      if (list.length === 0) { $('suggestions').innerHTML = `<div class="suggestions-empty">No matches</div>`; $('suggestions').classList.add('show'); return; }
+      $('suggestions').innerHTML = list.map(s => `<div class="suggestion-item" data-value="${escapeHtml(s.title)}"><i class="fas ${s.type === 'place' ? 'fa-map-marker-alt' : s.type === 'busno' ? 'fa-hashtag' : 'fa-bus'}"></i><div class="s-main"><div class="s-title">${escapeHtml(s.title)}</div><div class="s-sub">${escapeHtml(s.sub)}</div></div></div>`).join('');
+      $('suggestions').classList.add('show');
+      $('suggestions').querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('click', () => { $('searchInput').value = item.dataset.value; $('suggestions').classList.remove('show'); renderBuses(); });
+      });
+    }
+
+    /* ============ RENDER BUSES (passenger) ============ */
+    function renderBuses() {
+      const vehicleLabel = selectedVehicleType === 'All' ? 'Vehicles' : selectedVehicleType + 's';
+      const actionLabel = mainTab === 'seats' ? 'for Booking' : 'for Goods';
+      $('listTitle').textContent = `${vehicleLabel} ${actionLabel}`;
+      const term = $('searchInput').value.trim().toLowerCase();
+      let filtered = buses;
+      if (selectedVehicleType !== 'All') filtered = filtered.filter(b => (b.vehicleType || 'Bus') === selectedVehicleType);
+      if (term) {
+        filtered = filtered.filter(b =>
+          (b.busNo || '').toLowerCase().includes(term) || (b.busName || '').toLowerCase().includes(term) ||
+          (b.from || '').toLowerCase().includes(term) || (b.to || '').toLowerCase().includes(term) ||
+          (b.driverPhone || '').toLowerCase().includes(term) || (b.vehicleType || 'Bus').toLowerCase().includes(term)
+        );
+      }
+      $('busCount').textContent = filtered.length === 0 ? 'No vehicles' : `${filtered.length} vehicle${filtered.length > 1 ? 's' : ''}`;
+      if (buses.length === 0) { $('busGrid').innerHTML = `<div class="empty" style="grid-column:1/-1;"><i class="fas fa-bus"></i><h4>No vehicles</h4><p>Please check back later.</p></div>`; return; }
+      if (filtered.length === 0) { $('busGrid').innerHTML = `<div class="empty" style="grid-column:1/-1;"><i class="fas fa-search"></i><h4>No results</h4><p>Try a different search.</p></div>`; return; }
+      $('busGrid').innerHTML = filtered.map(renderBusCard).join('');
+      attachBusListeners();
+    }
+
+    function getSeatLayout(bus) {
+      const layout = bus.seatLayout || {};
+      const groupARows = parseInt(layout.groupARows) || 8;
+      const groupACols = parseInt(layout.groupACols) || 2;
+      const groupBRows = parseInt(layout.groupBRows) || 8;
+      const groupBCols = parseInt(layout.groupBCols) || 2;
+      const backRowSeats = parseInt(layout.backRowSeats) || 0;
+      const seatsA = groupARows * groupACols;
+      const seatsB = groupBRows * groupBCols;
+      return { groupARows, groupACols, groupBRows, groupBCols, backRowSeats, seatsA, seatsB, total: seatsA + seatsB + backRowSeats };
+    }
+
+    function buildSeatLayout(bus, bookedSeats, selected) {
+      const busId = bus.id;
+      const cfg = getSeatLayout(bus);
+      const { groupARows, groupACols, groupBRows, groupBCols, backRowSeats, seatsA, seatsB, total } = cfg;
+      if (total < 1) return '';
+      const maxRows = Math.max(groupARows, groupBRows);
+      const aOffset = maxRows - groupARows;
+      const bOffset = maxRows - groupBRows;
+      const seatNumberA = (row, col) => (row - aOffset) * groupACols + col + 1;
+      const seatNumberB = (row, col) => seatsA + (row - bOffset) * groupBCols + col + 1;
+      const seatNumberBack = (i) => seatsA + seatsB + i + 1;
+      const aColsCss = `repeat(${groupACols}, 1fr)`;
+      const bColsCss = `repeat(${groupBCols}, 1fr)`;
+      const gridTemplate = `${aColsCss} 24px ${bColsCss}`;
+      let html = `<div class="bus-layout"><div class="bus-layout-header"><span class="group-label">Group A</span><span class="group-label">Group B</span><div class="driver-wheel"><i class="fas fa-steering-wheel"></i></div></div><div class="seat-rows">`;
+      for (let row = 0; row < maxRows; row++) {
+        html += `<div class="seat-row" style="grid-template-columns: ${gridTemplate};">`;
+        const aSeatRow = row - aOffset;
+        for (let c = 0; c < groupACols; c++) {
+          if (aSeatRow >= 0 && aSeatRow < groupARows) html += renderSeat(seatNumberA(row, c), bookedSeats, selected, busId);
+          else html += '<div class="seat empty"></div>';
+        }
+        html += '<div class="aisle"></div>';
+        const bSeatRow = row - bOffset;
+        for (let c = 0; c < groupBCols; c++) {
+          if (bSeatRow >= 0 && bSeatRow < groupBRows) html += renderSeat(seatNumberB(row, c), bookedSeats, selected, busId);
+          else html += '<div class="seat empty"></div>';
+        }
+        html += '</div>';
+      }
+      if (backRowSeats > 0) {
+        html += `<div class="back-row-label">Back Row</div><div class="back-row">`;
+        for (let i = 0; i < backRowSeats; i++) html += renderSeat(seatNumberBack(i), bookedSeats, selected, busId);
+        html += `</div>`;
+      }
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderSeat(num, bookedSeats, selected, busId) {
+      let cls = 'seat available';
+      if (bookedSeats.includes(num)) cls = 'seat booked';
+      else if (selected.includes(num)) cls = 'seat selected';
+      const disabled = bookedSeats.includes(num) ? 'disabled' : '';
+      return `<button class="${cls}" data-bus-id="${busId}" data-seat="${num}" ${disabled}>${num}</button>`;
+    }
+
+    function renderBusCard(bus) {
+      const busId = bus.id;
+      const bookedSeats = Array.isArray(bus.bookedSeats) ? bus.bookedSeats : [];
+      const cfg = getSeatLayout(bus);
+      const totalSeats = cfg.total;
+      const selected = selectedSeats[busId] || [];
+      const hasSelected = selected.length > 0;
+      const isOpen = !!openSeatPanels[busId];
+      const from = bus.from || 'N/A';
+      const to = bus.to || 'N/A';
+      const departure = bus.departureTime || 'N/A';
+      const price = bus.price ? `Rs. ${bus.price}` : 'Rs. --';
+      const driverPhone = bus.driverPhone || 'N/A';
+      const vehicleType = bus.vehicleType || 'Bus';
+      const loc = bus.liveLocation || null;
+      const status = bus.status || (loc ? 'driving' : 'offline');
+      const statusClass = status === 'driving' ? 'driving' : status === 'stopped' ? 'stopped' : 'offline';
+      const statusText = status === 'driving' ? 'Driving' : status === 'stopped' ? 'Stopped' : 'Offline';
+      const liveInfo = loc
+        ? `<div class="live-bar"><i class="fas fa-map-marker-alt"></i><span>Live: ${escapeHtml(loc.lat?.toFixed(4) ?? '')}, ${escapeHtml(loc.lng?.toFixed(4) ?? '')}</span><button class="btn-map" data-bus-id="${busId}">View Map</button></div>`
+        : `<div class="live-bar offline"><i class="fas fa-map-marker-slash"></i><span>Live location not available</span></div>`;
+      const imgHtml = bus.imageUrl
+        ? `<img src="${escapeHtml(bus.imageUrl)}" alt="${escapeHtml(bus.busName || 'Vehicle')}" loading="lazy" />`
+        : `<div class="no-img"><i class="fas ${getVehicleIcon(vehicleType)}"></i></div>`;
+      const availableCount = totalSeats - bookedSeats.length;
+      const seatsHtml = mainTab === 'seats' ? buildSeatLayout(bus, bookedSeats, selected) : '';
+      const phoneClean = (driverPhone || '').replace(/\D/g, '');
+      const callHref = phoneClean ? `tel:${phoneClean.length === 10 && phoneClean.startsWith('9') ? '+977' + phoneClean : '+' + phoneClean}` : '#';
+
+      if (mainTab === 'goods') {
+        return `<article class="bus-card" data-bus-id="${busId}"><div class="bus-img">${imgHtml}<span class="bus-status ${statusClass}"><span class="dot"></span> ${statusText}</span><span class="vehicle-tag"><i class="fas ${getVehicleIcon(vehicleType)}"></i> ${escapeHtml(vehicleType)}</span></div><div class="bus-body"><div class="bus-top"><div class="bus-name">${escapeHtml(bus.busName || 'Vehicle')}</div><div class="bus-no">${escapeHtml(bus.busNo || 'N/A')}</div></div><div class="bus-route"><span class="place">${escapeHtml(from)}</span><i class="fas fa-arrow-right"></i><span class="place">${escapeHtml(to)}</span></div><div class="bus-info"><div class="info-item"><i class="far fa-clock"></i> <span class="val">${escapeHtml(departure)}</span></div><div class="info-item"><i class="fas fa-phone"></i> <a href="${escapeHtml(callHref)}" class="val">${escapeHtml(driverPhone)}</a></div></div>${liveInfo}<button class="btn btn-primary goods-send-btn" data-bus-id="${busId}" style="width:100%;padding:12px 14px;border-radius:10px;font-weight:700;font-size:.88rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;"><i class="fas fa-box"></i> Send Goods</button></div></article>`;
+      }
+
+      return `<article class="bus-card" data-bus-id="${busId}"><div class="bus-img">${imgHtml}<span class="bus-status ${statusClass}"><span class="dot"></span> ${statusText}</span><span class="vehicle-tag"><i class="fas ${getVehicleIcon(vehicleType)}"></i> ${escapeHtml(vehicleType)}</span></div><div class="bus-body"><div class="bus-top"><div class="bus-name">${escapeHtml(bus.busName || 'Vehicle')}</div><div class="bus-no">${escapeHtml(bus.busNo || 'N/A')}</div></div><div class="bus-route"><span class="place">${escapeHtml(from)}</span><i class="fas fa-arrow-right"></i><span class="place">${escapeHtml(to)}</span></div><div class="bus-info"><div class="info-item"><i class="far fa-clock"></i> <span class="val">${escapeHtml(departure)}</span></div><div class="info-item"><i class="fas fa-tag"></i> <span class="val">${escapeHtml(price)}</span></div><div class="info-item"><i class="fas fa-phone"></i> <a href="${escapeHtml(callHref)}" class="val">${escapeHtml(driverPhone)}</a></div><div class="info-item"><i class="fas fa-chair"></i> <span class="val">${totalSeats} seats</span></div></div>${liveInfo}<button class="seat-dropdown-btn ${isOpen ? 'open' : ''}" data-toggle-seats="${busId}"><span class="sdb-icon"><i class="fas fa-chair"></i></span><span class="sdb-text"><span class="sdb-title">${isOpen ? 'Hide Seats' : 'Select Seats'}</span><span class="sdb-sub">${availableCount} of ${totalSeats} available</span></span>${hasSelected ? `<span class="sdb-badge">${selected.length} selected</span>` : ''}<i class="fas fa-chevron-down sdb-chevron"></i></button><div class="seat-panel ${isOpen ? 'open' : ''}" data-panel="${busId}"><div class="seat-panel-inner"><div class="legend"><span><span class="dot green"></span>Free</span><span><span class="dot red"></span>Booked</span><span><span class="dot yellow"></span>Selected</span></div>${seatsHtml}</div></div><div class="card-actions"><button class="btn btn-primary book-seat-btn" data-bus-id="${busId}" ${!hasSelected ? 'disabled' : ''}><i class="fas fa-chair"></i> Book${hasSelected ? ` (${selected.length})` : ''}</button><a class="btn btn-call" href="${escapeHtml(callHref)}" ${!phoneClean ? 'onclick="return false;"' : ''}><i class="fas fa-phone"></i> Call</a><button class="btn btn-outline goods-send-btn" data-bus-id="${busId}"><i class="fas fa-box"></i> Goods</button></div></div></article>`;
+    }
+
+    function attachBusListeners() {
+      document.querySelectorAll('[data-toggle-seats]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const busId = btn.dataset.toggleSeats;
+          openSeatPanels[busId] = !openSeatPanels[busId];
+          const card = document.querySelector(`.bus-card[data-bus-id="${busId}"]`);
+          const panel = card?.querySelector(`[data-panel="${busId}"]`);
+          if (panel) panel.classList.toggle('open', openSeatPanels[busId]);
+          btn.classList.toggle('open', openSeatPanels[busId]);
+          const title = btn.querySelector('.sdb-title');
+          if (title) title.textContent = openSeatPanels[busId] ? 'Hide Seats' : 'Select Seats';
+        });
+      });
+      document.querySelectorAll('.seat.available, .seat.selected').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (!currentUser) { window.location.href = 'login.html'; return; }
+          const busId = btn.dataset.busId;
+          const seat = parseInt(btn.dataset.seat);
+          if (!selectedSeats[busId]) selectedSeats[busId] = [];
+          const idx = selectedSeats[busId].indexOf(seat);
+          if (idx === -1) selectedSeats[busId].push(seat);
+          else selectedSeats[busId].splice(idx, 1);
+          const isNowSelected = selectedSeats[busId].includes(seat);
+          btn.classList.toggle('selected', isNowSelected);
+          btn.classList.toggle('available', !isNowSelected);
+          const card = document.querySelector(`.bus-card[data-bus-id="${busId}"]`);
+          if (card) {
+            const count = selectedSeats[busId].length;
+            const toggleBtn = card.querySelector(`[data-toggle-seats="${busId}"]`);
+            if (toggleBtn) {
+              let badge = toggleBtn.querySelector('.sdb-badge');
+              if (count > 0) {
+                if (!badge) { badge = document.createElement('span'); badge.className = 'sdb-badge'; toggleBtn.insertBefore(badge, toggleBtn.querySelector('.sdb-chevron')); }
+                badge.textContent = `${count} selected`;
+              } else if (badge) badge.remove();
+            }
+            const bookBtn = card.querySelector('.book-seat-btn');
+            if (bookBtn) { bookBtn.disabled = count === 0; bookBtn.innerHTML = `<i class="fas fa-chair"></i> Book${count > 0 ? ` (${count})` : ''}`; }
+          }
+        });
+      });
+      document.querySelectorAll('.book-seat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!currentUser) { window.location.href = 'login.html'; return; }
+          const busId = btn.dataset.busId;
+          const seats = selectedSeats[busId] || [];
+          if (seats.length === 0) { showToast('Select at least one seat'); return; }
+          openBookModal(busId, seats);
+        });
+      });
+      document.querySelectorAll('.goods-send-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!currentUser) { window.location.href = 'login.html'; return; }
+          openGoodsModal(btn.dataset.busId);
+        });
+      });
+      document.querySelectorAll('.btn-map').forEach(btn => btn.addEventListener('click', () => openMapView(btn.dataset.busId)));
+    }
+
+    /* ============ MAP ============ */
+    function openMapView(busId) {
+      const bus = buses.find(b => b.id === busId) || adminBuses.find(b => b.id === busId) ||
+                  myBookings.find(x => x._busData?.id === busId)?._busData || myGoods.find(x => x._busData?.id === busId)?._busData;
+      if (!bus) { showToast('Vehicle not found'); return; }
+      $('mapView').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      const loc = bus.liveLocation || null;
+      const vehicleType = bus.vehicleType || 'Bus';
+      $('mapTitle').textContent = bus.busName || 'Vehicle';
+      $('mapSub').textContent = `${bus.from || ''} → ${bus.to || ''}`;
+      $('mapInfoTitle').textContent = `${bus.busName || 'Vehicle'} · ${vehicleType}`;
+      if (!leafletMap) {
+        leafletMap = L.map('leafletMap', { zoomControl: true }).setView([loc?.lat || 27.7172, loc?.lng || 85.3240], loc ? 16 : 7);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(leafletMap);
+      } else setTimeout(() => leafletMap.invalidateSize(), 100);
+      if (busMarker) { leafletMap.removeLayer(busMarker); busMarker = null; }
+      if (passengerMarker) { leafletMap.removeLayer(passengerMarker); passengerMarker = null; }
+      const busIcon = L.divIcon({ html: `<div style="background:#C8102E;color:white;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 3px 12px rgba(0,0,0,0.3);border:3px solid white;"><i class="fas ${getVehicleIcon(vehicleType)}"></i></div>`, iconSize: [38, 38], iconAnchor: [19, 19], className: '' });
+      if (loc?.lat && loc?.lng) {
+        busMarker = L.marker([loc.lat, loc.lng], { icon: busIcon }).addTo(leafletMap);
+        busMarker.bindPopup(`<b>${escapeHtml(bus.busName || 'Vehicle')}</b><br>${escapeHtml(bus.busNo || '')}`);
+        leafletMap.setView([loc.lat, loc.lng], 16);
+        $('mapInfoCoords').textContent = `Live: ${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)}`;
+        $('mapExternalBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
+      } else { $('mapInfoCoords').textContent = 'Live location not available'; $('mapExternalBtn').href = '#'; }
+      if (myLastLocation?.lat && myLastLocation?.lng) {
+        const pIcon = L.divIcon({ html: `<div style="background:#10B981;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,0.3);border:3px solid white;"><i class="fas fa-user"></i></div>`, iconSize: [32, 32], iconAnchor: [16, 16], className: '' });
+        passengerMarker = L.marker([myLastLocation.lat, myLastLocation.lng], { icon: pIcon }).addTo(leafletMap);
+        passengerMarker.bindPopup('You');
+        if (busMarker) { const g = L.featureGroup([busMarker, passengerMarker]); leafletMap.fitBounds(g.getBounds().pad(0.3)); }
+      }
+      if (mapUnsub) { mapUnsub(); mapUnsub = null; }
+      mapUnsub = onSnapshot(doc(db, 'buses', busId), (snap) => {
+        if (!snap.exists()) return;
+        const b = { id: snap.id, ...snap.data() };
+        const l = b.liveLocation;
+        if (l?.lat && l?.lng && leafletMap) {
+          if (busMarker) busMarker.setLatLng([l.lat, l.lng]);
+          else { busMarker = L.marker([l.lat, l.lng], { icon: busIcon }).addTo(leafletMap); busMarker.bindPopup(`<b>${escapeHtml(b.busName || 'Vehicle')}</b><br>${escapeHtml(b.busNo || '')}`); }
+          $('mapInfoCoords').textContent = `Live: ${l.lat.toFixed(5)}, ${l.lng.toFixed(5)}`;
+          $('mapExternalBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${l.lat},${l.lng}`;
+        }
+      });
+    }
+
+    function closeMapView() { $('mapView').classList.remove('show'); document.body.style.overflow = ''; if (mapUnsub) { mapUnsub(); mapUnsub = null; } }
+    $('mapBack').addEventListener('click', closeMapView);
+
+    /* ============ SEAT BOOKING MODAL ============ */
+    let activeBookBusId = null;
+    let activeBookSeats = [];
+    let uploadedImageUrl = null;
+
+    function openBookModal(busId, seats) {
+      activeBookBusId = busId;
+      activeBookSeats = seats;
+      uploadedImageUrl = null;
+      $('uploadArea').classList.remove('has-image');
+      $('uploadArea').innerHTML = `<i class="fas fa-cloud-upload-alt"></i><div>Tap to upload payment screenshot</div>`;
+      $('uploadProgress').classList.remove('show');
+      $('uploadProgressBar').style.width = '0%';
+      $('paymentFile').value = '';
+      const bus = buses.find(b => b.id === busId);
+      const vehicleType = bus?.vehicleType || 'Bus';
+      const total = (parseInt(bus?.price) || 0) * seats.length;
+      $('bookSummary').innerHTML = `<div class="row"><span class="label">Vehicle</span><span class="value">${escapeHtml(bus?.busName || '')} (${escapeHtml(vehicleType)})</span></div><div class="row"><span class="label">Route</span><span class="value">${escapeHtml(bus?.from || '')} → ${escapeHtml(bus?.to || '')}</span></div><div class="row"><span class="label">Seats</span><span class="value">${seats.join(', ')}</span></div><div class="row"><span class="label">Total</span><span class="value">Rs. ${total}</span></div>`;
+      if (bus?.qrImageUrl) {
+        $('modalQrBlock').innerHTML = `<div class="payment-qr-block"><div class="qr-title"><i class="fas fa-qrcode"></i> Scan & Pay</div><div class="qr-img-wrap"><img src="${escapeHtml(bus.qrImageUrl)}" alt="QR" /></div><div><button type="button" class="qr-download-btn" id="modalQrDownload"><i class="fas fa-download"></i> Download QR</button></div><div class="qr-hint">Scan the QR to pay</div></div>`;
+        const dl = document.getElementById('modalQrDownload');
+        if (dl) dl.addEventListener('click', () => downloadQrImage(bus.qrImageUrl, `${bus.busNo || 'vehicle'}-payment-qr`));
+      } else $('modalQrBlock').innerHTML = '';
+      $('passengerName').value = userProfile?.name || '';
+      $('passengerPhone').value = userProfile?.phone || '';
+      $('bookModal').classList.add('show');
+    }
+
+    $('bookClose').addEventListener('click', () => $('bookModal').classList.remove('show'));
+    $('bookCancel').addEventListener('click', () => $('bookModal').classList.remove('show'));
+    $('bookModal').addEventListener('click', (e) => { if (e.target === $('bookModal')) $('bookModal').classList.remove('show'); });
+    $('uploadArea').addEventListener('click', () => $('paymentFile').click());
+
+    $('paymentFile').addEventListener('change', async () => {
+      const file = $('paymentFile').files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showToast('Image under 5MB'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { $('uploadArea').classList.add('has-image'); $('uploadArea').innerHTML = `<img src="${e.target.result}" alt="Payment" />`; };
+      reader.readAsDataURL(file);
+      showToast('Uploading...');
+      $('uploadProgress').classList.add('show');
+      try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success && data.data?.url) { uploadedImageUrl = data.data.url; showToast('Uploaded'); $('uploadProgress').classList.remove('show'); }
+        else { showToast('Upload failed'); $('uploadProgress').classList.remove('show'); $('uploadArea').classList.remove('has-image'); $('uploadArea').innerHTML = `<i class="fas fa-cloud-upload-alt"></i><div>Tap to upload payment screenshot</div>`; }
+      } catch (e) { showToast('Upload failed'); $('uploadProgress').classList.remove('show'); }
+    });
+
+    $('bookConfirm').addEventListener('click', async () => {
+      const name = $('passengerName').value.trim();
+      const phone = $('passengerPhone').value.trim();
+      if (!name) { showToast('Enter your name'); return; }
+      if (!phone) { showToast('Enter your phone'); return; }
+      if (!uploadedImageUrl) { showToast('Upload payment screenshot'); return; }
+      const bus = buses.find(b => b.id === activeBookBusId);
+      if (!bus) { showToast('Vehicle not found'); return; }
+      const alreadyBooked = (bus.bookedSeats || []).filter(s => activeBookSeats.includes(s));
+      if (alreadyBooked.length > 0) { showToast(`Seat(s) ${alreadyBooked.join(', ')} just got booked.`); return; }
+      $('bookConfirm').disabled = true;
+      $('bookConfirm').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      try {
+        await addDoc(collection(db, 'bookings'), {
+          busId: activeBookBusId, busName: bus.busName || '', busNo: bus.busNo || '',
+          vehicleType: bus.vehicleType || 'Bus', from: bus.from || '', to: bus.to || '',
+          departureTime: bus.departureTime || '', price: bus.price || 0,
+          seats: activeBookSeats, passengerUid: currentUser.uid, passengerName: name,
+          passengerEmail: userProfile?.email || '', passengerPhone: phone, driverPhone: bus.driverPhone || '',
+          paymentScreenshotUrl: uploadedImageUrl, busQrImageUrl: bus.qrImageUrl || null,
+          status: 'confirmed', pickedUp: false, createdAt: serverTimestamp()
+        });
+        const newBooked = [...(bus.bookedSeats || []), ...activeBookSeats];
+        await updateDoc(doc(db, 'buses', activeBookBusId), { bookedSeats: newBooked });
+        if (userProfile && !userProfile.phone) { try { await setDoc(doc(db, 'users', currentUser.uid), { phone }, { merge: true }); userProfile.phone = phone; } catch (e) {} }
+        selectedSeats[activeBookBusId] = [];
+        openSeatPanels[activeBookBusId] = false;
+        $('bookModal').classList.remove('show');
+        showToast('Booking confirmed');
+        renderBuses();
+        switchView('booking');
+      } catch (err) { console.error(err); showToast('Booking failed'); }
+      finally { $('bookConfirm').disabled = false; $('bookConfirm').innerHTML = '<i class="fas fa-check"></i> Confirm Booking'; }
+    });
+
+    /* ============ GOODS MODAL ============ */
+    let activeGoodsBusId = null;
+    let goodsPhotoUrl = null;
+
+    function openGoodsModal(busId) {
+      const bus = buses.find(b => b.id === busId);
+      if (!bus) { showToast('Vehicle not found'); return; }
+      activeGoodsBusId = busId;
+      goodsPhotoUrl = null;
+      dropPickerLat = null; dropPickerLng = null;
+      $('dropLat').value = ''; $('dropLng').value = '';
+      $('dropLocationText').textContent = 'Tap to set drop location on map';
+      $('goodsPhotoArea').classList.remove('has-image');
+      $('goodsPhotoArea').innerHTML = `<i class="fas fa-camera"></i><div>Tap to take or upload photo of goods</div>`;
+      $('goodsPhotoFile').value = '';
+      $('goodsKg').value = '';
+      $('goodsVehicle').value = bus.vehicleType || 'Bus';
+      $('goodsDesc').value = '';
+      $('goodsName').value = userProfile?.name || '';
+      $('goodsPhone').value = userProfile?.phone || '';
+      $('goodsFrom').value = bus.from || '';
+      $('goodsTo').value = '';
+      $('goodsSummary').innerHTML = `<div class="row"><span class="label">Vehicle</span><span class="value">${escapeHtml(bus.busName || '')} (${escapeHtml(bus.vehicleType || 'Bus')})</span></div><div class="row"><span class="label">Route</span><span class="value">${escapeHtml(bus.from || '')} → ${escapeHtml(bus.to || '')}</span></div><div class="row"><span class="label">Driver</span><span class="value">${escapeHtml(bus.driverPhone || 'N/A')}</span></div><div class="row"><span class="label">Note</span><span class="value" style="font-size:.78rem;color:var(--text-soft);font-weight:500;">Price set by bus admin</span></div>`;
+      $('goodsModal').classList.add('show');
+    }
+
+    $('goodsClose').addEventListener('click', () => $('goodsModal').classList.remove('show'));
+    $('goodsCancel').addEventListener('click', () => $('goodsModal').classList.remove('show'));
+    $('goodsModal').addEventListener('click', (e) => { if (e.target === $('goodsModal')) $('goodsModal').classList.remove('show'); });
+    $('goodsPhotoArea').addEventListener('click', () => $('goodsPhotoFile').click());
+
+    $('goodsPhotoFile').addEventListener('change', async () => {
+      const file = $('goodsPhotoFile').files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showToast('Image under 5MB'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { $('goodsPhotoArea').classList.add('has-image'); $('goodsPhotoArea').innerHTML = `<img src="${e.target.result}" alt="Goods" />`; };
+      reader.readAsDataURL(file);
+      try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success && data.data?.url) { goodsPhotoUrl = data.data.url; showToast('Photo uploaded'); }
+        else { showToast('Upload failed'); $('goodsPhotoArea').classList.remove('has-image'); $('goodsPhotoArea').innerHTML = `<i class="fas fa-camera"></i><div>Tap to take or upload photo of goods</div>`; }
+      } catch (e) { showToast('Upload failed'); }
+    });
+
+    // Drop location picker
+    $('dropLocationArea').addEventListener('click', () => {
+      $('dropPickerModal').classList.add('show');
+      setTimeout(() => {
+        if (!dropPickerMap) {
+          dropPickerMap = L.map('dropPickerMap', { zoomControl: true }).setView([27.7172, 85.3240], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(dropPickerMap);
+          dropPickerMap.on('click', (e) => {
+            const { lat, lng } = e.latlng;
+            dropPickerLat = lat; dropPickerLng = lng;
+            if (dropPickerMarker) dropPickerMarker.setLatLng([lat, lng]);
+            else dropPickerMarker = L.marker([lat, lng], { icon: L.divIcon({ html: `<div style="background:#C8102E;color:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 3px 12px rgba(0,0,0,.3);border:3px solid white;"><i class="fas fa-map-pin"></i></div>`, iconSize: [36, 36], iconAnchor: [18, 36], className: '' }) }).addTo(dropPickerMap);
+            $('dropPickerCoords').textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+            $('dropPickerConfirm').disabled = false;
+          });
+        }
+        dropPickerMap.invalidateSize();
+      }, 200);
+    });
+
+    $('dropPickerClose').addEventListener('click', () => $('dropPickerModal').classList.remove('show'));
+    $('dropPickerCancel').addEventListener('click', () => $('dropPickerModal').classList.remove('show'));
+    $('dropPickerModal').addEventListener('click', (e) => { if (e.target === $('dropPickerModal')) $('dropPickerModal').classList.remove('show'); });
+    $('dropPickerConfirm').addEventListener('click', () => {
+      if (dropPickerLat === null || dropPickerLng === null) return;
+      $('dropLat').value = dropPickerLat;
+      $('dropLng').value = dropPickerLng;
+      $('dropLocationText').textContent = `${dropPickerLat.toFixed(5)}, ${dropPickerLng.toFixed(5)}`;
+      $('dropLocationText').style.color = '#166534';
+      $('dropPickerModal').classList.remove('show');
+    });
+
+    $('goodsSubmit').addEventListener('click', async () => {
+      const kg = parseFloat($('goodsKg').value);
+      const from = $('goodsFrom').value.trim();
+      const to = $('goodsTo').value.trim();
+      const desc = $('goodsDesc').value.trim();
+      const name = $('goodsName').value.trim();
+      const phone = $('goodsPhone').value.trim();
+      const vehicle = $('goodsVehicle').value;
+      const dropLat = parseFloat($('dropLat').value);
+      const dropLng = parseFloat($('dropLng').value);
+      if (!goodsPhotoUrl) { showToast('Add a photo of the goods'); return; }
+      if (!kg || kg <= 0) { showToast('Enter weight in kg'); return; }
+      if (!from) { showToast('Enter pick-up location'); return; }
+      if (!to) { showToast('Enter drop-off location'); return; }
+      if (!dropLat || !dropLng) { showToast('Pin the drop location on map'); return; }
+      if (!name) { showToast('Enter your name'); return; }
+      if (!phone) { showToast('Enter your phone'); return; }
+      $('goodsSubmit').disabled = true;
+      $('goodsSubmit').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      try {
+        const bus = buses.find(b => b.id === activeGoodsBusId);
+        await addDoc(collection(db, 'goods'), {
+          busId: activeGoodsBusId, busName: bus?.busName || '', busNo: bus?.busNo || '',
+          from, to, kg, vehicleType: vehicle, description: desc, photoUrl: goodsPhotoUrl,
+          dropLocation: { lat: dropLat, lng: dropLng },
+          senderUid: currentUser.uid, senderName: name, senderEmail: userProfile?.email || '',
+          senderPhone: phone, driverPhone: bus?.driverPhone || '', price: null,
+          paymentScreenshotUrl: null, status: 'pending', pickedUp: false, createdAt: serverTimestamp()
+        });
+        if (userProfile && !userProfile.phone) { try { await setDoc(doc(db, 'users', currentUser.uid), { phone }, { merge: true }); userProfile.phone = phone; } catch (e) {} }
+        $('goodsModal').classList.remove('show');
+        showToast('Goods request sent');
+        switchView('booking');
+        document.querySelectorAll('.booking-tab').forEach(x => x.classList.remove('active'));
+        const gt = document.querySelector('.booking-tab[data-btab="goods"]');
+        if (gt) gt.classList.add('active');
+        bookingSubTab = 'goods';
+        renderBookings();
+      } catch (err) { console.error(err); showToast('Failed to send'); }
+      finally { $('goodsSubmit').disabled = false; $('goodsSubmit').innerHTML = '<i class="fas fa-paper-plane"></i> Send Request'; }
+    });
+
+    /* ============ RENDER BOOKINGS (passenger) ============ */
+    function renderBookings() {
+      if (bookingSubTab === 'seats') renderSeatBookings();
+      else renderGoodsBookings();
+    }
+
+    function renderSeatBookings() {
+      $('bookingCount').textContent = myBookings.length === 0 ? '' : `${myBookings.length} booking${myBookings.length > 1 ? 's' : ''}`;
+      if (myBookings.length === 0) { $('bookingList').innerHTML = `<div class="empty"><i class="fas fa-ticket-alt"></i><h4>No seat bookings yet</h4><p>Your seat bookings will appear here.</p></div>`; return; }
+      $('bookingList').innerHTML = myBookings.map(b => {
+        const status = b.status || 'pending';
+        const statusCls = status === 'confirmed' ? 'confirmed' : status === 'cancelled' ? 'cancelled' : status === 'completed' ? 'completed' : status === 'priced' ? 'priced' : 'pending';
+        const seats = Array.isArray(b.seats) ? b.seats.join(', ') : '';
+        const vehicleType = b.vehicleType || 'Bus';
+        const busData = b._busData || {};
+        let trackHtml = '';
+        if (status === 'confirmed' || status === 'priced') {
+          const busLoc = busData.liveLocation;
+          const busStatus = busData.status || 'offline';
+          let kmHtml = '', coordsHtml = '', showPulse = false;
+          if (busLoc?.lat && busLoc?.lng && myLastLocation?.lat && myLastLocation?.lng) {
+            const km = distanceKm(myLastLocation.lat, myLastLocation.lng, busLoc.lat, busLoc.lng);
+            const kmDisplay = km < 1 ? (km * 1000).toFixed(0) + ' m' : km.toFixed(km < 10 ? 1 : 0);
+            kmHtml = `<div class="km-display"><span class="km-number">${kmDisplay}</span><span class="km-unit">${km < 1 ? '' : 'km'}</span><span class="km-label">left to reach you</span></div>`;
+            showPulse = true;
+          } else if (busLoc?.lat) kmHtml = `<div class="km-display"><span class="km-number">--</span><span class="km-label" style="margin-left:0;">Enable location</span></div>`;
+          else kmHtml = `<div class="km-display"><span class="km-number">--</span><span class="km-label" style="margin-left:0;">Waiting for driver</span></div>`;
+          if (busLoc?.lat && busLoc?.lng) coordsHtml = `<div class="live-coords"><i class="fas fa-map-marker-alt"></i><span>${busLoc.lat.toFixed(4)}, ${busLoc.lng.toFixed(4)}</span><span class="live-time">${timeAgo(busLoc.updatedAt)}</span></div>`;
+          trackHtml = `<div class="live-track"><div class="live-track-head">${showPulse ? '<span class="pulse-dot"></span>' : '<i class="fas fa-satellite-dish" style="color:var(--green);"></i>'}<span>${escapeHtml(vehicleType)} ${busStatus === 'driving' ? 'Live' : 'Offline'}</span><span class="km-badge ${busStatus === 'driving' ? '' : 'unknown'}">${busStatus === 'driving' ? 'On the way' : 'Not started'}</span></div>${kmHtml}${coordsHtml}<div class="track-actions"><button class="btn btn-green track-map-btn" data-bus-id="${b.busId}"><i class="fas fa-map-marked-alt"></i> Track on Map</button><a class="btn btn-call" href="tel:${(b.driverPhone || '').replace(/\D/g, '').length === 10 ? '+977' + (b.driverPhone || '').replace(/\D/g, '') : (b.driverPhone || '').replace(/\D/g, '') ? '+' + (b.driverPhone || '').replace(/\D/g, '') : '#'}"><i class="fas fa-phone"></i> Call</a></div></div>`;
+        }
+        let qrHtml = '';
+        if (status === 'confirmed' || status === 'priced') {
+          const qrUrl = busData.qrImageUrl || b.busQrImageUrl;
+          if (qrUrl) qrHtml = `<div class="booking-qr-block"><div class="bq-title"><i class="fas fa-qrcode"></i> Payment QR</div><div class="bq-content"><img class="bq-img" src="${escapeHtml(qrUrl)}" alt="QR" /><div class="bq-info"><div class="bq-line">Scan to pay</div><button class="bq-download-btn" data-qr-url="${escapeHtml(qrUrl)}" data-qr-name="${escapeHtml(b.busNo || 'vehicle')}-qr"><i class="fas fa-download"></i> Download QR</button></div></div></div>`;
+        }
+        return `<div class="booking-item"><div class="bi-head"><div class="bi-title"><i class="fas ${getVehicleIcon(vehicleType)}" style="color:var(--red);font-size:.85rem;"></i> ${escapeHtml(b.busName || 'Vehicle')}</div><span class="bi-status ${statusCls}">${escapeHtml(status)}</span></div><div class="bi-row"><span>Route</span><span class="val">${escapeHtml(b.from || '')} → ${escapeHtml(b.to || '')}</span></div><div class="bi-row"><span>Seats</span><span class="val">${escapeHtml(seats)}</span></div>${trackHtml}${qrHtml}${b.paymentScreenshotUrl ? `<a href="${escapeHtml(b.paymentScreenshotUrl)}" target="_blank" rel="noopener" style="font-size:.78rem;color:var(--red);font-weight:600;">View payment screenshot</a>` : ''}</div>`;
+      }).join('');
+      $('bookingList').querySelectorAll('.track-map-btn').forEach(btn => btn.addEventListener('click', () => openMapView(btn.dataset.busId)));
+      $('bookingList').querySelectorAll('.bq-download-btn').forEach(btn => btn.addEventListener('click', () => downloadQrImage(btn.dataset.qrUrl, btn.dataset.qrName)));
+    }
+
+    function renderGoodsBookings() {
+      $('bookingCount').textContent = myGoods.length === 0 ? '' : `${myGoods.length} request${myGoods.length > 1 ? 's' : ''}`;
+      if (myGoods.length === 0) { $('bookingList').innerHTML = `<div class="empty"><i class="fas fa-box"></i><h4>No goods requests yet</h4><p>Your goods transport requests will appear here.</p></div>`; return; }
+      $('bookingList').innerHTML = myGoods.map(g => {
+        const status = g.status || 'pending';
+        const statusCls = status === 'confirmed' ? 'confirmed' : status === 'cancelled' ? 'cancelled' : status === 'completed' ? 'completed' : status === 'priced' ? 'priced' : status === 'rejected' ? 'rejected' : 'pending';
+        const vehicleType = g.vehicleType || 'Bus';
+        const busData = g._busData || {};
+        const statusLabel = status === 'pending' ? 'Waiting for price' : status === 'priced' ? 'Price set' : status === 'confirmed' ? 'Confirmed' : status === 'completed' ? 'Delivered' : status === 'rejected' ? 'Rejected' : status === 'cancelled' ? 'Cancelled' : status;
+        let statusBanner = '';
+        if (status === 'pending') statusBanner = `<div class="status-banner pending"><i class="fas fa-clock"></i><div>Waiting for price from bus admin.</div></div>`;
+        else if (status === 'priced' && !g.paymentScreenshotUrl) statusBanner = `<div class="status-banner priced"><i class="fas fa-tag"></i><div>Price <b>Rs. ${escapeHtml(String(g.price))}</b>. Please pay and upload screenshot.</div></div>`;
+        else if (status === 'priced' && g.paymentScreenshotUrl) statusBanner = `<div class="status-banner priced"><i class="fas fa-hourglass-half"></i><div>Waiting for bus admin to accept.</div></div>`;
+        else if (status === 'confirmed') statusBanner = `<div class="status-banner confirmed"><i class="fas fa-check-circle"></i><div>Confirmed! Track below.</div></div>`;
+        else if (status === 'rejected') statusBanner = `<div class="status-banner rejected"><i class="fas fa-times-circle"></i><div>Rejected. ${g.rejectReason ? escapeHtml(g.rejectReason) : ''}</div></div>`;
+        else if (status === 'completed') statusBanner = `<div class="status-banner confirmed"><i class="fas fa-flag-checkered"></i><div>Delivered!</div></div>`;
+        let priceBlock = '';
+        if (g.price) priceBlock = `<div style="background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border:1px solid #BBF7D0;border-radius:12px;padding:12px;"><div style="font-size:.78rem;font-weight:700;color:#166534;"><i class="fas fa-tag"></i> Price</div><div style="font-size:1.4rem;font-weight:800;color:#166534;padding:4px 0;">Rs. ${escapeHtml(String(g.price))}</div></div>`;
+        let paymentBlock = '';
+        if (status === 'priced' && !g.paymentScreenshotUrl) {
+          const qrUrl = busData.qrImageUrl || g.busQrImageUrl;
+          paymentBlock = `${qrUrl ? `<div class="booking-qr-block"><div class="bq-title"><i class="fas fa-qrcode"></i> Payment QR</div><div class="bq-content"><img class="bq-img" src="${escapeHtml(qrUrl)}" alt="QR" /><div class="bq-info"><div class="bq-line">Scan to pay Rs. ${escapeHtml(String(g.price))}</div><button class="bq-download-btn" data-qr-url="${escapeHtml(qrUrl)}" data-qr-name="goods-payment-qr"><i class="fas fa-download"></i> Download QR</button></div></div></div>` : ''}<div class="payment-upload-box"><div class="pub-title"><i class="fas fa-camera"></i> Upload payment screenshot</div><div class="pub-area" data-upload-for="${g.id}"><i class="fas fa-cloud-upload-alt"></i><div>Tap to upload</div></div><input type="file" accept="image/*" data-upload-file="${g.id}" style="display:none;" /></div>`;
+        }
+        let screenshotBlock = '';
+        if (g.paymentScreenshotUrl) screenshotBlock = `<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;"><div style="font-size:.78rem;font-weight:700;color:#166534;margin-bottom:8px;"><i class="fas fa-check-circle"></i> Payment sent</div><a href="${escapeHtml(g.paymentScreenshotUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(g.paymentScreenshotUrl)}" style="max-height:180px;border-radius:8px;border:1px solid var(--border);background:white;" /></a></div>`;
+        let dropPinHtml = '';
+        if (g.dropLocation?.lat && g.dropLocation?.lng) dropPinHtml = `<div class="loc-chip"><i class="fas fa-map-pin pin"></i><div class="loc-text">Drop: ${g.dropLocation.lat.toFixed(4)}, ${g.dropLocation.lng.toFixed(4)}</div><a class="loc-btn" href="https://www.google.com/maps/search/?api=1&query=${g.dropLocation.lat},${g.dropLocation.lng}" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i></a></div>`;
+        let trackHtml = '';
+        if (status === 'confirmed') {
+          const busLoc = busData.liveLocation;
+          const busStatus = busData.status || 'offline';
+          let kmHtml = '', showPulse = false;
+          if (busLoc?.lat && myLastLocation?.lat) {
+            const km = distanceKm(myLastLocation.lat, myLastLocation.lng, busLoc.lat, busLoc.lng);
+            kmHtml = `<div class="km-display"><span class="km-number">${km < 1 ? (km * 1000).toFixed(0) + ' m' : km.toFixed(km < 10 ? 1 : 0)}</span><span class="km-unit">${km < 1 ? '' : 'km'}</span><span class="km-label">left to you</span></div>`;
+            showPulse = true;
+          } else kmHtml = `<div class="km-display"><span class="km-number">--</span></div>`;
+          trackHtml = `<div class="live-track"><div class="live-track-head">${showPulse ? '<span class="pulse-dot"></span>' : '<i class="fas fa-satellite-dish"></i>'}<span>${escapeHtml(vehicleType)} ${busStatus === 'driving' ? 'Live' : 'Offline'}</span><span class="km-badge ${busStatus === 'driving' ? '' : 'unknown'}">${busStatus === 'driving' ? 'On the way' : 'Not started'}</span></div>${kmHtml}<div class="track-actions"><button class="btn btn-green track-map-btn" data-bus-id="${g.busId}"><i class="fas fa-map-marked-alt"></i> Track</button><a class="btn btn-call" href="tel:${(g.driverPhone || '').replace(/\D/g, '').length === 10 ? '+977' + (g.driverPhone || '').replace(/\D/g, '') : (g.driverPhone || '').replace(/\D/g, '') ? '+' + (g.driverPhone || '').replace(/\D/g, '') : '#'}"><i class="fas fa-phone"></i> Call</a></div></div>`;
+        }
+        return `<div class="booking-item"><div class="bi-head"><div class="bi-title"><i class="fas ${getVehicleIcon(vehicleType)}" style="color:var(--red);font-size:.85rem;"></i> ${escapeHtml(vehicleType)} goods</div><span class="bi-status ${statusCls}">${escapeHtml(statusLabel)}</span></div>${statusBanner}${g.photoUrl ? `<img class="goods-thumb" src="${escapeHtml(g.photoUrl)}" alt="Goods" />` : ''}<div class="bi-row"><span>Route</span><span class="val">${escapeHtml(g.from || '')} → ${escapeHtml(g.to || '')}</span></div><div class="bi-row"><span>Weight</span><span class="val">${escapeHtml(String(g.kg || ''))} kg</span></div>${dropPinHtml}${priceBlock}${paymentBlock}${screenshotBlock}${trackHtml}</div>`;
+      }).join('');
+      $('bookingList').querySelectorAll('[data-upload-for]').forEach(area => {
+        area.addEventListener('click', () => {
+          const id = area.dataset.uploadFor;
+          const fi = $('bookingList').querySelector(`[data-upload-file="${id}"]`);
+          if (fi) fi.click();
+        });
+      });
+      $('bookingList').querySelectorAll('[data-upload-file]').forEach(input => {
+        input.addEventListener('change', async () => {
+          const id = input.dataset.uploadFile;
+          const file = input.files?.[0];
+          if (!file) return;
+          if (file.size > 5 * 1024 * 1024) { showToast('Image under 5MB'); return; }
+          showToast('Uploading...');
+          try {
+            const fd = new FormData();
+            fd.append('image', file);
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.success && data.data?.url) {
+              await updateDoc(doc(db, 'goods', id), { paymentScreenshotUrl: data.data.url, paymentUploadedAt: serverTimestamp() });
+              showToast('Payment screenshot sent');
+            } else showToast('Upload failed');
+          } catch (e) { showToast('Upload failed'); }
+        });
+      });
+      $('bookingList').querySelectorAll('.track-map-btn').forEach(btn => btn.addEventListener('click', () => openMapView(btn.dataset.busId)));
+      $('bookingList').querySelectorAll('.bq-download-btn').forEach(btn => btn.addEventListener('click', () => downloadQrImage(btn.dataset.qrUrl, btn.dataset.qrName)));
+    }
+
+    /* ============ BUS ADMIN RENDER ============ */
+    document.querySelectorAll('[data-btab2]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('[data-btab2]').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        busAdminTab = tab.dataset.btab2;
+        renderBusAdminTab();
+      });
+    });
+
+    function renderBusAdmin() {
+      renderBusAdminIncome();
+      renderBusAdminStats();
+      renderBusAdminTab();
+    }
+
+    function renderBusAdminIncome() {
+      $('busAdminWelcome').textContent = `Signed in as ${userProfile?.email || ''}`;
+      const busMap = {};
+      adminBuses.forEach(b => { busMap[b.id] = b; });
+      const allBookings = [...adminBookings, ...adminCompletedBookings];
+      const allGoods = [...adminGoods, ...adminCompletedGoods];
+      function calc(bookings, goods) {
+        let seatRev = 0, pax = 0, goodsRev = 0, goodsCount = 0;
+        bookings.forEach(b => {
+          if (b.status !== 'confirmed') return;
+          const sc = Array.isArray(b.seats) ? b.seats.length : 0;
+          let p = parseInt(b.price);
+          if (!p || p <= 0) { const bus = busMap[b.busId]; p = bus ? (parseInt(bus.price) || 0) : 0; }
+          seatRev += p * sc; pax += sc;
+        });
+        goods.forEach(g => { if (g.status !== 'confirmed') return; goodsRev += parseInt(g.price) || 0; goodsCount += 1; });
+        return { seatRev, pax, goodsRev, goodsCount, feeDue: (pax * FEE_PER_PASSENGER) + (goodsCount * FEE_PER_GOODS) };
+      }
+      const all = calc(allBookings, allGoods);
+      const todayBookings = allBookings.filter(b => isSameDay(b.createdAt));
+      const todayGoods = allGoods.filter(g => isSameDay(g.createdAt));
+      const today = calc(todayBookings, todayGoods);
+      $('busIncomeGrid').innerHTML = `
+        <div class="income-card"><div class="ic-label"><i class="fas fa-wallet"></i> Total Income</div><div class="ic-value">${formatRs(all.seatRev + all.goodsRev)}</div><div class="ic-sub">${all.pax} seats · ${all.goodsCount} goods</div></div>
+        <div class="income-card green"><div class="ic-label"><i class="fas fa-calendar-day"></i> Today</div><div class="ic-value">${formatRs(today.seatRev + today.goodsRev)}</div><div class="ic-sub">${today.pax} seats · ${today.goodsCount} goods</div></div>
+        <div class="income-card red"><div class="ic-label"><i class="fas fa-exclamation-circle"></i> Due to Sajilo</div><div class="ic-value">${formatRs(all.feeDue)}</div><div class="ic-sub">Rs 5 × (${all.pax} + ${all.goodsCount})</div></div>`;
+    }
+
+    function renderBusAdminStats() {
+      const pendingS = adminBookings.filter(b => b.status === 'pending').length;
+      const pendingG = adminGoods.filter(g => g.status === 'pending').length;
+      const confS = adminBookings.filter(b => b.status === 'confirmed').length;
+      const confG = adminGoods.filter(g => g.status === 'confirmed').length;
+      $('busStatsGrid').innerHTML = `
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-bus"></i></div><div class="stat-label">My Vehicles</div><div class="stat-value">${adminBuses.length}</div></div>
+        <div class="stat-card blue"><div class="stat-icon"><i class="fas fa-ticket-alt"></i></div><div class="stat-label">Active Seats</div><div class="stat-value">${adminBookings.length}</div></div>
+        <div class="stat-card green"><div class="stat-icon"><i class="fas fa-check"></i></div><div class="stat-label">Confirmed</div><div class="stat-value">${confS + confG}</div></div>
+        <div class="stat-card yellow"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-label">Pending</div><div class="stat-value">${pendingS + pendingG}</div></div>`;
+      $('bTabBuses').textContent = adminBuses.length;
+      $('bTabBookings').textContent = adminBookings.length;
+      $('bTabGoods').textContent = adminGoods.length;
+      $('bTabCompleted').textContent = adminCompletedBookings.length + adminCompletedGoods.length;
+      const gt = document.querySelector('.tab[data-btab2="goods"] .tab-count');
+      if (gt) { if (pendingG > 0) gt.classList.add('new'); else gt.classList.remove('new'); }
+    }
+
+    function renderBusAdminTab() {
+      const el = $('busAdminTabContent');
+      if (busAdminTab === 'buses') renderAdminBusesTab(el);
+      else if (busAdminTab === 'bookings') renderAdminBookingsTab(el);
+      else if (busAdminTab === 'goods') renderAdminGoodsTab(el);
+      else if (busAdminTab === 'completed') renderAdminCompletedTab(el);
+    }
+
+    /* ---------- MY VEHICLES ---------- */
+    function renderAdminBusesTab(el) {
+      const activeBuses = adminBuses.filter(b => !b.tripCompleted);
+      const completedBuses = adminBuses.filter(b => b.tripCompleted);
+      let html = `<div style="display:flex;justify-content:flex-end;margin-bottom:12px;"><button class="btn btn-primary" id="addBusBtn" style="max-width:180px;padding:12px 18px;border-radius:10px;font-weight:700;font-size:.88rem;display:inline-flex;align-items:center;gap:7px;"><i class="fas fa-plus"></i> Add Vehicle</button></div>`;
+      if (activeBuses.length === 0) html += `<div class="empty"><i class="fas fa-bus"></i><h4>No active vehicles</h4><p>Add your first vehicle.</p></div>`;
+      else {
+        html += `<div class="section-head-mini"><h3><span class="section-icon"><i class="fas fa-bus"></i></span> Active</h3><span class="section-count">${activeBuses.length}</span></div><div class="item-list">`;
+        activeBuses.forEach(bus => { html += renderAdminBusCard(bus); });
+        html += `</div>`;
+      }
+      if (completedBuses.length > 0) {
+        html += `<div class="section-head-mini" style="margin-top:24px;"><h3><span class="section-icon"><i class="fas fa-check-double"></i></span> Completed</h3><span class="section-count">${completedBuses.length}</span></div><div class="item-list">`;
+        completedBuses.forEach(bus => { html += renderAdminBusCard(bus, true); });
+        html += `</div>`;
+      }
+      el.innerHTML = html;
+      const addBtn = $('addBusBtn');
+      if (addBtn) addBtn.addEventListener('click', () => openBusModal());
+      el.querySelectorAll('.edit-bus').forEach(b => b.addEventListener('click', () => openBusModal(b.dataset.id)));
+      el.querySelectorAll('.del-bus').forEach(b => b.addEventListener('click', async () => {
+        if (!confirm('Delete this vehicle?')) return;
+        try { await deleteDoc(doc(db, 'buses', b.dataset.id)); showToast('Deleted'); } catch (e) { showToast('Failed'); }
+      }));
+      el.querySelectorAll('.toggle-live').forEach(b => b.addEventListener('click', () => {
+        const bus = adminBuses.find(x => x.id === b.dataset.id);
+        if (!bus) return;
+        toggleBusLiveStatus(b.dataset.id, bus.status === 'driving' ? 'stopped' : 'driving');
+      }));
+      el.querySelectorAll('.complete-trip-btn').forEach(b => b.addEventListener('click', () => openCompleteModal(b.dataset.id)));
+      el.querySelectorAll('.new-trip-btn').forEach(b => b.addEventListener('click', async () => {
+        try { await updateDoc(doc(db, 'buses', b.dataset.id), { tripCompleted: false, tripCompletedAt: null, bookedSeats: [] }); showToast('New trip started'); } catch (e) { showToast('Failed'); }
+      }));
+    }
+
+    function renderAdminBusCard(bus, isCompleted = false) {
+      const bookings = adminBookings.filter(b => b.busId === bus.id).concat(isCompleted ? adminCompletedBookings.filter(b => b.busId === bus.id) : []);
+      const goods = adminGoods.filter(g => g.busId === bus.id).concat(isCompleted ? adminCompletedGoods.filter(g => g.busId === bus.id) : []);
+      const confB = bookings.filter(b => b.status === 'confirmed');
+      const pendB = bookings.filter(b => b.status === 'pending');
+      const confG = goods.filter(g => g.status === 'confirmed');
+      const pendG = goods.filter(g => g.status === 'pending');
+      const seatPrice = parseInt(bus.price) || 0;
+      let tripRev = 0, tripPax = 0;
+      confB.forEach(b => { const sc = Array.isArray(b.seats) ? b.seats.length : 0; let p = parseInt(b.price); if (!p || p <= 0) p = seatPrice; tripRev += p * sc; tripPax += sc; });
+      let goodsRev = 0; confG.forEach(g => { goodsRev += parseInt(g.price) || 0; });
+      const tripFee = (tripPax * FEE_PER_PASSENGER) + (confG.length * FEE_PER_GOODS);
+      const status = bus.status || 'stopped';
+      const vehicleType = bus.vehicleType || 'Bus';
+      const img = bus.imageUrl ? `<img src="${escapeHtml(bus.imageUrl)}" alt="" />` : `<i class="fas ${getVehicleIcon(vehicleType)}" style="color:var(--red);font-size:1.2rem;"></i>`;
+      const completedTag = isCompleted ? `<span class="completed-tag"><i class="fas fa-check-double"></i> Completed</span>` : `<span class="badge ${status}" style="display:inline-flex;align-items:center;gap:5px;font-size:.68rem;padding:4px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.3px;background:${status === 'driving' ? 'var(--green-soft)' : '#FEE2E2'};color:${status === 'driving' ? '#166534' : 'var(--red)'};">${status}</span>`;
+      const totalItems = confB.length + pendB.length + confG.length + pendG.length;
+      let chipsHtml = '';
+      if (totalItems > 0) {
+        chipsHtml += `<div class="booking-chips-title"><i class="fas fa-users"></i> Items (${totalItems})</div><div class="booking-chips">`;
+        confB.forEach(b => { const seats = Array.isArray(b.seats) ? b.seats.join(',') : ''; chipsHtml += `<div class="booking-chip"><i class="fas fa-user"></i> ${escapeHtml((b.passengerName || 'P').split(' ')[0])} <span class="chip-seat">${escapeHtml(seats)}</span></div>`; });
+        confG.forEach(g => { chipsHtml += `<div class="booking-chip goods"><i class="fas fa-box"></i> ${escapeHtml((g.senderName || 'G').split(' ')[0])} <span class="chip-seat">${escapeHtml(String(g.kg))}kg</span></div>`; });
+        pendB.forEach(b => { const seats = Array.isArray(b.seats) ? b.seats.join(',') : ''; chipsHtml += `<div class="booking-chip pending"><i class="fas fa-clock"></i> ${escapeHtml((b.passengerName || 'P').split(' ')[0])} <span class="chip-seat">${escapeHtml(seats)}</span></div>`; });
+        pendG.forEach(g => { chipsHtml += `<div class="booking-chip pending"><i class="fas fa-clock"></i> ${escapeHtml((g.senderName || 'G').split(' ')[0])} <span class="chip-seat">${escapeHtml(String(g.kg))}kg</span></div>`; });
+        chipsHtml += `</div>`;
+      } else chipsHtml = `<div class="waiting-box" style="padding:14px;"><span>No items${isCompleted ? ' on this trip' : ''}</span></div>`;
+      let footerHtml = isCompleted
+        ? `<button class="btn btn-outline new-trip-btn" data-id="${bus.id}"><i class="fas fa-redo"></i> New Trip</button><button class="btn btn-outline edit-bus" data-id="${bus.id}"><i class="fas fa-edit"></i> Edit</button>`
+        : `<button class="btn btn-outline toggle-live" data-id="${bus.id}" style="${status === 'driving' ? 'background:#DCFCE7;color:#166534;border-color:#BBF7D0;' : ''}"><i class="fas fa-satellite-dish"></i> ${status === 'driving' ? 'Live ON' : 'Go Live'}</button><button class="btn btn-outline edit-bus" data-id="${bus.id}"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-outline del-bus" data-id="${bus.id}" style="color:var(--red);border-color:#FECACA;"><i class="fas fa-trash"></i></button>`;
+      let completeBanner = '';
+      if (!isCompleted && totalItems > 0) completeBanner = `<div style="background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:1px solid #FCD34D;border-radius:12px;padding:12px;margin-top:10px;display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;background:#92400E;color:white;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;"><i class="fas fa-flag-checkered"></i></div><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:.85rem;color:#78350F;">Complete trip?</div><div style="font-size:.75rem;color:#92400E;margin-top:2px;">${tripPax} pax · ${confG.length} goods · Fee ${formatRs(tripFee)}</div></div><button class="complete-trip-btn" data-id="${bus.id}" style="background:#92400E;color:white;padding:10px 16px;border-radius:10px;font-weight:700;font-size:.82rem;display:inline-flex;align-items:center;gap:6px;flex-shrink:0;"><i class="fas fa-check"></i> Complete</button></div>`;
+      return `<div class="bus-card-full ${isCompleted ? 'completed' : ''}"><div class="bcf-head"><div class="avatar bus-avatar" style="width:44px;height:44px;border-radius:10px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">${img}</div><div class="info" style="flex:1;min-width:0;"><div class="title" style="font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">${escapeHtml(bus.busName || 'Vehicle')} ${completedTag}</div><div class="sub" style="font-size:.78rem;color:var(--text-soft);margin-top:2px;">${escapeHtml(bus.busNo || '')} · ${escapeHtml(bus.from || '')} → ${escapeHtml(bus.to || '')} · ${formatRs(seatPrice)}/seat</div></div></div><div class="bcf-body"><div class="bus-income-grid"><div class="bus-income-item green"><div class="bi-label">Trip Revenue</div><div class="bi-val">${formatRs(tripRev + goodsRev)}</div></div><div class="bus-income-item red"><div class="bi-label">Fee to Sajilo</div><div class="bi-val">${formatRs(tripFee)}</div></div></div>${chipsHtml}${completeBanner}</div><div class="bcf-footer">${footerHtml}</div></div>`;
+    }
+
+    /* ---------- SEAT BOOKINGS (with collapsible pickup groups) ---------- */
+    function renderAdminBookingsTab(el) {
+      if (adminBookings.length === 0) { el.innerHTML = `<div class="empty"><i class="fas fa-ticket-alt"></i><h4>No active seat bookings</h4><p>New bookings appear here.</p></div>`; return; }
+      const notPicked = adminBookings.filter(b => b.status !== 'cancelled' && b.status !== 'completed' && !b.pickedUp);
+      const picked = adminBookings.filter(b => b.pickedUp === true && b.status !== 'cancelled' && b.status !== 'completed');
+      let html = '';
+      html += `<div class="collapse-head open" data-toggle-collapse="npu"><div class="ch-icon yellow"><i class="fas fa-map-marker-alt"></i></div><div class="ch-body"><div class="ch-title">Waiting for pickup</div><div class="ch-sub">${notPicked.length} passenger${notPicked.length !== 1 ? 's' : ''}</div></div><span class="ch-count">${notPicked.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body open" data-body="npu"><div class="collapse-body-inner">`;
+      if (notPicked.length === 0) html += `<div style="text-align:center;padding:16px;color:var(--text-soft);font-size:.82rem;">No passengers waiting</div>`;
+      else { notPicked.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0)); notPicked.forEach(b => { html += renderCompactSeatItem(b); }); }
+      html += `</div></div>`;
+      html += `<div class="collapse-head" data-toggle-collapse="pu" style="margin-top:14px;"><div class="ch-icon green"><i class="fas fa-check-circle"></i></div><div class="ch-body"><div class="ch-title">Picked up</div><div class="ch-sub">${picked.length} on board</div></div><span class="ch-count" style="background:var(--green-soft);color:#166534;">${picked.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body" data-body="pu"><div class="collapse-body-inner">`;
+      if (picked.length === 0) html += `<div style="text-align:center;padding:16px;color:var(--text-soft);font-size:.82rem;">None picked up yet</div>`;
+      else picked.forEach(b => { html += renderCompactSeatItem(b); });
+      html += `</div></div>`;
+      el.innerHTML = html;
+
+      el.querySelectorAll('[data-toggle-collapse]').forEach(head => {
+        head.addEventListener('click', () => {
+          const key = head.dataset.toggleCollapse;
+          const body = el.querySelector(`[data-body="${key}"]`);
+          head.classList.toggle('open');
+          body.classList.toggle('open');
+        });
+      });
+      el.querySelectorAll('[data-toggle-pickup]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const bookingId = btn.dataset.togglePickup;
+          const wasPicked = btn.dataset.picked === 'true';
+          const newPicked = !wasPicked;
+          btn.disabled = true;
+          try {
+            await updateDoc(doc(db, 'bookings', bookingId), { pickedUp: newPicked, pickedUpAt: newPicked ? serverTimestamp() : null });
+            showToast(newPicked ? 'Marked picked up' : 'Marked not picked');
+          } catch (e) { showToast('Failed'); }
+          btn.disabled = false;
+        });
+      });
+      el.querySelectorAll('[data-open-booking]').forEach(btn => btn.addEventListener('click', () => openBookingModal(btn.dataset.openBooking)));
+    }
+
+    function renderCompactSeatItem(b) {
+      const seats = Array.isArray(b.seats) ? b.seats.join(', ') : '';
+      const picked = b.pickedUp === true;
+      const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+      const seatPrice = parseInt(b.price) || 0;
+      const revenue = seatPrice * seatCount;
+      const loc = b.passengerUid ? passengerLocations[b.passengerUid] : null;
+      const phone = (b.passengerPhone || '').replace(/\D/g, '');
+      const callHref = phone ? `tel:${phone.length === 10 && phone.startsWith('9') ? '+977' + phone : '+' + phone}` : '#';
+      const waNum = phone.length === 10 && phone.startsWith('9') ? '977' + phone : phone;
+      const initial = (b.passengerName || 'P').charAt(0).toUpperCase();
+      let locationHtml = '';
+      if (picked) locationHtml = `<div style="font-size:.75rem;color:var(--text-soft);display:flex;align-items:center;gap:6px;padding:4px 0;"><i class="fas fa-eye-slash"></i> Location hidden</div>`;
+      else if (loc?.lat && loc?.lng) locationHtml = `<div class="loc-chip"><i class="fas fa-map-marker-alt pin"></i><div class="loc-text">${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)}</div><span class="loc-time">${timeAgo(loc.updatedAt)}</span><a class="loc-btn" href="https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i></a>${waNum ? `<a class="loc-btn wa" href="https://wa.me/${waNum}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>` : ''}</div>`;
+      else locationHtml = `<div style="font-size:.75rem;color:var(--text-soft);display:flex;align-items:center;gap:6px;padding:4px 0;"><i class="fas fa-map-marker-slash"></i> Location not shared</div>`;
+      return `<div class="compact-item"><div class="ci-top"><div class="ci-avatar ${picked ? 'green' : ''}">${initial}</div><div class="ci-info"><div class="ci-name">${escapeHtml(b.passengerName || 'Passenger')}</div><div class="ci-sub">Seats ${escapeHtml(seats)} · ${formatRs(revenue)}</div></div><span class="status-pill-sm ${picked ? 'picked' : 'notpicked'}"><i class="fas ${picked ? 'fa-check-circle' : 'fa-hourglass-half'}"></i>${picked ? 'Picked' : 'Waiting'}</span></div>${locationHtml}<div class="quick-actions"><a class="quick-btn blue-light" href="${escapeHtml(callHref)}" ${!phone ? 'onclick="return false;"' : ''}><i class="fas fa-phone"></i> Call</a><button class="quick-btn ${picked ? 'gray' : 'green'}" data-toggle-pickup="${b.id}" data-picked="${picked}"><i class="fas ${picked ? 'fa-undo' : 'fa-check'}"></i>${picked ? 'Undo' : 'Pick up'}</button><button class="quick-btn gray icon-only" data-open-booking="${b.id}"><i class="fas fa-info-circle"></i></button></div></div>`;
+    }
+
+    /* ---------- GOODS (with collapsible groups + drop location pin) ---------- */
+    function renderAdminGoodsTab(el) {
+      if (adminGoods.length === 0) { el.innerHTML = `<div class="empty"><i class="fas fa-box"></i><h4>No goods requests</h4><p>New goods requests will appear here.</p></div>`; return; }
+      const pending = adminGoods.filter(g => g.status === 'pending');
+      const pricedNoShot = adminGoods.filter(g => g.status === 'priced' && !g.paymentScreenshotUrl);
+      const pricedWithShot = adminGoods.filter(g => g.status === 'priced' && g.paymentScreenshotUrl);
+      const confirmed = adminGoods.filter(g => g.status === 'confirmed');
+      let html = '';
+      if (pending.length > 0) {
+        html += `<div class="collapse-head open" data-toggle-collapse="gnew"><div class="ch-icon yellow"><i class="fas fa-tag"></i></div><div class="ch-body"><div class="ch-title">New requests</div><div class="ch-sub">Set price for ${pending.length}</div></div><span class="ch-count">${pending.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body open" data-body="gnew"><div class="collapse-body-inner">`;
+        pending.forEach(g => { html += renderCompactGoodsItem(g, 'new'); });
+        html += `</div></div>`;
+      }
+      if (pricedNoShot.length > 0) {
+        html += `<div class="collapse-head ${pending.length > 0 ? '' : 'open'}" data-toggle-collapse="gwait" style="${pending.length > 0 ? 'margin-top:14px;' : ''}"><div class="ch-icon blue"><i class="fas fa-hourglass-half"></i></div><div class="ch-body"><div class="ch-title">Awaiting payment</div><div class="ch-sub">${pricedNoShot.length} waiting for screenshot</div></div><span class="ch-count" style="background:var(--blue-soft);color:#1E40AF;">${pricedNoShot.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body ${pending.length > 0 ? '' : 'open'}" data-body="gwait"><div class="collapse-body-inner">`;
+        pricedNoShot.forEach(g => { html += renderCompactGoodsItem(g, 'waiting'); });
+        html += `</div></div>`;
+      }
+      if (pricedWithShot.length > 0) {
+        html += `<div class="collapse-head open" data-toggle-collapse="gshot" style="margin-top:14px;"><div class="ch-icon red"><i class="fas fa-camera"></i></div><div class="ch-body"><div class="ch-title">Payment received</div><div class="ch-sub">${pricedWithShot.length} need approval</div></div><span class="ch-count">${pricedWithShot.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body open" data-body="gshot"><div class="collapse-body-inner">`;
+        pricedWithShot.forEach(g => { html += renderCompactGoodsItem(g, 'verify'); });
+        html += `</div></div>`;
+      }
+      if (confirmed.length > 0) {
+        html += `<div class="collapse-head ${pending.length === 0 && pricedNoShot.length === 0 && pricedWithShot.length === 0 ? 'open' : ''}" data-toggle-collapse="gconf" style="${pending.length > 0 || pricedNoShot.length > 0 || pricedWithShot.length > 0 ? 'margin-top:14px;' : ''}"><div class="ch-icon green"><i class="fas fa-truck"></i></div><div class="ch-body"><div class="ch-title">In transit</div><div class="ch-sub">${confirmed.length} on the way</div></div><span class="ch-count" style="background:var(--green-soft);color:#166534;">${confirmed.length}</span><i class="fas fa-chevron-down ch-chevron"></i></div><div class="collapse-body" data-body="gconf"><div class="collapse-body-inner">`;
+        confirmed.forEach(g => { html += renderCompactGoodsItem(g, 'transit'); });
+        html += `</div></div>`;
+      }
+      el.innerHTML = html;
+
+      el.querySelectorAll('[data-toggle-collapse]').forEach(head => {
+        head.addEventListener('click', () => {
+          const key = head.dataset.toggleCollapse;
+          const body = el.querySelector(`[data-body="${key}"]`);
+          head.classList.toggle('open');
+          body.classList.toggle('open');
+        });
+      });
+      el.querySelectorAll('[data-set-price]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.setPrice;
+          const input = el.querySelector(`[data-price-input="${id}"]`);
+          if (!input) return;
+          const val = parseInt(input.value);
+          if (!val || val <= 0) { showToast('Enter a price'); return; }
+          btn.disabled = true;
+          try {
+            await updateDoc(doc(db, 'goods', id), { price: val, status: 'priced', pricedAt: serverTimestamp() });
+            showToast('Price sent');
+          } catch (e) { showToast('Failed'); }
+          btn.disabled = false;
+        });
+      });
+      el.querySelectorAll('[data-confirm-goods]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.confirmGoods;
+          btn.disabled = true;
+          try { await updateDoc(doc(db, 'goods', id), { status: 'confirmed', confirmedAt: serverTimestamp(), feePerGoods: FEE_PER_GOODS }); showToast('Confirmed'); }
+          catch (e) { showToast('Failed'); }
+          btn.disabled = false;
+        });
+      });
+      el.querySelectorAll('[data-reject-goods]').forEach(btn => {
+        btn.addEventListener('click', () => { activeRejectGoodsId = btn.dataset.rejectGoods; $('rejectReason').value = ''; $('rejectModal').classList.add('show'); });
+      });
+      el.querySelectorAll('[data-toggle-goods-pickup]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.toggleGoodsPickup;
+          const wasPicked = btn.dataset.picked === 'true';
+          const newPicked = !wasPicked;
+          try { await updateDoc(doc(db, 'goods', id), { pickedUp: newPicked, pickedUpAt: newPicked ? serverTimestamp() : null }); showToast(newPicked ? 'Picked up' : 'Not picked'); }
+          catch (e) { showToast('Failed'); }
+        });
+      });
+      el.querySelectorAll('[data-complete-goods]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Mark as delivered?')) return;
+          const id = btn.dataset.completeGoods;
+          try { await updateDoc(doc(db, 'goods', id), { status: 'completed', completedAt: serverTimestamp(), completed: true }); showToast('Delivered'); }
+          catch (e) { showToast('Failed'); }
+        });
+      });
+    }
+
+    function renderCompactGoodsItem(g, mode) {
+      const vehicleType = g.vehicleType || 'Bus';
+      const picked = g.pickedUp === true;
+      const initial = (g.senderName || 'G').charAt(0).toUpperCase();
+      const phone = (g.senderPhone || '').replace(/\D/g, '');
+      const callHref = phone ? `tel:${phone.length === 10 && phone.startsWith('9') ? '+977' + phone : '+' + phone}` : '#';
+      const waNum = phone.length === 10 && phone.startsWith('9') ? '977' + phone : phone;
+
+      let topHtml = `<div class="ci-top"><div class="ci-avatar ${mode === 'transit' ? 'green' : ''}">${initial}</div><div class="ci-info"><div class="ci-name">${escapeHtml(g.senderName || 'Sender')}</div><div class="ci-sub">${escapeHtml(g.from || '')} → ${escapeHtml(g.to || '')} · ${escapeHtml(String(g.kg))}kg</div></div>`;
+      if (mode === 'transit') topHtml += `<span class="status-pill-sm ${picked ? 'picked' : 'notpicked'}"><i class="fas ${picked ? 'fa-check-circle' : 'fa-truck'}"></i>${picked ? 'Picked' : 'In transit'}</span>`;
+      topHtml += `</div>`;
+
+      let imageHtml = g.photoUrl ? `<img class="goods-mini" src="${escapeHtml(g.photoUrl)}" alt="Goods" />` : '';
+
+      let dropHtml = '';
+      if (g.dropLocation?.lat && g.dropLocation?.lng) {
+        dropHtml = `<div class="loc-chip" style="background:#FEF3C7;border-color:#FCD34D;color:#78350F;"><i class="fas fa-map-pin pin" style="color:#92400E;"></i><div class="loc-text" style="color:#78350F;">Drop: ${g.dropLocation.lat.toFixed(4)}, ${g.dropLocation.lng.toFixed(4)}</div><a class="loc-btn" style="color:#92400E;border-color:#FCD34D;" href="https://www.google.com/maps/search/?api=1&query=${g.dropLocation.lat},${g.dropLocation.lng}" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i></a></div>`;
+      }
+
+      let infoHtml = `<div class="mini-rows">`;
+      infoHtml += `<div class="r"><span>Vehicle</span><span class="v">${escapeHtml(g.vehicleType || 'Bus')}</span></div>`;
+      if (g.description) infoHtml += `<div class="r"><span>Desc</span><span class="v">${escapeHtml(g.description)}</span></div>`;
+      if (g.price) infoHtml += `<div class="r"><span>Price</span><span class="v green">${formatRs(g.price)}</span></div>`;
+      infoHtml += `</div>`;
+
+      let actionHtml = '';
+      if (mode === 'new') {
+        actionHtml = `<div class="price-input-area"><div class="pi-title"><i class="fas fa-tag"></i> Set price</div><div class="pi-row"><input type="number" placeholder="Rs." min="0" data-price-input="${g.id}" /><button class="pi-btn" data-set-price="${g.id}"><i class="fas fa-paper-plane"></i> Send</button></div></div><div class="quick-actions"><button class="quick-btn red-light" data-reject-goods="${g.id}"><i class="fas fa-times"></i> Reject</button></div>`;
+      } else if (mode === 'waiting') {
+        actionHtml = `<div class="waiting-box" style="padding:12px;font-size:.78rem;"><i class="fas fa-clock" style="font-size:1.2rem;"></i><span>Waiting for payment screenshot</span></div>`;
+      } else if (mode === 'verify') {
+        actionHtml = `<div class="screenshot-preview"><div class="sp-title"><i class="fas fa-check-circle"></i> Payment screenshot</div><a href="${escapeHtml(g.paymentScreenshotUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(g.paymentScreenshotUrl)}" alt="Payment" /></a></div><div class="quick-actions"><button class="quick-btn green" data-confirm-goods="${g.id}"><i class="fas fa-check"></i> Accept</button><button class="quick-btn red-light" data-reject-goods="${g.id}"><i class="fas fa-times"></i> Reject</button></div>`;
+      } else if (mode === 'transit') {
+        actionHtml = `<div class="quick-actions"><button class="quick-btn ${picked ? 'gray' : 'green'}" data-toggle-goods-pickup="${g.id}" data-picked="${picked}"><i class="fas ${picked ? 'fa-undo' : 'fa-check'}"></i>${picked ? 'Undo' : 'Picked'}</button><button class="quick-btn purple" data-complete-goods="${g.id}"><i class="fas fa-flag-checkered"></i> Delivered</button></div>`;
+      }
+
+      let contactHtml = `<div class="quick-actions" style="margin-top:6px;"><a class="quick-btn blue-light" href="${escapeHtml(callHref)}" ${!phone ? 'onclick="return false;"' : ''}><i class="fas fa-phone"></i> Call sender</a>${waNum ? `<a class="quick-btn green-light" href="https://wa.me/${waNum}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Chat</a>` : ''}</div>`;
+
+      return `<div class="compact-item">${topHtml}${imageHtml}${dropHtml}${infoHtml}${actionHtml}${contactHtml}</div>`;
+    }
+
+    /* ---------- COMPLETED ---------- */
+    function renderAdminCompletedTab(el) {
+      const cB = adminCompletedBookings;
+      const cG = adminCompletedGoods;
+      const busMap = {};
+      adminBuses.forEach(b => { busMap[b.id] = b; });
+      if (cB.length === 0 && cG.length === 0) { el.innerHTML = `<div class="empty"><i class="fas fa-check-double"></i><h4>No completed items</h4></div>`; return; }
+      const byTrip = {};
+      [...cB, ...cG].forEach(item => {
+        const key = item.tripId || ('unknown_' + item.busId);
+        if (!byTrip[key]) byTrip[key] = { bookings: [], goods: [] };
+        if (item.seats) byTrip[key].bookings.push(item);
+        else byTrip[key].goods.push(item);
+      });
+      const trips = Object.entries(byTrip).sort(([, a], [, b]) => {
+        const items = [...a.bookings, ...a.goods];
+        const tb = [...b.bookings, ...b.goods];
+        return (tb[0]?.completedAt?.seconds || 0) - (items[0]?.completedAt?.seconds || 0);
+      });
+      let html = '<div class="item-list">';
+      trips.forEach(([tripId, { bookings, goods }]) => {
+        const first = bookings[0] || goods[0];
+        if (!first) return;
+        const confB = bookings.filter(b => b.status === 'confirmed');
+        const confG = goods.filter(g => g.status === 'confirmed');
+        let sRev = 0, pax = 0;
+        confB.forEach(b => {
+          const sc = Array.isArray(b.seats) ? b.seats.length : 0;
+          let p = parseInt(b.price);
+          if (!p || p <= 0) { const bus = busMap[b.busId]; p = bus ? (parseInt(bus.price) || 0) : 0; }
+          sRev += p * sc; pax += sc;
+        });
+        let gRev = 0; confG.forEach(g => { gRev += parseInt(g.price) || 0; });
+        const fee = (pax * FEE_PER_PASSENGER) + (confG.length * FEE_PER_GOODS);
+        html += `<div class="bus-card-full completed"><div class="bcf-head"><div class="avatar bus-avatar" style="width:44px;height:44px;border-radius:10px;background:var(--purple-soft);color:#3730A3;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;"><i class="fas fa-flag-checkered"></i></div><div class="info" style="flex:1;min-width:0;"><div class="title" style="font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">${escapeHtml(first.busName || 'Trip')} <span class="completed-tag"><i class="fas fa-check-double"></i> Done</span></div><div class="sub" style="font-size:.78rem;color:var(--text-soft);margin-top:2px;">${escapeHtml(first.from || '')} → ${escapeHtml(first.to || '')} · ${timeAgo(first.completedAt)}</div></div></div><div class="bcf-body"><div class="bus-income-grid"><div class="bus-income-item green"><div class="bi-label">Trip Revenue</div><div class="bi-val">${formatRs(sRev + gRev)}</div></div><div class="bus-income-item red"><div class="bi-label">Fee to Sajilo</div><div class="bi-val">${formatRs(fee)}</div></div></div><div class="mini-rows"><div class="r"><span>Confirmed passengers</span><span class="v">${pax}</span></div><div class="r"><span>Confirmed goods</span><span class="v">${confG.length}</span></div><div class="r"><span>Total items</span><span class="v">${bookings.length + goods.length}</span></div></div></div></div>`;
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    }
+
+    /* ============ BUS ADMIN ACTIONS ============ */
+    async function toggleBusLiveStatus(busId, status) {
+      try {
+        if (status === 'driving') {
+          if (!navigator.geolocation) { showToast('Location not supported'); return; }
+          if (busWatchId !== null) navigator.geolocation.clearWatch(busWatchId);
+          busWatchId = navigator.geolocation.watchPosition(
+            async (pos) => {
+              try { await updateDoc(doc(db, 'buses', busId), { status: 'driving', liveLocation: { lat: pos.coords.latitude, lng: pos.coords.longitude, updatedAt: serverTimestamp() } }); } catch (e) {}
+            },
+            (err) => { if (err.code === err.PERMISSION_DENIED) showToast('Location denied'); },
+            { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+          );
+          showToast('Live ON');
+        } else {
+          if (busWatchId !== null) { navigator.geolocation.clearWatch(busWatchId); busWatchId = null; }
+          await updateDoc(doc(db, 'buses', busId), { status: 'stopped' });
+          showToast('Live OFF');
+        }
+      } catch (e) { showToast('Failed'); }
+    }
+
+    function openCompleteModal(busId) {
+      const bus = adminBuses.find(b => b.id === busId);
+      if (!bus) return;
+      activeCompleteBusId = busId;
+      const bookings = adminBookings.filter(b => b.busId === busId);
+      const goods = adminGoods.filter(g => g.busId === busId);
+      const confB = bookings.filter(b => b.status === 'confirmed');
+      const pendB = bookings.filter(b => b.status === 'pending');
+      const confG = goods.filter(g => g.status === 'confirmed');
+      const pendG = goods.filter(g => g.status === 'pending');
+      const seatPrice = parseInt(bus.price) || 0;
+      let tripRev = 0, totalPax = 0;
+      confB.forEach(b => { const sc = Array.isArray(b.seats) ? b.seats.length : 0; let p = parseInt(b.price); if (!p || p <= 0) p = seatPrice; tripRev += p * sc; totalPax += sc; });
+      let gRev = 0; confG.forEach(g => { gRev += parseInt(g.price) || 0; });
+      const totalFee = (totalPax * FEE_PER_PASSENGER) + (confG.length * FEE_PER_GOODS);
+      $('completeSummary').innerHTML = `<div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--text-mid);">Vehicle</span><span style="font-weight:600;">${escapeHtml(bus.busName || '')}</span></div><div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--text-mid);">Confirmed seats</span><span style="font-weight:600;">${totalPax}</span></div><div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--text-mid);">Confirmed goods</span><span style="font-weight:600;">${confG.length}</span></div><div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--text-mid);">Pending (will cancel)</span><span style="font-weight:600;">${pendB.length + pendG.length}</span></div><div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--text-mid);">Revenue</span><span style="font-weight:600;">${formatRs(tripRev + gRev)}</span></div><div style="display:flex;justify-content:space-between;padding:10px 0 0;margin-top:6px;border-top:1px solid var(--border);font-weight:700;"><span>Fee to Sajilo</span><span style="color:var(--red);font-size:1rem;">${formatRs(totalFee)}</span></div>`;
+      $('completeModal').classList.add('show');
+    }
+
+    $('completeCancel').addEventListener('click', () => $('completeModal').classList.remove('show'));
+    $('completeModal').addEventListener('click', (e) => { if (e.target === $('completeModal')) $('completeModal').classList.remove('show'); });
+
+    $('completeConfirm').addEventListener('click', async () => {
+      if (!activeCompleteBusId) return;
+      const busId = activeCompleteBusId;
+      const btn = $('completeConfirm');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      try {
+        const bookings = adminBookings.filter(b => b.busId === busId);
+        const goods = adminGoods.filter(g => g.busId === busId);
+        const confB = bookings.filter(b => b.status === 'confirmed');
+        const pendB = bookings.filter(b => b.status === 'pending');
+        const confG = goods.filter(g => g.status === 'confirmed');
+        const pendG = goods.filter(g => g.status === 'pending');
+        const busSnap = await getDoc(doc(db, 'buses', busId));
+        const busData = busSnap.exists() ? busSnap.data() : {};
+        const busPrice = parseInt(busData.price) || 0;
+        let totalPax = 0, sRev = 0;
+        confB.forEach(b => { const sc = Array.isArray(b.seats) ? b.seats.length : 0; let p = parseInt(b.price); if (!p || p <= 0) p = busPrice; sRev += p * sc; totalPax += sc; });
+        let gRev = 0; confG.forEach(g => { gRev += parseInt(g.price) || 0; });
+        const totalFee = (totalPax * FEE_PER_PASSENGER) + (confG.length * FEE_PER_GOODS);
+        const batch = writeBatch(db);
+        const tripId = 'trip_' + Date.now() + '_' + busId;
+        confB.forEach(b => batch.update(doc(db, 'bookings', b.id), { completed: true, completedAt: serverTimestamp(), tripId, tripFeePerPassenger: FEE_PER_PASSENGER }));
+        pendB.forEach(b => batch.update(doc(db, 'bookings', b.id), { status: 'cancelled', cancelledReason: 'Trip completed', completed: true, completedAt: serverTimestamp(), tripId }));
+        confG.forEach(g => batch.update(doc(db, 'goods', g.id), { completed: true, completedAt: serverTimestamp(), tripId, tripFeePerGoods: FEE_PER_GOODS }));
+        pendG.forEach(g => batch.update(doc(db, 'goods', g.id), { status: 'cancelled', cancelledReason: 'Trip completed', completed: true, completedAt: serverTimestamp(), tripId }));
+        batch.update(doc(db, 'buses', busId), { tripCompleted: true, tripCompletedAt: serverTimestamp(), lastTripSummary: { tripId, completedAt: new Date().toISOString(), confirmedPassengers: totalPax, confirmedGoods: confG.length, pendingCount: pendB.length + pendG.length, seatsRevenue: sRev, goodsRevenue: gRev, totalRevenue: sRev + gRev, feeDue: totalFee, feePerPassenger: FEE_PER_PASSENGER, feePerGoods: FEE_PER_GOODS }, status: 'stopped', liveLocation: null, bookedSeats: [] });
+        await batch.commit();
+        if (busWatchId !== null) { navigator.geolocation.clearWatch(busWatchId); busWatchId = null; }
+        try { await addDoc(collection(db, 'tripHistory'), { busId, busName: busData.busName || '', busNo: busData.busNo || '', from: busData.from || '', to: busData.to || '', ownerId: currentUser.uid, tripId, confirmedPassengers: totalPax, confirmedGoods: confG.length, pendingCount: pendB.length + pendG.length, seatsRevenue: sRev, goodsRevenue: gRev, totalRevenue: sRev + gRev, feeDue: totalFee, feePerPassenger: FEE_PER_PASSENGER, feePerGoods: FEE_PER_GOODS, completedAt: serverTimestamp() }); } catch (e) {}
+        showToast(`Trip done · ${formatRs(sRev + gRev)}`);
+        $('completeModal').classList.remove('show');
+        activeCompleteBusId = null;
+      } catch (e) { console.error(e); showToast('Failed'); }
+      finally { btn.disabled = false; btn.innerHTML = '<i class="fas fa-check-double"></i> Complete Trip'; }
+    });
+
+    function openBusModal(id = null) {
+      editingImageUrl = null;
+      editingQrUrl = null;
+      $('busEditId').value = id || '';
+      $('busModalTitle').textContent = id ? 'Edit Vehicle' : 'Add Vehicle';
+      $('busUploadArea').classList.remove('has-image');
+      $('busUploadArea').innerHTML = `<i class="fas fa-cloud-upload-alt"></i><div>Tap to upload vehicle image</div>`;
+      $('busImageFile').value = '';
+      $('qrUploadArea').classList.remove('has-image');
+      $('qrUploadArea').innerHTML = `<i class="fas fa-qrcode" style="color:var(--blue);"></i><div>Tap to upload QR code image</div>`;
+      $('qrImageFile').value = '';
+      editingBusStatus = 'stopped';
+      $('statusDriving').style.background = '#F3F4F6'; $('statusDriving').style.color = 'var(--text-mid)'; $('statusDriving').style.borderColor = 'transparent';
+      $('statusStopped').style.background = '#FEE2E2'; $('statusStopped').style.color = 'var(--red)'; $('statusStopped').style.borderColor = 'var(--red)';
+      if (id) {
+        const bus = adminBuses.find(b => b.id === id);
+        if (bus) {
+          $('busNameInput').value = bus.busName || '';
+          $('busNoInput').value = bus.busNo || '';
+          $('busFromInput').value = bus.from || '';
+          $('busToInput').value = bus.to || '';
+          $('busDepInput').value = bus.departureTime || '';
+          $('busPriceInput').value = bus.price || '';
+          $('busPhoneInput').value = bus.driverPhone || '';
+          $('busVehicleType').value = bus.vehicleType || 'Bus';
+          const layout = bus.seatLayout || {};
+          $('groupARows').value = layout.groupARows ?? 8;
+          $('groupACols').value = layout.groupACols ?? 2;
+          $('groupBRows').value = layout.groupBRows ?? 8;
+          $('groupBCols').value = layout.groupBCols ?? 2;
+          $('backRowSeats').value = layout.backRowSeats ?? 0;
+          updateSeatTotalPreview();
+          editingBusStatus = bus.status || 'stopped';
+          if (editingBusStatus === 'driving') { $('statusDriving').style.background = 'var(--green-soft)'; $('statusDriving').style.color = '#166534'; $('statusDriving').style.borderColor = 'var(--green)'; $('statusStopped').style.background = '#F3F4F6'; $('statusStopped').style.color = 'var(--text-mid)'; $('statusStopped').style.borderColor = 'transparent'; }
+          if (bus.imageUrl) { editingImageUrl = bus.imageUrl; $('busUploadArea').classList.add('has-image'); $('busUploadArea').innerHTML = `<img src="${escapeHtml(bus.imageUrl)}" alt="" />`; }
+          if (bus.qrImageUrl) { editingQrUrl = bus.qrImageUrl; $('qrUploadArea').classList.add('has-image'); $('qrUploadArea').innerHTML = `<img src="${escapeHtml(bus.qrImageUrl)}" alt="QR" />`; }
+        }
+      } else {
+        $('busNameInput').value = '';
+        $('busNoInput').value = '';
+        $('busFromInput').value = '';
+        $('busToInput').value = '';
+        $('busDepInput').value = '';
+        $('busPriceInput').value = '';
+        $('busPhoneInput').value = '';
+        $('busVehicleType').value = 'Bus';
+        $('groupARows').value = 8; $('groupACols').value = 2; $('groupBRows').value = 8; $('groupBCols').value = 2; $('backRowSeats').value = 0;
+        updateSeatTotalPreview();
+      }
+      $('busModal').classList.add('show');
+    }
+
+    function updateSeatTotalPreview() {
+      const aR = parseInt($('groupARows').value) || 0;
+      const aC = parseInt($('groupACols').value) || 0;
+      const bR = parseInt($('groupBRows').value) || 0;
+      const bC = parseInt($('groupBCols').value) || 0;
+      const back = parseInt($('backRowSeats').value) || 0;
+      if ($('seatTotalPreview')) $('seatTotalPreview').textContent = aR * aC + bR * bC + back;
+    }
+
+    ['groupARows', 'groupACols', 'groupBRows', 'groupBCols', 'backRowSeats'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateSeatTotalPreview);
+    });
+
+    $('statusDriving').addEventListener('click', () => {
+      editingBusStatus = 'driving';
+      $('statusDriving').style.background = 'var(--green-soft)'; $('statusDriving').style.color = '#166534'; $('statusDriving').style.borderColor = 'var(--green)';
+      $('statusStopped').style.background = '#F3F4F6'; $('statusStopped').style.color = 'var(--text-mid)'; $('statusStopped').style.borderColor = 'transparent';
+    });
+    $('statusStopped').addEventListener('click', () => {
+      editingBusStatus = 'stopped';
+      $('statusStopped').style.background = '#FEE2E2'; $('statusStopped').style.color = 'var(--red)'; $('statusStopped').style.borderColor = 'var(--red)';
+      $('statusDriving').style.background = '#F3F4F6'; $('statusDriving').style.color = 'var(--text-mid)'; $('statusDriving').style.borderColor = 'transparent';
+    });
+
+    $('busModalClose').addEventListener('click', () => $('busModal').classList.remove('show'));
+    $('busModalCancel').addEventListener('click', () => $('busModal').classList.remove('show'));
+    $('busModal').addEventListener('click', (e) => { if (e.target === $('busModal')) $('busModal').classList.remove('show'); });
+    $('busUploadArea').addEventListener('click', () => $('busImageFile').click());
+    $('busImageFile').addEventListener('change', async () => {
+      const file = $('busImageFile').files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showToast('Image under 5MB'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { $('busUploadArea').classList.add('has-image'); $('busUploadArea').innerHTML = `<img src="${e.target.result}" alt="" />`; };
+      reader.readAsDataURL(file);
+      try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success && data.data?.url) { editingImageUrl = data.data.url; showToast('Image uploaded'); }
+        else showToast('Upload failed');
+      } catch (e) { showToast('Upload failed'); }
+    });
+    $('qrUploadArea').addEventListener('click', () => $('qrImageFile').click());
+    $('qrImageFile').addEventListener('change', async () => {
+      const file = $('qrImageFile').files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showToast('QR under 5MB'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { $('qrUploadArea').classList.add('has-image'); $('qrUploadArea').innerHTML = `<img src="${e.target.result}" alt="QR" />`; };
+      reader.readAsDataURL(file);
+      try {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.success && data.data?.url) { editingQrUrl = data.data.url; showToast('QR uploaded'); }
+        else showToast('QR upload failed');
+      } catch (e) { showToast('QR upload failed'); }
+    });
+
+    $('busModalSave').addEventListener('click', async () => {
+      const id = $('busEditId').value;
+      const seatLayout = {
+        groupARows: parseInt($('groupARows').value) || 0,
+        groupACols: parseInt($('groupACols').value) || 2,
+        groupBRows: parseInt($('groupBRows').value) || 0,
+        groupBCols: parseInt($('groupBCols').value) || 2,
+        backRowSeats: parseInt($('backRowSeats').value) || 0
+      };
+      const totalSeats = seatLayout.groupARows * seatLayout.groupACols + seatLayout.groupBRows * seatLayout.groupBCols + seatLayout.backRowSeats;
+      const data = {
+        busName: $('busNameInput').value.trim(),
+        busNo: $('busNoInput').value.trim(),
+        from: $('busFromInput').value.trim(),
+        to: $('busToInput').value.trim(),
+        departureTime: $('busDepInput').value.trim(),
+        price: parseInt($('busPriceInput').value) || 0,
+        driverPhone: $('busPhoneInput').value.trim(),
+        vehicleType: $('busVehicleType').value || 'Bus',
+        imageUrl: editingImageUrl || null,
+        qrImageUrl: editingQrUrl || null,
+        status: editingBusStatus,
+        ownerId: currentUser.uid,
+        seatLayout, totalSeats
+      };
+      if (!data.busName || !data.busNo || totalSeats < 1) { showToast('Fill name, number, and seats'); return; }
+      const btn = $('busModalSave');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      try {
+        if (id) { await updateDoc(doc(db, 'buses', id), { ...data, updatedAt: serverTimestamp() }); showToast('Updated'); }
+        else { data.bookedSeats = []; data.tripCompleted = false; data.createdAt = serverTimestamp(); data.createdBy = currentUser.uid; await addDoc(collection(db, 'buses'), data); showToast('Added'); }
+        $('busModal').classList.remove('show');
+        renderBusAdminTab();
+      } catch (e) { console.error(e); showToast('Save failed'); }
+      finally { btn.disabled = false; btn.textContent = 'Save Vehicle'; }
+    });
+
+    /* REJECT MODAL */
+    $('rejectModalClose').addEventListener('click', () => $('rejectModal').classList.remove('show'));
+    $('rejectCancel').addEventListener('click', () => $('rejectModal').classList.remove('show'));
+    $('rejectModal').addEventListener('click', (e) => { if (e.target === $('rejectModal')) $('rejectModal').classList.remove('show'); });
+    $('rejectConfirm').addEventListener('click', async () => {
+      if (!activeRejectGoodsId) return;
+      const reason = $('rejectReason').value.trim();
+      try {
+        await updateDoc(doc(db, 'goods', activeRejectGoodsId), { status: 'rejected', rejectedAt: serverTimestamp(), rejectReason: reason || null });
+        showToast('Rejected');
+        $('rejectModal').classList.remove('show');
+        activeRejectGoodsId = null;
+      } catch (e) { showToast('Failed'); }
+    });
+
+    /* BOOKING DETAILS */
+    function openBookingModal(id) {
+      const b = adminBookings.find(x => x.id === id) || adminCompletedBookings.find(x => x.id === id) || myBookings.find(x => x.id === id);
+      if (!b) return;
+      activeBookingId = id;
+      const seats = Array.isArray(b.seats) ? b.seats.join(', ') : '';
+      const picked = b.pickedUp === true;
+      const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+      const seatPrice = parseInt(b.price) || 0;
+      const revenue = seatPrice * seatCount;
+      $('bookingModalBody').innerHTML = `<div style="font-size:.88rem;line-height:1.8;"><div><b>Vehicle:</b> ${escapeHtml(b.busName || '')} (${escapeHtml(b.busNo || '')})</div><div><b>Route:</b> ${escapeHtml(b.from || '')} → ${escapeHtml(b.to || '')}</div><div><b>Seats:</b> ${escapeHtml(seats)} (${seatCount})</div><div><b>Price/seat:</b> ${formatRs(seatPrice)}</div><div><b>Total:</b> <span style="color:var(--green);font-weight:700;">${formatRs(revenue)}</span></div><div><b>Passenger:</b> ${escapeHtml(b.passengerName || '')}</div><div><b>Phone:</b> ${escapeHtml(b.passengerPhone || '')}</div><div><b>Status:</b> ${escapeHtml(b.status || 'pending')}</div><div><b>Pick Up:</b> <span style="color:${picked ? '#166534' : '#B91C1C'};font-weight:700;">${picked ? 'Picked Up' : 'Not Picked Up'}</span></div>${b.paymentScreenshotUrl ? `<div style="margin-top:10px;"><a href="${escapeHtml(b.paymentScreenshotUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(b.paymentScreenshotUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);" /></a></div>` : ''}</div>`;
+      $('bookingModal').classList.add('show');
+    }
+    $('bookingModalClose').addEventListener('click', () => $('bookingModal').classList.remove('show'));
+    $('bookingModal').addEventListener('click', (e) => { if (e.target === $('bookingModal')) $('bookingModal').classList.remove('show'); });
+
+    /* PROFILE */
+    $('profileBtn').addEventListener('click', () => {
+      if (!currentUser) { window.location.href = 'login.html'; return; }
+      const role = userProfile?.role === 'mainAdmin' ? 'Main Admin' : userProfile?.role === 'busAdmin' ? 'Bus Admin' : 'Passenger';
+      $('profileContent').innerHTML = `<div style="text-align:center;padding:8px 0 16px;"><div style="width:72px;height:72px;border-radius:50%;background:var(--red-soft);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;margin:0 auto 12px;overflow:hidden;">${userProfile?.photoURL ? `<img src="${escapeHtml(userProfile.photoURL)}" style="width:100%;height:100%;object-fit:cover;" />` : (userProfile?.name || 'U').charAt(0).toUpperCase()}</div><div style="font-weight:700;font-size:1rem;">${escapeHtml(userProfile?.name || 'User')}</div><div style="font-size:.82rem;color:var(--text-soft);">${escapeHtml(userProfile?.email || '')}</div><div style="display:inline-block;margin-top:8px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;background:var(--red-soft);color:var(--red);">${role}</div></div>`;
+      if (userProfile?.role === 'mainAdmin') { $('profileAdmin').style.display = 'flex'; $('profileAdmin').textContent = 'Main Admin Panel'; }
+      else $('profileAdmin').style.display = 'none';
+      $('profileModal').classList.add('show');
+    });
+    $('profileClose').addEventListener('click', () => $('profileModal').classList.remove('show'));
+    $('profileModal').addEventListener('click', (e) => { if (e.target === $('profileModal')) $('profileModal').classList.remove('show'); });
+    $('profileSignOut').addEventListener('click', async () => { $('profileModal').classList.remove('show'); try { await signOut(auth); showToast('Signed out'); } catch (e) {} });
+    $('profileAdmin').addEventListener('click', () => { $('profileModal').classList.remove('show'); window.location.href = 'admin.html'; });
+
+    /* INIT */
+    window.addEventListener('beforeunload', () => {
+      cleanupSubscriptions();
+      if (mapUnsub) mapUnsub();
+      if (busWatchId !== null) navigator.geolocation.clearWatch(busWatchId);
+      stopLiveLocationSharing();
+    });
+  </script>
+</body>
+</html>

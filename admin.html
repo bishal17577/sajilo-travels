@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#C8102E" />
+
+  <title>Main Admin - Sajilo Travels</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #F5F6F8;
+      color: #0F172A;
+      line-height: 1.5;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    :root {
+      --red: #C8102E;
+      --red-dark: #A00D25;
+      --red-soft: #FDF2F4;
+      --green: #10B981;
+      --green-soft: #DCFCE7;
+      --yellow: #F59E0B;
+      --blue: #3B82F6;
+      --blue-soft: #DBEAFE;
+      --purple: #8B5CF6;
+      --purple-soft: #EDE9FE;
+      --white: #FFFFFF;
+      --bg: #F5F6F8;
+      --border: #E5E7EB;
+      --text: #0F172A;
+      --text-mid: #475569;
+      --text-soft: #94A3B8;
+      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
+      --shadow: 0 4px 16px rgba(15,23,42,0.08);
+      --shadow-lg: 0 12px 32px rgba(15,23,42,0.12);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: var(--red);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.3px;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-user {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      padding: 4px 12px 4px 4px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      max-width: 220px;
+    }
+    .nav-user img, .nav-user .avatar-fallback {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      overflow: hidden;
+      object-fit: cover;
+    }
+    .nav-user span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .btn-back {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-back i { font-size: 0.78rem; }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    .page-head { margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .page-head h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+    .page-head .sub {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+    .page-head .badge-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+      color: #78350F;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
+    }
+
+    /* INCOME CARDS */
+    .income-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .income-card {
+      background: linear-gradient(135deg, #1E3A6B 0%, #2D4F8A 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .income-card::after {
+      content: '';
+      position: absolute;
+      right: -30px;
+      top: -30px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .income-card.green {
+      background: linear-gradient(135deg, var(--green) 0%, #059669 100%);
+    }
+    .income-card.red {
+      background: linear-gradient(135deg, var(--red) 0%, #8B0000 100%);
+    }
+    .income-card.purple {
+      background: linear-gradient(135deg, var(--purple) 0%, #6D28D9 100%);
+    }
+    .income-card .ic-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+    .income-card .ic-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1;
+    }
+    .income-card .ic-sub {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+    }
+    .stat-card .stat-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-card .stat-icon {
+      float: right;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .stat-card.blue .stat-icon { background: var(--blue-soft); color: var(--blue); }
+    .stat-card.green .stat-icon { background: var(--green-soft); color: var(--green); }
+    .stat-card.yellow .stat-icon { background: #FEF3C7; color: #92400E; }
+    .stat-card.purple .stat-icon { background: var(--purple-soft); color: var(--purple); }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab {
+      padding: 10px 18px;
+      border-radius: 30px;
+      background: white;
+      color: var(--text-mid);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      border: 1.5px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .tab i { font-size: 0.85rem; }
+    .tab.active { background: var(--red); color: white; border-color: var(--red); }
+    .tab .tab-count {
+      background: rgba(255,255,255,0.25);
+      padding: 1px 8px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .tab:not(.active) .tab-count { background: var(--red-soft); color: var(--red); }
+    .tab .tab-count.new { background: var(--yellow); color: white; }
+
+    /* SEARCH FILTER */
+    .filter-bar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .filter-bar i { color: var(--text-soft); padding-left: 12px; }
+    .filter-bar input {
+      border: none;
+      outline: none;
+      flex: 1;
+      padding: 10px 8px;
+      font-size: 0.9rem;
+      background: transparent;
+      font-family: inherit;
+      min-width: 0;
+    }
+
+    /* SECTION */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 8px 0 12px;
+      gap: 10px;
+    }
+    .section-head h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-head h3 .section-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--red-soft);
+      color: var(--red);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+    }
+    .section-head .section-count {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    /* ITEM LIST */
+    .item-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .item .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red-soft);
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .item .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .item .avatar.bus-avatar { border-radius: 10px; }
+    .item .avatar.role-main { background: #FEF3C7; color: #78350F; }
+    .item .avatar.role-bus { background: var(--green-soft); color: #166534; }
+    .item .info { flex: 1; min-width: 0; }
+    .item .title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .item .sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge.passenger { background: var(--red-soft); color: var(--red); }
+    .badge.busadmin { background: var(--green-soft); color: #166534; }
+    .badge.mainadmin { background: #FEF3C7; color: #78350F; }
+    .badge.pending { background: #FEF3C7; color: #92400E; }
+    .badge.confirmed { background: var(--green-soft); color: #166534; }
+    .badge.cancelled { background: var(--red-soft); color: var(--red); }
+    .badge.priced { background: var(--blue-soft); color: #1E40AF; }
+    .badge.completed { background: var(--purple-soft); color: #5B21B6; }
+    .badge.driving { background: var(--green-soft); color: #166534; }
+    .badge.stopped { background: #FEE2E2; color: var(--red); }
+
+    .item .actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: #F3F4F6;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .icon-btn:hover { background: var(--red-soft); color: var(--red); }
+    .icon-btn.green { background: var(--green-soft); color: #166534; }
+    .icon-btn.red { background: #FEE2E2; color: var(--red); }
+    .icon-btn.blue { background: var(--blue-soft); color: var(--blue); }
+    .icon-btn.yellow { background: #FEF3C7; color: #92400E; }
+
+    /* CARD LISTS */
+    .card-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .booking-card, .goods-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .booking-card .bc-head, .goods-card .gc-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .booking-card .bc-title, .goods-card .gc-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .booking-card .bc-sub, .goods-card .gc-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .row-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+    }
+    .row-info .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .row-info .row .val {
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+    }
+    .row-info .row .val.price { color: var(--green); font-weight: 800; }
+    .row-info .row .val.due { color: var(--red); font-weight: 800; }
+
+    .goods-thumb {
+      width: 100%;
+      max-height: 180px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+    .card-actions .btn {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-green { background: var(--green); color: white; }
+    .btn-outline { background: white; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-red { background: var(--red); color: white; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-orange { background: #F59E0B; color: white; }
+    .btn-purple { background: var(--purple); color: white; }
+
+    /* EMPTY */
+    .empty {
+      background: white;
+      border: 1px dashed #D1D5DB;
+      border-radius: 16px;
+      padding: 44px 20px;
+      text-align: center;
+      color: var(--text-soft);
+    }
+    .empty i { font-size: 2rem; color: #D1D5DB; margin-bottom: 12px; }
+    .empty h4 { font-size: 0.95rem; color: var(--text); margin-bottom: 4px; font-weight: 600; }
+    .empty p { font-size: 0.82rem; }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.55);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 18px;
+      padding: 24px 22px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      max-height: 92vh;
+      overflow-y: auto;
+      margin: auto;
+    }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .modal-head h3 { font-size: 1.05rem; font-weight: 700; }
+    .modal-close {
+      background: #F3F4F6;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      background: white;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--red); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .modal-actions .btn { flex: 1; padding: 12px 18px; font-size: 0.88rem; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+    .btn-primary { background: var(--red); color: white; }
+    .btn-primary:disabled { background: #D1D5DB; cursor: not-allowed; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: #0F172A;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      box-shadow: var(--shadow-lg);
+      max-width: calc(100% - 40px);
+      text-align: center;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (min-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .income-grid { grid-template-columns: repeat(4, 1fr); }
+      .nav-user { display: flex; }
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C8102E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EST%3C/text%3E%3C/svg%3E" alt="" />
+        </div>
+        <span class="brand-text">Sajilo Travels Admin</span>
+      </a>
+      <div class="nav-right">
+        <div class="nav-user" id="navUser">
+          <span id="navUserAvatar"></span>
+          <span id="navUserName">Admin</span>
+        </div>
+        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Main Admin Panel</h1>
+        <div class="sub" id="welcomeText">Full access · all data</div>
+        <div class="badge-main"><i class="fas fa-crown"></i> Main Admin</div>
+      </div>
+    </div>
+
+    <div class="income-grid" id="incomeGrid"></div>
+
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="overview"><i class="fas fa-chart-line"></i> Overview</button>
+      <button class="tab" data-tab="users"><i class="fas fa-users"></i> Users <span class="tab-count" id="tabUsers">0</span></button>
+      <button class="tab" data-tab="buses"><i class="fas fa-bus"></i> Buses <span class="tab-count" id="tabBuses">0</span></button>
+      <button class="tab" data-tab="bookings"><i class="fas fa-ticket-alt"></i> Seats <span class="tab-count" id="tabBookings">0</span></button>
+      <button class="tab" data-tab="goods"><i class="fas fa-box"></i> Goods <span class="tab-count" id="tabGoods">0</span></button>
+      <button class="tab" data-tab="trips"><i class="fas fa-history"></i> Trip History <span class="tab-count" id="tabTrips">0</span></button>
+    </div>
+
+    <div id="tabContent"></div>
+  </main>
+
+  <!-- USER MODAL -->
+  <div class="modal-backdrop" id="userModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="userModalTitle">User Details</h3>
+        <button class="modal-close" id="userModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="userModalBody"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="userModalCancel">Close</button>
+        <button class="btn btn-primary hidden" id="userModalSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING MODAL -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Booking Details</h3>
+        <button class="modal-close" id="bookingModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="bookingModalBody"></div>
+      <div class="modal-actions" id="bookingModalActions">
+        <button class="btn btn-outline" id="bookingModalCancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOODS MODAL -->
+  <div class="modal-backdrop" id="goodsModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Goods Request Details</h3>
+        <button class="modal-close" id="goodsModalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="goodsModalBody"></div>
+      <div class="modal-actions" id="goodsModalActions">
+        <button class="btn btn-outline" id="goodsModalCancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, onSnapshot, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, serverTimestamp, where, writeBatch
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdE4cOxES29yHODnpR1nqavR05mQPI9qM",
+      authDomain: "sajilo-travels.firebaseapp.com",
+      projectId: "sajilo-travels",
+      storageBucket: "sajilo-travels.firebasestorage.app",
+      messagingSenderId: "573828080473",
+      appId: "1:573828080473:web:fdc5b8d5a1716fedcaa248",
+      measurementId: "G-Q79XEFR5HD"
+    };
+
+    const MAIN_ADMIN_EMAIL = 'bishalxtha17@gmail.com';
+    const FEE_PER_PASSENGER = 5;
+    const FEE_PER_GOODS = 5;
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let userProfile = null;
+    let users = [];
+    let buses = [];
+    let bookings = [];
+    let goods = [];
+    let trips = [];
+    let currentTab = 'overview';
+    let unsubs = [];
+    let activeUserId = null;
+    let activeBookingId = null;
+    let activeGoodsId = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    let toastTimer;
+    function showToast(msg, duration = 2600) {
+      const el = $('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    function timeAgo(ts) {
+      if (!ts) return '';
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (diff < 60) return `${diff}s ago`;
+      if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+      return `${Math.floor(diff/86400)}d ago`;
+    }
+
+    function isSameDay(ts) {
+      if (!ts) return false;
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear()
+        && d.getMonth() === now.getMonth()
+        && d.getDate() === now.getDate();
+    }
+
+    function formatRs(n) {
+      return 'Rs. ' + (parseInt(n) || 0).toLocaleString();
+    }
+
+    function getVehicleIcon(type) {
+      const map = { Bus: 'fa-bus', Car: 'fa-car', Truck: 'fa-truck', Van: 'fa-shuttle-van', Other: 'fa-cube' };
+      return map[type] || 'fa-cube';
+    }
+
+    function getRoleBadge(role, email) {
+      if (email === MAIN_ADMIN_EMAIL || role === 'mainAdmin') return { cls: 'mainadmin', label: 'Main Admin' };
+      if (role === 'busAdmin') return { cls: 'busadmin', label: 'Bus Admin' };
+      return { cls: 'passenger', label: 'Passenger' };
+    }
+
+    /* AUTH */
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'login.html?redirect=admin.html';
+        return;
+      }
+
+      currentUser = user;
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      userProfile = snap.exists() ? snap.data() : null;
+
+      // Strict main admin check
+      const isMain = user.email === MAIN_ADMIN_EMAIL || (userProfile && userProfile.role === 'mainAdmin');
+      if (!isMain) {
+        showToast('Access denied. Main admin only.');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        return;
+      }
+
+      // Update welcome + nav user
+      $('welcomeText').textContent = `Signed in as ${user.email}`;
+      const avatarHtml = user.photoURL
+        ? `<img src="${escapeHtml(user.photoURL)}" alt="" />`
+        : `<div class="avatar-fallback">${(userProfile?.name || 'A').charAt(0).toUpperCase()}</div>`;
+      $('navUserAvatar').innerHTML = avatarHtml;
+      $('navUserName').textContent = (userProfile?.name || 'Admin').split(' ')[0];
+
+      // Auto-fix main admin role in Firestore
+      if (user.email === MAIN_ADMIN_EMAIL && userProfile?.role !== 'mainAdmin') {
+        try { await setDoc(doc(db, 'users', user.uid), { role: 'mainAdmin' }, { merge: true }); } catch (e) {}
+      }
+
+      startSubscriptions();
+    });
+
+    function startSubscriptions() {
+      // Users
+      unsubs.push(
+        onSnapshot(collection(db, 'users'), (snap) => {
+          users = [];
+          snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+          users.sort((a, b) => {
+            const rank = (u) => u.email === MAIN_ADMIN_EMAIL ? 0 : u.role === 'busAdmin' ? 1 : 2;
+            return rank(a) - rank(b);
+          });
+          renderAll();
+        })
+      );
+
+      // Buses
+      unsubs.push(
+        onSnapshot(query(collection(db, 'buses'), orderBy('createdAt', 'desc')), (snap) => {
+          buses = [];
+          snap.forEach(d => buses.push({ id: d.id, ...d.data() }));
+          renderAll();
+        })
+      );
+
+      // Bookings
+      unsubs.push(
+        onSnapshot(query(collection(db, 'bookings'), orderBy('createdAt', 'desc')), (snap) => {
+          bookings = [];
+          snap.forEach(d => bookings.push({ id: d.id, ...d.data() }));
+          renderAll();
+        })
+      );
+
+      // Goods
+      unsubs.push(
+        onSnapshot(query(collection(db, 'goods'), orderBy('createdAt', 'desc')), (snap) => {
+          goods = [];
+          snap.forEach(d => goods.push({ id: d.id, ...d.data() }));
+          renderAll();
+        })
+      );
+
+      // Trip history
+      unsubs.push(
+        onSnapshot(query(collection(db, 'tripHistory'), orderBy('completedAt', 'desc')), (snap) => {
+          trips = [];
+          snap.forEach(d => trips.push({ id: d.id, ...d.data() }));
+          renderAll();
+        })
+      );
+    }
+
+    /* ============ INCOME / STATS ============ */
+    function calculateAllStats() {
+      let seatRevenue = 0;
+      let goodsRevenue = 0;
+      let passengers = 0;
+      let goodsCount = 0;
+
+      // Only confirmed items count for revenue
+      bookings.forEach(b => {
+        if (b.status !== 'confirmed') return;
+        const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+        const seatPrice = parseInt(b.price) || 0;
+        seatRevenue += seatPrice * seatCount;
+        passengers += seatCount;
+      });
+
+      goods.forEach(g => {
+        if (g.status !== 'confirmed') return;
+        goodsRevenue += parseInt(g.price) || 0;
+        goodsCount += 1;
+      });
+
+      const totalRevenue = seatRevenue + goodsRevenue;
+      const feeDue = (passengers * FEE_PER_PASSENGER) + (goodsCount * FEE_PER_GOODS);
+
+      // Today
+      let todaySeatRev = 0;
+      let todayGoodsRev = 0;
+      let todayPassengers = 0;
+      let todayGoodsCount = 0;
+
+      bookings.forEach(b => {
+        if (b.status !== 'confirmed') return;
+        if (!isSameDay(b.createdAt)) return;
+        const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+        const seatPrice = parseInt(b.price) || 0;
+        todaySeatRev += seatPrice * seatCount;
+        todayPassengers += seatCount;
+      });
+
+      goods.forEach(g => {
+        if (g.status !== 'confirmed') return;
+        if (!isSameDay(g.createdAt)) return;
+        todayGoodsRev += parseInt(g.price) || 0;
+        todayGoodsCount += 1;
+      });
+
+      const todayRevenue = todaySeatRev + todayGoodsRev;
+
+      return {
+        totalRevenue,
+        seatRevenue,
+        goodsRevenue,
+        passengers,
+        goodsCount,
+        feeDue,
+        todayRevenue,
+        todaySeatRev,
+        todayGoodsRev,
+        todayPassengers,
+        todayGoodsCount
+      };
+    }
+
+    function renderIncome() {
+      const s = calculateAllStats();
+
+      $('incomeGrid').innerHTML = `
+        <div class="income-card">
+          <div class="ic-label"><i class="fas fa-wallet"></i> Total Revenue</div>
+          <div class="ic-value">${formatRs(s.totalRevenue)}</div>
+          <div class="ic-sub">Seats ${formatRs(s.seatRevenue)} · Goods ${formatRs(s.goodsRevenue)}</div>
+        </div>
+        <div class="income-card green">
+          <div class="ic-label"><i class="fas fa-calendar-day"></i> Today's Revenue</div>
+          <div class="ic-value">${formatRs(s.todayRevenue)}</div>
+          <div class="ic-sub">${s.todayPassengers} seats · ${s.todayGoodsCount} goods</div>
+        </div>
+        <div class="income-card purple">
+          <div class="ic-label"><i class="fas fa-coins"></i> Due from Bus Admins</div>
+          <div class="ic-value">${formatRs(s.feeDue)}</div>
+          <div class="ic-sub">Rs 5 × (${s.passengers} seats + ${s.goodsCount} goods)</div>
+        </div>
+        <div class="income-card red">
+          <div class="ic-label"><i class="fas fa-chart-line"></i> Sajilo Earnings</div>
+          <div class="ic-value">${formatRs(s.feeDue)}</div>
+          <div class="ic-sub">Platform fee collected</div>
+        </div>
+      `;
+    }
+
+    function renderStats() {
+      const pendingBookings = bookings.filter(b => b.status === 'pending').length;
+      const pendingGoods = goods.filter(g => g.status === 'pending' || g.status === 'priced').length;
+      const busAdmins = users.filter(u => u.role === 'busAdmin').length;
+
+      $('statsGrid').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Users</div>
+          <div class="stat-value">${users.length}</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon"><i class="fas fa-bus"></i></div>
+          <div class="stat-label">Buses</div>
+          <div class="stat-value">${buses.length}</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-label">Pending</div>
+          <div class="stat-value">${pendingBookings + pendingGoods}</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+          <div class="stat-label">Bus Admins</div>
+          <div class="stat-value">${busAdmins}</div>
+        </div>
+      `;
+
+      $('tabUsers').textContent = users.length;
+      $('tabBuses').textContent = buses.length;
+      $('tabBookings').textContent = bookings.filter(b => !b.completed).length;
+      $('tabGoods').textContent = goods.filter(g => !g.completed).length;
+      $('tabTrips').textContent = trips.length;
+
+      // Highlight tabs with new/pending
+      const goodsTabCount = document.querySelector('.tab[data-tab="goods"] .tab-count');
+      if (goodsTabCount) {
+        if (pendingGoods > 0) goodsTabCount.classList.add('new');
+        else goodsTabCount.classList.remove('new');
+      }
+    }
+
+    function renderAll() {
+      renderIncome();
+      renderStats();
+      renderTab();
+    }
+
+    /* ============ TABS ============ */
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentTab = tab.dataset.tab;
+        renderTab();
+      });
+    });
+
+    function renderTab() {
+      const el = $('tabContent');
+      if (currentTab === 'overview') renderOverviewTab(el);
+      else if (currentTab === 'users') renderUsersTab(el);
+      else if (currentTab === 'buses') renderBusesTab(el);
+      else if (currentTab === 'bookings') renderBookingsTab(el);
+      else if (currentTab === 'goods') renderGoodsTab(el);
+      else if (currentTab === 'trips') renderTripsTab(el);
+    }
+
+    /* ============ OVERVIEW TAB ============ */
+    function renderOverviewTab(el) {
+      const recentBookings = bookings.slice(0, 4);
+      const recentGoods = goods.slice(0, 4);
+
+      let html = '';
+
+      // Recent seat bookings
+      html += `<div class="section-head">
+        <h3><span class="section-icon"><i class="fas fa-ticket-alt"></i></span> Recent Seat Bookings</h3>
+        <span class="section-count">${bookings.length} total</span>
+      </div>`;
+      if (recentBookings.length === 0) {
+        html += `<div class="empty" style="padding:24px;"><i class="fas fa-ticket-alt"></i><h4>No bookings yet</h4></div>`;
+      } else {
+        html += '<div class="card-list">';
+        recentBookings.forEach(b => { html += renderBookingCard(b, false); });
+        html += '</div>';
+      }
+
+      html += `<div class="section-head" style="margin-top:24px;">
+        <h3><span class="section-icon"><i class="fas fa-box"></i></span> Recent Goods Requests</h3>
+        <span class="section-count">${goods.length} total</span>
+      </div>`;
+      if (recentGoods.length === 0) {
+        html += `<div class="empty" style="padding:24px;"><i class="fas fa-box"></i><h4>No goods yet</h4></div>`;
+      } else {
+        html += '<div class="card-list">';
+        recentGoods.forEach(g => { html += renderGoodsCard(g, false); });
+        html += '</div>';
+      }
+
+      el.innerHTML = html;
+      attachOverviewListeners(el);
+    }
+
+    function attachOverviewListeners(el) {
+      el.querySelectorAll('[data-open-booking]').forEach(btn => {
+        btn.addEventListener('click', () => openBookingModal(btn.dataset.openBooking));
+      });
+      el.querySelectorAll('[data-open-goods]').forEach(btn => {
+        btn.addEventListener('click', () => openGoodsModal(btn.dataset.openGoods));
+      });
+    }
+
+    /* ============ USERS TAB ============ */
+    function renderUsersTab(el) {
+      let html = `
+        <div class="filter-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="userFilter" placeholder="Search by name or email" />
+        </div>
+      `;
+
+      if (users.length === 0) {
+        html += `<div class="empty"><i class="fas fa-users"></i><h4>No users</h4></div>`;
+        el.innerHTML = html;
+        return;
+      }
+
+      html += '<div class="item-list" id="userList">';
+      html += renderUserItems(users);
+      html += '</div>';
+      el.innerHTML = html;
+
+      // Filter
+      const filterInput = $('userFilter');
+      if (filterInput) {
+        filterInput.addEventListener('input', () => {
+          const term = filterInput.value.trim().toLowerCase();
+          const filtered = term
+            ? users.filter(u => (u.name || '').toLowerCase().includes(term) || (u.email || '').toLowerCase().includes(term))
+            : users;
+          const list = $('userList');
+          if (list) list.innerHTML = renderUserItems(filtered);
+          attachUserListeners(el);
+        });
+      }
+
+      attachUserListeners(el);
+    }
+
+    function renderUserItems(list) {
+      return list.map(u => {
+        const isMain = u.email === MAIN_ADMIN_EMAIL || u.role === 'mainAdmin';
+        const role = getRoleBadge(u.role, u.email);
+        const avatar = u.photoURL
+          ? `<img src="${escapeHtml(u.photoURL)}" alt="" />`
+          : (u.name || 'U').charAt(0).toUpperCase();
+        const avatarCls = isMain ? 'role-main' : u.role === 'busAdmin' ? 'role-bus' : '';
+
+        return `
+          <div class="item">
+            <div class="avatar ${avatarCls}">${avatar}</div>
+            <div class="info">
+              <div class="title">${escapeHtml(u.name || 'User')}${isMain ? ' <i class="fas fa-crown" style="color:#F59E0B;font-size:0.8rem;"></i>' : ''}</div>
+              <div class="sub">${escapeHtml(u.email || '')} · joined ${timeAgo(u.createdAt)}</div>
+            </div>
+            <span class="badge ${role.cls}">${role.label}</span>
+            <div class="actions">
+              <button class="icon-btn" data-view-user="${u.id}" title="View"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function attachUserListeners(el) {
+      el.querySelectorAll('[data-view-user]').forEach(btn => {
+        btn.addEventListener('click', () => openUserModal(btn.dataset.viewUser));
+      });
+    }
+
+    function openUserModal(userId) {
+      const u = users.find(x => x.id === userId);
+      if (!u) return;
+      activeUserId = userId;
+
+      const isMain = u.email === MAIN_ADMIN_EMAIL || u.role === 'mainAdmin';
+      const role = u.role || 'passenger';
+      const userBookings = bookings.filter(b => b.passengerUid === userId);
+      const userGoods = goods.filter(g => g.senderUid === userId);
+
+      $('userModalTitle').textContent = isMain ? 'Main Admin Account' : 'User Details';
+      $('userModalBody').innerHTML = `
+        <div style="text-align:center;padding:0 0 16px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--red-soft);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;margin:0 auto 12px;overflow:hidden;">
+            ${u.photoURL ? `<img src="${escapeHtml(u.photoURL)}" style="width:100%;height:100%;object-fit:cover;" />` : (u.name || 'U').charAt(0).toUpperCase()}
+          </div>
+          <div style="font-weight:700;font-size:1rem;">${escapeHtml(u.name || 'User')}</div>
+          <div style="font-size:0.82rem;color:var(--text-soft);">${escapeHtml(u.email || '')}</div>
+          <div style="display:inline-block;margin-top:8px;padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;text-transform:uppercase;background:var(--red-soft);color:var(--red);">${getRoleBadge(role, u.email).label}</div>
+        </div>
+
+        <div class="row-info" style="margin-bottom:14px;">
+          <div class="row"><span>Joined</span><span class="val">${timeAgo(u.createdAt)}</span></div>
+          <div class="row"><span>Last login</span><span class="val">${timeAgo(u.lastLogin)}</span></div>
+          <div class="row"><span>Seat bookings</span><span class="val">${userBookings.length}</span></div>
+          <div class="row"><span>Goods requests</span><span class="val">${userGoods.length}</span></div>
+          <div class="row"><span>Phone</span><span class="val">${escapeHtml(u.phone || 'Not set')}</span></div>
+        </div>
+
+        ${!isMain ? `
+          <div class="form-group">
+            <label class="form-label">Change Role</label>
+            <select class="form-select" id="roleSelect">
+              <option value="passenger" ${role === 'passenger' ? 'selected' : ''}>Passenger</option>
+              <option value="busAdmin" ${role === 'busAdmin' ? 'selected' : ''}>Bus Admin</option>
+              <option value="mainAdmin" ${role === 'mainAdmin' ? 'selected' : ''}>Main Admin</option>
+            </select>
+            <div style="font-size:0.75rem;color:var(--text-soft);margin-top:6px;">
+              Bus admins can add vehicles and manage bookings on their own buses.
+            </div>
+          </div>
+        ` : `
+          <div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:12px;padding:12px;font-size:0.82rem;color:#78350F;font-weight:600;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-crown"></i> This is the main admin account and cannot be modified.
+          </div>
+        `}
+      `;
+
+      $('userModalSave').classList.toggle('hidden', isMain);
+      $('userModal').classList.add('show');
+    }
+
+    $('userModalClose').addEventListener('click', () => $('userModal').classList.remove('show'));
+    $('userModalCancel').addEventListener('click', () => $('userModal').classList.remove('show'));
+    $('userModal').addEventListener('click', (e) => { if (e.target === $('userModal')) $('userModal').classList.remove('show'); });
+
+    $('userModalSave').addEventListener('click', async () => {
+      if (!activeUserId) return;
+      const roleSelect = $('roleSelect');
+      if (!roleSelect) return;
+      const newRole = roleSelect.value;
+      const btn = $('userModalSave');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      try {
+        await updateDoc(doc(db, 'users', activeUserId), { role: newRole });
+        showToast(`Role changed to ${newRole}`);
+        $('userModal').classList.remove('show');
+      } catch (e) {
+        console.error(e);
+        showToast('Failed to update role');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Save';
+      }
+    });
+
+    /* ============ BUSES TAB ============ */
+    function renderBusesTab(el) {
+      let html = `
+        <div class="filter-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="busFilter" placeholder="Search bus name, number, or owner" />
+        </div>
+      `;
+
+      if (buses.length === 0) {
+        html += `<div class="empty"><i class="fas fa-bus"></i><h4>No buses</h4><p>Buses appear here when bus admins add them.</p></div>`;
+        el.innerHTML = html;
+        return;
+      }
+
+      html += '<div class="item-list" id="busList">';
+      html += renderBusItems(buses);
+      html += '</div>';
+      el.innerHTML = html;
+
+      const filterInput = $('busFilter');
+      if (filterInput) {
+        filterInput.addEventListener('input', () => {
+          const term = filterInput.value.trim().toLowerCase();
+          const filtered = term
+            ? buses.filter(b =>
+                (b.busName || '').toLowerCase().includes(term) ||
+                (b.busNo || '').toLowerCase().includes(term) ||
+                (b.ownerEmail || '').toLowerCase().includes(term) ||
+                (b.ownerName || '').toLowerCase().includes(term)
+              )
+            : buses;
+          const list = $('busList');
+          if (list) list.innerHTML = renderBusItems(filtered);
+          attachBusListeners(el);
+        });
+      }
+
+      attachBusListeners(el);
+    }
+
+    function renderBusItems(list) {
+      return list.map(b => {
+        const owner = users.find(u => u.id === b.ownerId);
+        const status = b.status || 'stopped';
+        const img = b.imageUrl
+          ? `<img src="${escapeHtml(b.imageUrl)}" alt="" />`
+          : `<i class="fas ${getVehicleIcon(b.vehicleType || 'Bus')}" style="color:var(--red);font-size:1.2rem;"></i>`;
+        const booked = (b.bookedSeats || []).length;
+        const total = parseInt(b.totalSeats) || 0;
+        const vehicleType = b.vehicleType || 'Bus';
+
+        return `
+          <div class="item">
+            <div class="avatar bus-avatar">${img}</div>
+            <div class="info">
+              <div class="title">
+                ${escapeHtml(b.busName || 'Vehicle')}
+                <span class="badge ${status}">${status}</span>
+                <span class="badge" style="background:#E0E7FF;color:#3730A3;"><i class="fas ${getVehicleIcon(vehicleType)}"></i> ${escapeHtml(vehicleType)}</span>
+              </div>
+              <div class="sub">
+                ${escapeHtml(b.busNo || '')} · ${escapeHtml(b.from || '')} → ${escapeHtml(b.to || '')} · ${booked}/${total} booked · Owner: ${escapeHtml(owner?.name || owner?.email || 'Unknown')}
+              </div>
+            </div>
+            <div class="actions">
+              <button class="icon-btn red" data-delete-bus="${b.id}" title="Delete bus"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function attachBusListeners(el) {
+      el.querySelectorAll('[data-delete-bus]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Permanently delete this bus? All associated bookings will remain but the bus will be gone.')) return;
+          try {
+            await deleteDoc(doc(db, 'buses', btn.dataset.deleteBus));
+            showToast('Bus deleted');
+          } catch (e) {
+            console.error(e);
+            showToast('Delete failed');
+          }
+        });
+      });
+    }
+
+    /* ============ BOOKINGS TAB ============ */
+    function renderBookingsTab(el) {
+      let html = `
+        <div class="filter-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="bookingFilter" placeholder="Search passenger or bus" />
+        </div>
+      `;
+
+      const activeBookings = bookings.filter(b => !b.completed);
+      if (activeBookings.length === 0) {
+        html += `<div class="empty"><i class="fas fa-ticket-alt"></i><h4>No active bookings</h4></div>`;
+        el.innerHTML = html;
+        return;
+      }
+
+      html += '<div class="card-list" id="bookingList">';
+      html += activeBookings.map(b => renderBookingCard(b, true)).join('');
+      html += '</div>';
+      el.innerHTML = html;
+
+      const filterInput = $('bookingFilter');
+      if (filterInput) {
+        filterInput.addEventListener('input', () => {
+          const term = filterInput.value.trim().toLowerCase();
+          const filtered = term
+            ? activeBookings.filter(b =>
+                (b.passengerName || '').toLowerCase().includes(term) ||
+                (b.busName || '').toLowerCase().includes(term) ||
+                (b.busNo || '').toLowerCase().includes(term)
+              )
+            : activeBookings;
+          const list = $('bookingList');
+          if (list) {
+            list.innerHTML = filtered.length === 0
+              ? `<div class="empty" style="padding:24px;"><i class="fas fa-search"></i><h4>No matches</h4></div>`
+              : filtered.map(b => renderBookingCard(b, true)).join('');
+          }
+          attachBookingListeners(el);
+        });
+      }
+
+      attachBookingListeners(el);
+    }
+
+    function renderBookingCard(b, showActions = true) {
+      const status = b.status || 'pending';
+      const statusCls = status === 'confirmed' ? 'confirmed'
+        : status === 'cancelled' ? 'cancelled'
+        : status === 'completed' ? 'completed'
+        : status === 'priced' ? 'priced'
+        : 'pending';
+      const seats = Array.isArray(b.seats) ? b.seats.join(', ') : '';
+      const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+      const seatPrice = parseInt(b.price) || 0;
+      const revenue = seatPrice * seatCount;
+      const vehicleType = b.vehicleType || 'Bus';
+
+      const owner = buses.find(x => x.id === b.busId);
+      const ownerUser = owner ? users.find(u => u.id === owner.ownerId) : null;
+
+      return `
+        <div class="booking-card">
+          <div class="bc-head">
+            <div style="min-width:0;">
+              <div class="bc-title">
+                <i class="fas ${getVehicleIcon(vehicleType)}" style="color:var(--red);font-size:0.85rem;"></i>
+                ${escapeHtml(b.busName || 'Vehicle')}
+                <span class="badge" style="background:#E0E7FF;color:#3730A3;">${escapeHtml(vehicleType)}</span>
+              </div>
+              <div class="bc-sub">${escapeHtml(b.from || '')} → ${escapeHtml(b.to || '')} · ${timeAgo(b.createdAt)}</div>
+            </div>
+            <span class="badge ${statusCls}">${status}</span>
+          </div>
+
+          <div class="row-info">
+            <div class="row"><span>Passenger</span><span class="val">${escapeHtml(b.passengerName || '')}</span></div>
+            <div class="row"><span>Phone</span><span class="val">${escapeHtml(b.passengerPhone || '')}</span></div>
+            <div class="row"><span>Seats</span><span class="val">${escapeHtml(seats)} (${seatCount})</span></div>
+            <div class="row"><span>Price/seat</span><span class="val">${formatRs(seatPrice)}</span></div>
+            <div class="row"><span>Revenue</span><span class="val price">${formatRs(revenue)}</span></div>
+            <div class="row"><span>Owner</span><span class="val">${escapeHtml(ownerUser?.name || ownerUser?.email || 'N/A')}</span></div>
+            ${b.pickedUp ? `<div class="row"><span>Pickup</span><span class="val" style="color:#166534;">Picked up</span></div>` : ''}
+          </div>
+
+          ${showActions ? `
+            <div class="card-actions">
+              <button class="btn btn-outline" data-open-booking="${b.id}"><i class="fas fa-eye"></i> Details</button>
+              ${b.paymentScreenshotUrl ? `<a class="btn btn-outline" href="${escapeHtml(b.paymentScreenshotUrl)}" target="_blank" rel="noopener"><i class="fas fa-image"></i> Screenshot</a>` : ''}
+              ${status === 'pending' ? `<button class="btn btn-green" data-confirm-booking="${b.id}"><i class="fas fa-check"></i> Confirm</button>` : ''}
+              ${status === 'pending' || status === 'confirmed' ? `<button class="btn btn-red" data-cancel-booking="${b.id}"><i class="fas fa-times"></i> Cancel</button>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function attachBookingListeners(el) {
+      el.querySelectorAll('[data-open-booking]').forEach(btn => {
+        btn.addEventListener('click', () => openBookingModal(btn.dataset.openBooking));
+      });
+      el.querySelectorAll('[data-confirm-booking]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try {
+            await updateDoc(doc(db, 'bookings', btn.dataset.confirmBooking), {
+              status: 'confirmed',
+              confirmedAt: serverTimestamp()
+            });
+            showToast('Booking confirmed');
+          } catch (e) { showToast('Failed'); }
+        });
+      });
+      el.querySelectorAll('[data-cancel-booking]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Cancel this booking and free the seats?')) return;
+          const b = bookings.find(x => x.id === btn.dataset.cancelBooking);
+          try {
+            await updateDoc(doc(db, 'bookings', btn.dataset.cancelBooking), {
+              status: 'cancelled',
+              cancelledAt: serverTimestamp()
+            });
+            // Free seats
+            if (b && b.busId && Array.isArray(b.seats)) {
+              const bus = buses.find(x => x.id === b.busId);
+              if (bus) {
+                const remaining = (bus.bookedSeats || []).filter(s => !b.seats.includes(s));
+                await updateDoc(doc(db, 'buses', b.busId), { bookedSeats: remaining });
+              }
+            }
+            showToast('Booking cancelled');
+          } catch (e) { showToast('Failed'); }
+        });
+      });
+    }
+
+    function openBookingModal(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+      activeBookingId = id;
+
+      const seats = Array.isArray(b.seats) ? b.seats.join(', ') : '';
+      const seatCount = Array.isArray(b.seats) ? b.seats.length : 0;
+      const seatPrice = parseInt(b.price) || 0;
+      const revenue = seatPrice * seatCount;
+      const fee = seatCount * FEE_PER_PASSENGER;
+      const status = b.status || 'pending';
+
+      $('bookingModalBody').innerHTML = `
+        <div class="row-info" style="font-size:0.88rem;line-height:1.8;">
+          <div><b>Bus:</b> ${escapeHtml(b.busName || '')} (${escapeHtml(b.busNo || '')})</div>
+          <div><b>Vehicle:</b> ${escapeHtml(b.vehicleType || 'Bus')}</div>
+          <div><b>Route:</b> ${escapeHtml(b.from || '')} → ${escapeHtml(b.to || '')}</div>
+          <div><b>Departure:</b> ${escapeHtml(b.departureTime || '')}</div>
+          <div><b>Seats:</b> ${escapeHtml(seats)} (${seatCount})</div>
+          <div><b>Price/seat:</b> ${formatRs(seatPrice)}</div>
+          <div><b>Total paid:</b> <span style="color:var(--green);font-weight:700;">${formatRs(revenue)}</span></div>
+          <div><b>Fee to Sajilo:</b> <span style="color:var(--red);font-weight:700;">${formatRs(fee)}</span></div>
+          <div><b>Passenger:</b> ${escapeHtml(b.passengerName || '')}</div>
+          <div><b>Phone:</b> ${escapeHtml(b.passengerPhone || '')}</div>
+          <div><b>Status:</b> ${escapeHtml(status)}</div>
+          <div><b>Pick Up:</b> <span style="color:${b.pickedUp ? '#166534' : '#B91C1C'};font-weight:700;">${b.pickedUp ? 'Picked Up' : 'Not Picked Up'}</span></div>
+          ${b.completed ? `<div><b>Completed:</b> <span style="color:#3730A3;font-weight:700;">Yes</span></div>` : ''}
+          ${b.paymentScreenshotUrl ? `<div style="margin-top:10px;"><a href="${escapeHtml(b.paymentScreenshotUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(b.paymentScreenshotUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);" /></a></div>` : ''}
+        </div>
+      `;
+
+      $('bookingModal').classList.add('show');
+    }
+    $('bookingModalClose').addEventListener('click', () => $('bookingModal').classList.remove('show'));
+    $('bookingModalCancel').addEventListener('click', () => $('bookingModal').classList.remove('show'));
+    $('bookingModal').addEventListener('click', (e) => { if (e.target === $('bookingModal')) $('bookingModal').classList.remove('show'); });
+
+    /* ============ GOODS TAB ============ */
+    function renderGoodsTab(el) {
+      let html = `
+        <div class="filter-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="goodsFilter" placeholder="Search sender or route" />
+        </div>
+      `;
+
+      const activeGoods = goods.filter(g => !g.completed);
+      if (activeGoods.length === 0) {
+        html += `<div class="empty"><i class="fas fa-box"></i><h4>No active goods requests</h4></div>`;
+        el.innerHTML = html;
+        return;
+      }
+
+      html += '<div class="card-list" id="goodsList">';
+      html += activeGoods.map(g => renderGoodsCard(g, true)).join('');
+      html += '</div>';
+      el.innerHTML = html;
+
+      const filterInput = $('goodsFilter');
+      if (filterInput) {
+        filterInput.addEventListener('input', () => {
+          const term = filterInput.value.trim().toLowerCase();
+          const filtered = term
+            ? activeGoods.filter(g =>
+                (g.senderName || '').toLowerCase().includes(term) ||
+                (g.from || '').toLowerCase().includes(term) ||
+                (g.to || '').toLowerCase().includes(term)
+              )
+            : activeGoods;
+          const list = $('goodsList');
+          if (list) {
+            list.innerHTML = filtered.length === 0
+              ? `<div class="empty" style="padding:24px;"><i class="fas fa-search"></i><h4>No matches</h4></div>`
+              : filtered.map(g => renderGoodsCard(g, true)).join('');
+          }
+          attachGoodsListeners(el);
+        });
+      }
+
+      attachGoodsListeners(el);
+    }
+
+    function renderGoodsCard(g, showActions = true) {
+      const status = g.status || 'pending';
+      const statusCls = status === 'confirmed' ? 'confirmed'
+        : status === 'cancelled' ? 'cancelled'
+        : status === 'completed' ? 'completed'
+        : status === 'priced' ? 'priced'
+        : 'pending';
+      const vehicleType = g.vehicleType || 'Bus';
+      const fee = status === 'confirmed' ? FEE_PER_GOODS : 0;
+
+      const owner = buses.find(x => x.id === g.busId);
+      const ownerUser = owner ? users.find(u => u.id === owner.ownerId) : null;
+
+      return `
+        <div class="goods-card">
+          <div class="gc-head">
+            <div style="min-width:0;">
+              <div class="gc-title">
+                <i class="fas ${getVehicleIcon(vehicleType)}" style="color:var(--red);font-size:0.85rem;"></i>
+                ${escapeHtml(vehicleType)} goods
+              </div>
+              <div class="gc-sub">${escapeHtml(g.from || '')} → ${escapeHtml(g.to || '')} · ${timeAgo(g.createdAt)}</div>
+            </div>
+            <span class="badge ${statusCls}">${status}</span>
+          </div>
+
+          ${g.photoUrl ? `<img class="goods-thumb" src="${escapeHtml(g.photoUrl)}" alt="Goods" />` : ''}
+
+          <div class="row-info">
+            <div class="row"><span>Sender</span><span class="val">${escapeHtml(g.senderName || '')}</span></div>
+            <div class="row"><span>Phone</span><span class="val">${escapeHtml(g.senderPhone || '')}</span></div>
+            <div class="row"><span>Weight</span><span class="val">${escapeHtml(String(g.kg || ''))} kg</span></div>
+            ${g.description ? `<div class="row"><span>Description</span><span class="val">${escapeHtml(g.description)}</span></div>` : ''}
+            ${g.price ? `<div class="row"><span>Price</span><span class="val price">${formatRs(g.price)}</span></div>` : ''}
+            ${fee > 0 ? `<div class="row"><span>Fee to Sajilo</span><span class="val due">${formatRs(fee)}</span></div>` : ''}
+            <div class="row"><span>Owner</span><span class="val">${escapeHtml(ownerUser?.name || ownerUser?.email || 'N/A')}</span></div>
+            ${g.pickedUp ? `<div class="row"><span>Pickup</span><span class="val" style="color:#166534;">Picked up</span></div>` : ''}
+          </div>
+
+          ${showActions ? `
+            <div class="card-actions">
+              <button class="btn btn-outline" data-open-goods="${g.id}"><i class="fas fa-eye"></i> Details</button>
+              ${g.paymentScreenshotUrl ? `<a class="btn btn-outline" href="${escapeHtml(g.paymentScreenshotUrl)}" target="_blank" rel="noopener"><i class="fas fa-image"></i> Screenshot</a>` : ''}
+              ${status === 'priced' && g.paymentScreenshotUrl ? `<button class="btn btn-green" data-confirm-goods="${g.id}"><i class="fas fa-check"></i> Confirm</button>` : ''}
+              ${status !== 'cancelled' && status !== 'completed' ? `<button class="btn btn-red" data-cancel-goods="${g.id}"><i class="fas fa-times"></i> Cancel</button>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function attachGoodsListeners(el) {
+      el.querySelectorAll('[data-open-goods]').forEach(btn => {
+        btn.addEventListener('click', () => openGoodsModal(btn.dataset.openGoods));
+      });
+      el.querySelectorAll('[data-confirm-goods]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          try {
+            await updateDoc(doc(db, 'goods', btn.dataset.confirmGoods), {
+              status: 'confirmed',
+              confirmedAt: serverTimestamp()
+            });
+            showToast('Goods confirmed');
+          } catch (e) { showToast('Failed'); }
+        });
+      });
+      el.querySelectorAll('[data-cancel-goods]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Cancel this goods request?')) return;
+          try {
+            await updateDoc(doc(db, 'goods', btn.dataset.cancelGoods), {
+              status: 'cancelled',
+              cancelledAt: serverTimestamp()
+            });
+            showToast('Goods request cancelled');
+          } catch (e) { showToast('Failed'); }
+        });
+      });
+    }
+
+    function openGoodsModal(id) {
+      const g = goods.find(x => x.id === id);
+      if (!g) return;
+      activeGoodsId = id;
+      const fee = g.status === 'confirmed' ? FEE_PER_GOODS : 0;
+      const vehicleType = g.vehicleType || 'Bus';
+
+      $('goodsModalBody').innerHTML = `
+        ${g.photoUrl ? `<img src="${escapeHtml(g.photoUrl)}" style="width:100%;max-height:220px;border-radius:12px;border:1px solid var(--border);margin-bottom:14px;" />` : ''}
+        <div class="row-info" style="font-size:0.88rem;line-height:1.8;">
+          <div><b>Vehicle:</b> ${escapeHtml(vehicleType)}</div>
+          <div><b>Route:</b> ${escapeHtml(g.from || '')} → ${escapeHtml(g.to || '')}</div>
+          <div><b>Weight:</b> ${escapeHtml(String(g.kg || ''))} kg</div>
+          ${g.description ? `<div><b>Description:</b> ${escapeHtml(g.description)}</div>` : ''}
+          <div><b>Sender:</b> ${escapeHtml(g.senderName || '')}</div>
+          <div><b>Phone:</b> ${escapeHtml(g.senderPhone || '')}</div>
+          <div><b>Status:</b> ${escapeHtml(g.status || 'pending')}</div>
+          ${g.price ? `<div><b>Price:</b> <span style="color:var(--green);font-weight:700;">${formatRs(g.price)}</span></div>` : ''}
+          ${fee > 0 ? `<div><b>Fee to Sajilo:</b> <span style="color:var(--red);font-weight:700;">${formatRs(fee)}</span></div>` : ''}
+          <div><b>Pick Up:</b> <span style="color:${g.pickedUp ? '#166534' : '#B91C1C'};font-weight:700;">${g.pickedUp ? 'Picked Up' : 'Not Picked Up'}</span></div>
+          ${g.paymentScreenshotUrl ? `<div style="margin-top:10px;"><a href="${escapeHtml(g.paymentScreenshotUrl)}" target="_blank" rel="noopener"><img src="${escapeHtml(g.paymentScreenshotUrl)}" style="max-width:100%;border-radius:10px;border:1px solid var(--border);" /></a></div>` : ''}
+        </div>
+      `;
+
+      $('goodsModal').classList.add('show');
+    }
+    $('goodsModalClose').addEventListener('click', () => $('goodsModal').classList.remove('show'));
+    $('goodsModalCancel').addEventListener('click', () => $('goodsModal').classList.remove('show'));
+    $('goodsModal').addEventListener('click', (e) => { if (e.target === $('goodsModal')) $('goodsModal').classList.remove('show'); });
+
+    /* ============ TRIPS TAB ============ */
+    function renderTripsTab(el) {
+      if (trips.length === 0) {
+        el.innerHTML = `<div class="empty"><i class="fas fa-history"></i><h4>No completed trips yet</h4><p>When bus admins complete trips, they appear here.</p></div>`;
+        return;
+      }
+
+      const totalFees = trips.reduce((sum, t) => sum + (parseInt(t.feeDue) || 0), 0);
+      const totalRevenue = trips.reduce((sum, t) => sum + (parseInt(t.totalRevenue) || 0), 0);
+      const totalPassengers = trips.reduce((sum, t) => sum + (parseInt(t.confirmedPassengers) || 0), 0);
+      const totalGoods = trips.reduce((sum, t) => sum + (parseInt(t.confirmedGoods) || 0), 0);
+
+      let html = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+          <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;">
+            <div style="font-size:0.68rem;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">Total Trip Revenue</div>
+            <div style="font-size:1.2rem;font-weight:800;color:#166534;">${formatRs(totalRevenue)}</div>
+          </div>
+          <div style="background:#FDF2F4;border:1px solid #FECACA;border-radius:12px;padding:12px;">
+            <div style="font-size:0.68rem;font-weight:700;color:#B91C1C;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">Total Fees Due</div>
+            <div style="font-size:1.2rem;font-weight:800;color:#B91C1C;">${formatRs(totalFees)}</div>
+          </div>
+        </div>
+      `;
+
+      html += '<div class="card-list">';
+      trips.forEach(t => {
+        const completedAt = t.completedAt;
+        const busName = t.busName || 'Vehicle';
+        const ownerUser = users.find(u => u.id === t.ownerId);
+
+        html += `
+          <div class="booking-card">
+            <div class="bc-head">
+              <div style="min-width:0;">
+                <div class="bc-title">
+                  <i class="fas fa-flag-checkered" style="color:var(--purple);font-size:0.85rem;"></i>
+                  ${escapeHtml(busName)}
+                  <span class="badge completed"><i class="fas fa-check-double"></i> Completed</span>
+                </div>
+                <div class="bc-sub">${escapeHtml(t.from || '')} → ${escapeHtml(t.to || '')} · ${timeAgo(completedAt)}</div>
+              </div>
+            </div>
+
+            <div class="row-info">
+              <div class="row"><span>Owner</span><span class="val">${escapeHtml(ownerUser?.name || ownerUser?.email || 'N/A')}</span></div>
+              <div class="row"><span>Confirmed passengers</span><span class="val">${t.confirmedPassengers || 0}</span></div>
+              <div class="row"><span>Confirmed goods</span><span class="val">${t.confirmedGoods || 0}</span></div>
+              <div class="row"><span>Trip revenue</span><span class="val price">${formatRs(t.totalRevenue)}</span></div>
+              <div class="row"><span>Fee to Sajilo</span><span class="val due">${formatRs(t.feeDue)}</span></div>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+
+      el.innerHTML = html;
+    }
+
+    window.addEventListener('beforeunload', () => {
+      unsubs.forEach(u => u());
+    });
+  </script>
+</body>
+</html>
